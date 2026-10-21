@@ -74,6 +74,7 @@ nav a:hover { color: var(--paper); }
 .slot .lbl { position: relative; margin-top: 12px; font: 700 13px/1.2 var(--body); color: var(--mute); transition: color .2s ease; }
 .slot:hover img, .slot:focus-visible img { transform: translateY(-14px) rotate(-3deg) scale(1.04); }
 .slot:hover .shape, .slot:focus-visible .shape { transform: translateX(11%) rotate(calc(var(--rot, 0deg) + 28deg)) scale(1.1); }
+.slot[data-p="creatine"]:hover .shape, .slot[data-p="creatine"]:focus-visible .shape { transform: translateX(26%) rotate(calc(var(--rot, 0deg) + 32deg)) scale(1.14); }
 .slot:hover .lbl { color: var(--paper); }
 .hint { display: flex; align-items: center; gap: 10px; justify-content: center; color: var(--mute); font-size: 14px; margin: 0 0 6px; }
 .hint svg { width: 18px; height: 18px; color: var(--pop); }
@@ -106,6 +107,7 @@ section { padding-block: clamp(56px, 8vw, 104px); }
 .card .stage img { position: relative; height: 270px; width: auto; filter: drop-shadow(0 20px 20px rgba(0,0,0,.35)); transition: transform .35s cubic-bezier(.2,.9,.3,1.3); }
 .card .stage:hover img { transform: translateY(-8px) rotate(-3deg) scale(1.04); }
 .card .stage:hover .shape { transform: translateX(36px) rotate(30deg) scale(1.13); opacity: .24; }
+#p-creatine .stage:hover .shape { transform: translateX(95px) rotate(34deg) scale(1.2); opacity: .28; }
 .card h3 { font-family: var(--display); font-weight: 400; font-size: clamp(28px, 3vw, 38px); line-height: .92; text-transform: uppercase; margin: 0; letter-spacing: -0.02em; text-wrap: balance; }
 .card .sub { font-family: var(--serif); font-weight: 700; font-size: 18px; margin: 6px 0 0; color: var(--sub, inherit); }
 .card .desc { margin: 0; font-size: 15px; }

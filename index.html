@@ -403,6 +403,22 @@ footer { border-top: 1px solid var(--line); padding-block: 40px 56px; color: var
 .ta3 { left: 30%; bottom: 0; color: #ff0a6e; transform: rotate(6deg); }
 .ta-hand { position: absolute; left: 50%; top: 52%; translate: -50% -50%; font-family: var(--display); font-size: 26px; background: var(--paper); color: var(--ink); padding: 10px 16px; border-radius: 14px; transform: rotate(-4deg); white-space: nowrap; }
 
+/* mobile UX */
+.qa-inline { display: none; }
+@media (max-width: 860px) {
+  .talk .chat { display: none; }
+  .qa-inline { display: block; margin: -2px 0 6px; background: var(--ink-3); border-radius: 4px 18px 18px 18px; padding: 14px 16px; animation: rise .3s ease; }
+  .qa-inline .who { font-family: var(--display); font-size: 12px; color: var(--pop); display: block; margin-bottom: 4px; }
+  .qa-inline[hidden] { display: none !important; }
+  .story-wrap:not(.ready) { display: none; }
+  .studio { grid-template-columns: 1fr; gap: 16px; }
+  .studio .canvas-wrap { order: -1; width: min(240px, 70vw); justify-self: center; position: sticky; top: 76px; z-index: 2; box-shadow: 0 16px 40px rgba(0,0,0,.6); }
+  .tools { gap: 14px; }
+  .shapes { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 58px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: none; }
+  .studio-acts { position: sticky; bottom: 12px; z-index: 3; background: color-mix(in srgb, var(--ink) 90%, transparent); backdrop-filter: blur(8px); padding: 10px; border-radius: 20px; }
+  .studio-acts .btn { padding: 12px 14px; font-size: 14px; }
+}
+
 /* sheet fixes */
 [hidden] { display: none !important; }
 dialog.sheet { overflow-x: hidden; }
@@ -574,7 +590,7 @@ dialog.sheet { overflow-x: hidden; }
             <button class="btn btn-ghost" type="button" id="st-mix">Перемешать</button>
             <button class="btn btn-ghost" type="button" id="st-undo">Убрать последнее</button>
           </div>
-          <p class="note">Подсказка: чтобы покрутить фигуру, перетащи её с зажатым Shift или нажми на неё дважды.</p>
+          <p class="note">Подсказка: двигай фигуры пальцем, а чтобы повернуть, нажми на фигуру дважды.</p>
         </div>
         <div class="canvas-wrap"><canvas id="st-canvas" width="1080" height="1920" aria-label="Твои обои"></canvas></div>
       </div>
@@ -838,6 +854,14 @@ document.getElementById("qs").addEventListener("click", e => {
   const b = e.target.closest(".qbtn"); if (!b) return;
   document.querySelectorAll(".qbtn").forEach(x => x.setAttribute("aria-pressed", x === b ? "true" : "false"));
   const q = QS[b.dataset.q];
+  document.querySelectorAll(".qa-inline").forEach(x => x.remove());
+  if (matchMedia("(max-width: 860px)").matches) {
+    if (b.dataset.open === "1") { b.dataset.open = ""; b.setAttribute("aria-pressed", "false"); return; }
+    document.querySelectorAll(".qbtn").forEach(x => x.dataset.open = "");
+    b.dataset.open = "1";
+    b.insertAdjacentHTML("afterend", '<div class="qa-inline"><span class="who">oh MY BUD!</span>' + q[1] + '</div>');
+    return;
+  }
   chat.innerHTML = '<div class="bubble me">' + q[0] + '</div>';
   setTimeout(() => { chat.insertAdjacentHTML("beforeend", '<div class="bubble us"><span class="who">oh MY BUD!</span>' + q[1] + '</div>'); }, 350);
 });
@@ -1041,7 +1065,7 @@ sheetIn.addEventListener("click", e => {
     card.innerHTML = '<div class="qprog">' + Q.map((_, i) => '<i class="' + (i <= step ? "on" : "") + '"></i>').join("") + '</div><div class="eyebrow">Вопрос ' + (step + 1) + ' из ' + Q.length + '</div><h3>' + q + '</h3><div class="qopts">' + opts.map((o, i) => '<button class="qopt" type="button" data-i="' + i + '">' + o[0] + '</button>').join("") + '</div>';
   }
   card.addEventListener("click", e => {
-    if (e.target.closest("#q-again")) { step = 0; score = {}; story.innerHTML = '<p class="ph">Здесь появится твоя карточка</p>'; acts.innerHTML = ""; show(); return; }
+    if (e.target.closest("#q-again")) { step = 0; score = {}; story.innerHTML = '<p class="ph">Здесь появится твоя карточка</p>'; story.parentElement.classList.remove("ready"); acts.innerHTML = ""; show(); card.scrollIntoView({ behavior: REDUCE ? "auto" : "smooth", block: "start" }); return; }
     const b = e.target.closest(".qopt[data-i]"); if (b && step < Q.length) { Object.entries(Q[step][1][b.dataset.i][1]).forEach(([k, v]) => score[k] = (score[k] || 0) + v); step++; show(); }
   });
   async function finish() {
@@ -1062,6 +1086,8 @@ sheetIn.addEventListener("click", e => {
     y -= (lines.length - 1) * 66; lines.forEach(l => { x.fillText(l, 540, y); y += 66; });
     x.font = '36px "Dela Gothic One", sans-serif'; x.fillText("ohmybud.kz", 540, 1870);
     story.innerHTML = ""; story.appendChild(cv);
+    story.parentElement.classList.add("ready");
+    if (matchMedia("(max-width: 900px)").matches) setTimeout(() => story.parentElement.scrollIntoView({ behavior: REDUCE ? "auto" : "smooth", block: "center" }), 60);
     acts.innerHTML = '<button class="btn btn-pop" type="button" id="q-dl">Скачать для сторис</button>';
     document.getElementById("q-dl").onclick = () => downloadCanvas(cv, "ohmybud-" + id + ".png");
   }

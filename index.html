@@ -213,13 +213,13 @@ dialog.sheet[open] { animation: pop .35s cubic-bezier(.2,.9,.3,1.2); }
 @media (max-width: 560px) { .result { grid-template-columns: 1fr; } .result #r-img { height: 180px; } .result img { height: 180px; } .result .qmark { font-size: 130px; } }
 
 /* shelf talk */
-.talk { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 16px; }
+.talk { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 16px; align-items: start; }
 @media (max-width: 860px) { .talk { grid-template-columns: 1fr; } }
 .qs { display: grid; gap: 10px; align-content: start; }
 .qbtn { text-align: left; border: 2px solid var(--line); background: var(--ink-2); border-radius: 18px 18px 18px 4px; padding: 16px 18px; font-weight: 700; font-size: 17px; cursor: pointer; transition: border-color .15s ease, transform .15s ease; }
 .qbtn:hover { border-color: var(--paper); transform: translateX(4px); }
 .qbtn[aria-pressed="true"] { background: var(--paper); color: var(--ink); border-color: var(--paper); }
-.chat { background: var(--ink-2); border: 1px solid var(--line); border-radius: var(--r); padding: 20px; display: grid; gap: 12px; align-content: end; min-height: 320px; }
+.chat { background: var(--ink-2); border: 1px solid var(--line); border-radius: var(--r); padding: 20px; display: grid; gap: 12px; align-content: start; }
 .bubble { max-width: 88%; padding: 14px 16px; border-radius: 18px; animation: rise .3s ease; }
 .bubble.me { justify-self: end; background: var(--paper); color: var(--ink); border-radius: 18px 18px 4px 18px; font-weight: 700; }
 .bubble.us { justify-self: start; background: var(--ink-3); border-radius: 18px 18px 18px 4px; }
@@ -248,6 +248,127 @@ footer { border-top: 1px solid var(--line); padding-block: 40px 56px; color: var
 .legal { margin-top: 28px; max-width: 70ch; font-size: 13px; }
 .legal strong { color: var(--paper); }
 
+
+/* playground */
+.play { position: relative; height: 240px; border-block: 1px solid var(--line); overflow: hidden; background: var(--ink); touch-action: pan-y; }
+.play .cap { position: absolute; left: 50%; top: 22px; translate: -50% 0; font: 500 13px/1 var(--body); letter-spacing: .14em; text-transform: uppercase; color: var(--mute); pointer-events: none; white-space: nowrap; }
+.play .body { position: absolute; left: 0; top: 0; width: 76px; height: 76px; cursor: grab; touch-action: none; will-change: transform; }
+.play .body:active { cursor: grabbing; }
+.play .body svg { width: 100%; height: 100%; display: block; pointer-events: none; }
+
+/* stack */
+.stack { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+@media (max-width: 900px) { .stack { grid-template-columns: 1fr; } }
+.tray { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; align-items: end; background: var(--ink-2); border: 1px solid var(--line); border-radius: var(--r); padding: 18px 12px 12px; }
+.tj { display: grid; justify-items: center; gap: 8px; background: none; border: 2px solid transparent; border-radius: 14px; padding: 8px 2px; cursor: grab; transition: border-color .15s ease, opacity .2s ease; }
+.tj img { height: 120px; width: auto; filter: drop-shadow(0 10px 10px rgba(0,0,0,.5)); pointer-events: none; }
+.tj[data-p="creatine"] img { height: 132px; }
+.tj span { font: 700 12px/1.1 var(--body); color: var(--mute); text-align: center; }
+.tj[aria-pressed="true"] { opacity: .35; }
+.tj:hover { border-color: var(--line); }
+.bag { position: relative; border-radius: var(--r); border: 2px dashed var(--line); padding: 20px; display: grid; gap: 14px; align-content: start; min-height: 320px; transition: border-color .2s ease, background .2s ease; }
+.bag.over { border-color: var(--pop); background: color-mix(in srgb, var(--pop) 8%, transparent); }
+.bag h3 { margin: 0; font-family: var(--display); font-weight: 400; font-size: 26px; line-height: 1; }
+.bag .inbag { display: flex; flex-wrap: wrap; gap: 6px; min-height: 92px; align-items: end; }
+.bag .inbag button { background: none; border: 0; padding: 0; cursor: pointer; position: relative; }
+.bag .inbag img { height: 90px; width: auto; animation: drop .4s cubic-bezier(.2,.9,.3,1.3); }
+.bag .inbag button::after { content: "×"; position: absolute; top: -4px; right: -4px; width: 20px; height: 20px; border-radius: 50%; background: var(--paper); color: var(--ink); font: 700 14px/20px var(--body); text-align: center; }
+.bag .empty { color: var(--mute); margin: 0; align-self: center; }
+.sum { width: 100%; border-collapse: collapse; font-size: 14px; }
+.sum td { padding: 8px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+.sum td:last-child { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 700; }
+.sum .from { display: block; color: var(--mute); font-size: 12px; font-weight: 400; }
+.sum tr.warn td:last-child { color: var(--pop); }
+.alert { background: var(--pop); color: var(--ink); border-radius: 14px; padding: 14px 16px; font-size: 14px; display: grid; gap: 4px; }
+.alert b { font-family: var(--display); font-weight: 400; font-size: 16px; }
+.okmsg { background: var(--ink-3); border-radius: 14px; padding: 14px 16px; font-size: 14px; color: var(--mute); }
+
+/* label reader */
+.reader { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 16px; align-items: start; }
+@media (max-width: 900px) { .reader { grid-template-columns: 1fr; } }
+.lab { background: #050505; border: 1px solid var(--line); border-radius: var(--r); padding: 22px; display: grid; gap: 8px; font-size: 12px; line-height: 1.4; color: #e8e8ec; }
+.lab .z { display: block; width: 100%; text-align: left; background: none; border: 1px dashed transparent; border-radius: 10px; padding: 8px 10px; cursor: pointer; position: relative; transition: border-color .15s ease, background .15s ease; }
+.lab .z:hover { border-color: var(--line); }
+.lab .z[aria-pressed="true"] { border-color: var(--pop); background: color-mix(in srgb, var(--pop) 10%, transparent); }
+.lab .z::before { content: "+"; position: absolute; right: 8px; top: 6px; width: 20px; height: 20px; border-radius: 50%; background: var(--pop); color: var(--ink); font: 700 15px/20px var(--body); text-align: center; animation: ping 2.4s ease-in-out infinite; }
+.lab .z[aria-pressed="true"]::before { content: "✓"; animation: none; }
+@keyframes ping { 0%, 100% { box-shadow: 0 0 0 0 rgba(214,242,28,.6); } 50% { box-shadow: 0 0 0 6px rgba(214,242,28,0); } }
+.lab b { color: var(--paper); }
+.lab table { width: 100%; border-collapse: collapse; margin-top: 6px; }
+.lab th, .lab td { border: 1px solid #55555f; padding: 4px 6px; text-align: left; font-weight: 400; }
+.lab th { font-weight: 700; color: var(--paper); }
+.lab .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.lab .eac { font-family: var(--display); font-size: 22px; letter-spacing: .02em; color: var(--paper); }
+.explain { position: sticky; top: 90px; background: var(--ink-2); border: 1px solid var(--line); border-radius: var(--r); padding: 24px; display: grid; gap: 12px; min-height: 260px; align-content: start; }
+.explain h3 { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(24px, 3vw, 32px); line-height: 1; }
+.explain p { margin: 0; color: var(--mute); }
+.explain .tip { color: var(--paper); background: var(--ink-3); border-radius: 12px; padding: 12px 14px; font-size: 14px; }
+
+/* price calc */
+.calc { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+@media (max-width: 860px) { .calc { grid-template-columns: 1fr; } }
+.calc .inputs { background: var(--ink-2); border: 1px solid var(--line); border-radius: var(--r); padding: 24px; display: grid; gap: 16px; }
+.field { display: grid; gap: 8px; }
+.field label { font-weight: 700; font-size: 15px; }
+.field input { width: 100%; font: 700 22px/1 var(--body); color: var(--paper); background: var(--ink); border: 2px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+.field input:focus { border-color: var(--pop); outline: none; }
+.field .presets { display: flex; flex-wrap: wrap; gap: 6px; }
+.field .presets button { border: 1px solid var(--line); background: var(--ink); border-radius: 999px; padding: 7px 12px; font-size: 13px; cursor: pointer; }
+.field .presets button:hover { border-color: var(--paper); }
+.calc .out { background: var(--pop); color: var(--ink); border-radius: var(--r); padding: 28px; display: grid; gap: 10px; align-content: center; }
+.calc .out .n { font-family: var(--display); font-size: clamp(48px, 8vw, 96px); line-height: .9; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+.calc .out p { margin: 0; font-size: 17px; max-width: 40ch; }
+
+/* quiz */
+.quiz { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; align-items: stretch; }
+@media (max-width: 900px) { .quiz { grid-template-columns: 1fr; } }
+.qcard { background: var(--ink-2); border: 1px solid var(--line); border-radius: var(--r); padding: 26px; display: grid; gap: 18px; align-content: start; }
+.qprog { display: flex; gap: 6px; }
+.qprog i { flex: 1; height: 6px; border-radius: 3px; background: var(--line); }
+.qprog i.on { background: var(--pop); }
+.qcard h3 { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(26px, 3.4vw, 38px); line-height: 1; }
+.qopts { display: grid; gap: 10px; }
+.qopt { text-align: left; border: 2px solid var(--line); background: var(--ink); border-radius: 14px; padding: 16px 18px; font-weight: 700; font-size: 16px; cursor: pointer; transition: border-color .15s ease, transform .15s ease; }
+.qopt:hover { border-color: var(--paper); transform: translateX(4px); }
+.story-wrap { display: grid; justify-items: center; gap: 12px; align-content: start; }
+.story { width: min(100%, 300px); aspect-ratio: 9 / 16; border-radius: 22px; background: var(--ink-2); border: 1px solid var(--line); display: grid; place-items: center; overflow: hidden; }
+.story canvas { width: 100%; height: 100%; display: block; }
+.story .ph { color: var(--mute); text-align: center; padding: 20px; }
+.story-acts { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.story-acts .btn-ghost { color: var(--paper); }
+
+/* stickers */
+.studio { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: start; }
+@media (max-width: 860px) { .studio { grid-template-columns: 1fr; justify-items: center; } }
+.tools { display: grid; gap: 18px; align-content: start; width: 100%; }
+.tools h4 { margin: 0 0 8px; font: 500 13px/1 var(--body); letter-spacing: .14em; text-transform: uppercase; color: var(--mute); }
+.shapes { display: grid; grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)); gap: 8px; }
+.shapes button { aspect-ratio: 1; background: var(--ink-2); border: 1px solid var(--line); border-radius: 14px; padding: 12px; cursor: pointer; color: var(--paper); transition: transform .15s ease, border-color .15s ease; }
+.shapes button:hover { transform: rotate(-6deg) scale(1.06); border-color: var(--paper); }
+.shapes button svg, .shapes button img { width: 100%; height: 100%; display: block; object-fit: contain; }
+.bgs { display: flex; gap: 8px; flex-wrap: wrap; }
+.bgs button { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--line); cursor: pointer; }
+.bgs button[aria-pressed="true"] { border-color: var(--paper); box-shadow: 0 0 0 3px var(--ink), 0 0 0 5px var(--paper); }
+.studio-acts { display: flex; gap: 10px; flex-wrap: wrap; }
+.studio-acts .btn-ghost { color: var(--paper); }
+.canvas-wrap { width: 300px; max-width: 100%; aspect-ratio: 9 / 16; border-radius: 26px; overflow: hidden; border: 1px solid var(--line); touch-action: none; }
+.canvas-wrap canvas { width: 100%; height: 100%; display: block; cursor: grab; }
+.studio .note { color: var(--mute); font-size: 14px; margin: 0; }
+
+/* shake + secret */
+.jarwrap.shake img { animation: shake .6s cubic-bezier(.36,.07,.19,.97); }
+@keyframes shake { 10%, 90% { transform: translateX(-3px) rotate(-2deg); } 20%, 80% { transform: translateX(6px) rotate(3deg); } 30%, 50%, 70% { transform: translateX(-10px) rotate(-5deg); } 40%, 60% { transform: translateX(10px) rotate(5deg); } }
+.jarwrap img { cursor: pointer; }
+.shake-hint { position: absolute; left: 50%; bottom: 14px; translate: -50% 0; font: 700 12px/1 var(--body); color: var(--ink); background: var(--paper); padding: 7px 10px; border-radius: 999px; white-space: nowrap; pointer-events: none; }
+.jarside.peeled .shake-hint { opacity: 0; }
+.secret { position: fixed; left: 50%; top: 84px; translate: -50% 0; z-index: 60; width: min(380px, calc(100vw - 32px)); background: var(--pop); color: var(--ink); border-radius: 20px; padding: 18px 20px; display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: center; box-shadow: 0 20px 40px rgba(0,0,0,.5); animation: pop .4s cubic-bezier(.2,.9,.3,1.2); }
+.secret .lid { width: 54px; height: 22px; border-radius: 8px 8px 4px 4px; background: var(--ink); animation: unscrew 1.2s ease-out both; }
+@keyframes unscrew { 0% { transform: rotate(0) translateY(0); } 60% { transform: rotate(-540deg) translateY(-6px); } 100% { transform: rotate(-720deg) translateY(-22px); opacity: .9; } }
+.secret p { margin: 0; font-size: 15px; }
+.secret b { font-family: var(--display); font-weight: 400; display: block; font-size: 18px; }
+.secret a { font-weight: 700; }
+.secret .x { position: absolute; top: 8px; right: 10px; background: none; border: 0; font-size: 20px; cursor: pointer; color: var(--ink); }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   html { scroll-behavior: auto; }
@@ -275,7 +396,8 @@ footer { border-top: 1px solid var(--line); padding-block: 40px 56px; color: var
     <a class="logo" href="#top" aria-label="Oh My Bud, на главную"><span class="sm">oh</span> MY BUD!</a>
     <nav aria-label="Разделы">
       <a href="#line">Линейка</a>
-      <a href="#miracles">Чудес не завезли</a>
+      <a href="#stack">Стек</a>
+      <a href="#quiz">Квиз</a>
       <a href="#pick">Подбор</a>
       <a href="#talk">Вопросы</a>
     </nav>
@@ -296,6 +418,10 @@ footer { border-top: 1px solid var(--line); padding-block: 40px 56px; color: var
     </div>
   </div>
 
+  <div class="play" id="play" aria-label="Фигуры Oh My Bud, их можно хватать и кидать">
+    <span class="cap">Разомнись: хватай и кидай</span>
+  </div>
+
   <div class="tape" aria-hidden="true">
     <div class="tape-in">
       <span>ZMA <svg style="color:#a54bff"><use href="#s-shield"/></svg> MARINE COLLAGEN <svg style="color:#3d3bff"><use href="#s-drop"/></svg> CALCIUM D3 <svg style="color:#ff0a6e"><use href="#s-bolt"/></svg> GLUCOSAMINE <svg style="color:#5fe34a"><use href="#s-star"/></svg> CREATINE <svg style="color:#ff2a1a"><use href="#s-dumb"/></svg></span>
@@ -313,6 +439,65 @@ footer { border-top: 1px solid var(--line); padding-block: 40px 56px; color: var
         <p>У каждого продукта свой цвет и своя фигура. Нажми на банку, чтобы открыть её и посмотреть, что внутри.</p>
       </div>
       <div class="grid" id="grid"></div>
+    </div>
+  </section>
+
+  <section id="stack">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <div class="eyebrow">Собери свой стек</div>
+          <h2>Что будет, если взять несколько?</h2>
+        </div>
+        <p>Перетащи банки в сумку или нажми на них. Мы сложим дозировки и честно скажем, где они пересекаются.</p>
+      </div>
+      <div class="stack">
+        <div class="tray" id="tray"></div>
+        <div class="bag" id="bag" aria-live="polite">
+          <h3>Твоя сумка</h3>
+          <div class="inbag" id="inbag"><p class="empty">Пока пусто. Добавь банку слева.</p></div>
+          <div id="bagsum"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="label">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <div class="eyebrow">Как читать этикетку</div>
+          <h2>Мелкий шрифт, но крупно</h2>
+        </div>
+        <p>Это обратная сторона нашей банки ZMA. Нажимай на плюсы: объясним, что значит каждая строчка. Пригодится и для любых других БАДов.</p>
+      </div>
+      <div class="reader">
+        <div class="lab" id="lab">
+          <button class="z" type="button" data-z="sostav" aria-pressed="false"><b>Состав:</b> магния бисглицинат, микрокристаллическая целлюлоза (носитель), цинка пиколинат, аспарагиновая кислота, витамин B6 (пиридоксина гидрохлорид), желатиновые капсулы (желатин).</button>
+          <button class="z" type="button" data-z="rsp" aria-pressed="false"><b>Рекомендуемый суточный приём (2 капсулы) содержит:</b>
+            <table><tr><th>Активное вещество</th><th>Содержание</th><th>% РСП*</th></tr>
+              <tr><td>Магния бисглицинат</td><td>727 мг</td><td>36</td></tr>
+              <tr><td>Цинка пиколинат</td><td>73 мг</td><td>121**</td></tr>
+              <tr><td>Витамин B6</td><td>4 мг</td><td>200**</td></tr>
+              <tr><td>Аспарагиновая кислота</td><td>40 мг</td><td>0,3</td></tr></table>
+          </button>
+          <button class="z" type="button" data-z="stars" aria-pressed="false">* % от рекомендуемого суточного потребления в соответствии ТР ТС 022/2011<br>** не превышает верхний допустимый уровень потребления согласно ЕСТ №299</button>
+          <button class="z" type="button" data-z="dose" aria-pressed="false"><b>Рекомендации по применению:</b> взрослым по 1 капсуле 2 раза в день. Продолжительность приёма — 1 месяц.</button>
+          <button class="z" type="button" data-z="contra" aria-pressed="false"><b>Противопоказания:</b> индивидуальная непереносимость компонентов продукта, беременность, кормление грудью. Перед применением рекомендуется проконсультироваться с врачом.</button>
+          <div class="row2">
+            <button class="z" type="button" data-z="tu" aria-pressed="false">ТУ 10.89.19-084-51349558-2025</button>
+            <button class="z" type="button" data-z="sgr" aria-pressed="false">СГР AM.01.20.01.003.R.000882.11.25 от 14.11.2025</button>
+          </div>
+          <div class="row2">
+            <button class="z" type="button" data-z="eac" aria-pressed="false"><span class="eac">EAC</span></button>
+            <button class="z" type="button" data-z="maker" aria-pressed="false"><b>Изготовитель:</b> ООО «Эндорфин», Россия. <b>Изготовлено по заказу:</b> ИП «О МАЙ БАТ».</button>
+          </div>
+        </div>
+        <div class="explain" id="explain" aria-live="polite">
+          <h3>Нажми на любой блок</h3>
+          <p>Слева настоящая этикетка нашей банки. Каждый блок кликается и объясняется человеческим языком.</p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -385,6 +570,59 @@ footer { border-top: 1px solid var(--line); padding-block: 40px 56px; color: var
     </div>
   </section>
 
+  <section id="quiz">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <div class="eyebrow">Квиз</div>
+          <h2>Какой ты BUD?</h2>
+        </div>
+        <p>Четыре вопроса без подвоха. В конце получишь карточку для сторис: сохрани и отметь нас.</p>
+      </div>
+      <div class="quiz">
+        <div class="qcard" id="qcard"></div>
+        <div class="story-wrap">
+          <div class="story" id="story"><p class="ph">Здесь появится твоя карточка</p></div>
+          <div class="story-acts" id="story-acts"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="price">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <div class="eyebrow">Считай порцию</div>
+          <h2>Сколько стоит один день?</h2>
+        </div>
+        <p>Работает для любой банки, не только нашей. Сравнивай цену дня приёма, а не ценник на банке.</p>
+      </div>
+      <div class="calc">
+        <div class="inputs">
+          <div class="field">
+            <label for="c-price">Цена банки, ₸</label>
+            <input id="c-price" type="number" inputmode="numeric" min="0" placeholder="например, 7 990">
+          </div>
+          <div class="field">
+            <label for="c-days">На сколько дней хватает банки</label>
+            <input id="c-days" type="number" inputmode="numeric" min="1" value="60">
+            <div class="presets"><button type="button" data-days="60">ZMA: 120 капсул по 2 = 60 дней</button><button type="button" data-days="30">30 дней</button><button type="button" data-days="90">90 дней</button></div>
+          </div>
+          <div class="field">
+            <label for="c-coffee">Цена твоего кофе, ₸ (по желанию)</label>
+            <input id="c-coffee" type="number" inputmode="numeric" min="0" placeholder="например, 1 400">
+          </div>
+        </div>
+        <div class="out" aria-live="polite">
+          <div class="eyebrow" style="color:inherit;opacity:.7">Один день приёма</div>
+          <div class="n" id="c-out">— ₸</div>
+          <p id="c-note">Введи цену банки, и мы посчитаем.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section id="talk">
     <div class="wrap">
       <div class="sec-head">
@@ -397,6 +635,32 @@ footer { border-top: 1px solid var(--line); padding-block: 40px 56px; color: var
       <div class="talk">
         <div class="qs" id="qs"></div>
         <div class="chat" id="chat" aria-live="polite"><p class="empty">Выбери вопрос слева.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="stickers">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <div class="eyebrow">Конструктор</div>
+          <h2>Собери свои обои</h2>
+        </div>
+        <p>Нажимай на фигуры и банки, они появятся на экране справа. Двигай их пальцем или мышкой, потом скачай картинку на телефон.</p>
+      </div>
+      <div class="studio">
+        <div class="tools">
+          <div><h4>Фигуры</h4><div class="shapes" id="st-shapes"></div></div>
+          <div><h4>Банки</h4><div class="shapes" id="st-jars"></div></div>
+          <div><h4>Фон</h4><div class="bgs" id="st-bgs"></div></div>
+          <div class="studio-acts">
+            <button class="btn btn-pop" type="button" id="st-dl">Скачать обои</button>
+            <button class="btn btn-ghost" type="button" id="st-mix">Перемешать</button>
+            <button class="btn btn-ghost" type="button" id="st-undo">Убрать последнее</button>
+          </div>
+          <p class="note">Подсказка: чтобы покрутить фигуру, перетащи её с зажатым Shift или нажми на неё дважды.</p>
+        </div>
+        <div class="canvas-wrap"><canvas id="st-canvas" width="1080" height="1920" aria-label="Твои обои"></canvas></div>
       </div>
     </div>
   </section>
@@ -552,6 +816,7 @@ function openSheet(id) {
     '<div class="jarside" id="jarside">' +
       '<span class="shape">' + use(SHAPES[id]) + '</span>' +
       '<div class="jarwrap"><img src="' + img(id) + '" alt="Банка Oh My Bud ' + p.name + '"></div>' +
+      '<span class="shake-hint">Нажми на банку и потряси</span>' +
       '<button class="peel" type="button" id="peel" aria-label="Снять этикетку и посмотреть состав"></button>' +
       '<span class="peel-label">Сними этикетку</span>' +
       '<div class="under" id="under"><h4>Под этикеткой</h4><p class="note">Любишь докапываться до состава? Мы тоже.</p>' +
@@ -658,6 +923,274 @@ dont.addEventListener("click", e => {
     ], { duration: 900 + Math.random() * 400, easing: "cubic-bezier(.2,.8,.3,1)" }).onfinish = () => s.remove();
   }
 });
+
+// ---------- shared ----------
+const REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const SHAPE_D = {};
+document.querySelectorAll("symbol[id^='s-']").forEach(s => { const p = s.querySelector("path"); if (p && s.getAttribute("viewBox") === "0 0 100 100") SHAPE_D[s.id.slice(2)] = p.getAttribute("d"); });
+const BRAND = ["#a54bff", "#3d3bff", "#ff0a6e", "#5fe34a", "#ff2a1a", "#d6f21c"];
+const imgCache = {};
+function loadImg(src) { if (!imgCache[src]) imgCache[src] = new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = no; i.src = src; }); return imgCache[src]; }
+function downloadCanvas(cv, name) {
+  cv.toBlob(b => { const a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); }, "image/png");
+}
+
+// ---------- shake the jar ----------
+let actx = null;
+function rattle(powder) {
+  try {
+    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+    const n = powder ? 3 : 9;
+    for (let i = 0; i < n; i++) {
+      const t = actx.currentTime + i * (powder ? 0.12 : 0.055) + Math.random() * 0.02;
+      const len = powder ? 0.18 : 0.035;
+      const buf = actx.createBuffer(1, Math.floor(actx.sampleRate * len), actx.sampleRate);
+      const d = buf.getChannelData(0);
+      for (let k = 0; k < d.length; k++) d[k] = (Math.random() * 2 - 1) * Math.pow(1 - k / d.length, powder ? 1 : 3);
+      const src = actx.createBufferSource(); src.buffer = buf;
+      const f = actx.createBiquadFilter(); f.type = powder ? "lowpass" : "bandpass"; f.frequency.value = powder ? 900 : 2600 + Math.random() * 1800; f.Q.value = 1.2;
+      const g = actx.createGain(); g.gain.value = powder ? 0.25 : 0.5;
+      src.connect(f); f.connect(g); g.connect(actx.destination); src.start(t);
+    }
+  } catch (e) {}
+}
+sheetIn.addEventListener("click", e => {
+  const im = e.target.closest(".jarwrap img"); if (!im) return;
+  const w = im.parentElement; w.classList.remove("shake"); void w.offsetWidth; w.classList.add("shake");
+  rattle(cur === "creatine");
+});
+
+// ---------- playground with throwable shapes ----------
+(function () {
+  const box = document.getElementById("play"); if (!box) return;
+  const ids = ["heart", "star", "bolt", "drop", "crown", "shield", "bone", "dumb"];
+  const bodies = ids.map((id, i) => {
+    const el = document.createElement("div"); el.className = "body"; el.style.color = BRAND[i % 6];
+    el.innerHTML = '<svg aria-hidden="true"><use href="#s-' + id + '"/></svg>'; box.appendChild(el);
+    return { el, x: 40 + i * 110, y: -80 - Math.random() * 300, vx: (Math.random() - .5) * 4, vy: 0, r: Math.random() * 360, vr: (Math.random() - .5) * 6, drag: false };
+  });
+  const S = 76; let W = box.clientWidth, H = box.clientHeight, running = false, last = 0;
+  new ResizeObserver(() => { W = box.clientWidth; H = box.clientHeight; }).observe(box);
+  function place(b) { b.el.style.transform = "translate(" + b.x + "px," + b.y + "px) rotate(" + b.r + "deg)"; }
+  if (REDUCE) { bodies.forEach((b, i) => { b.x = (i + .5) * (W / bodies.length) - S / 2; b.y = H - S - 10; b.r = 0; place(b); }); }
+  function step(t) {
+    if (!running) return;
+    const dt = Math.min(32, t - (last || t)) / 16.67; last = t;
+    for (const b of bodies) {
+      if (b.drag) { place(b); continue; }
+      b.vy += 0.6 * dt; b.x += b.vx * dt; b.y += b.vy * dt; b.r += b.vr * dt;
+      if (b.y > H - S) { b.y = H - S; b.vy *= -0.45; b.vx *= 0.92; b.vr *= 0.85; if (Math.abs(b.vy) < 1) b.vy = 0; }
+      if (b.x < 0) { b.x = 0; b.vx *= -0.7; }
+      if (b.x > W - S) { b.x = W - S; b.vx *= -0.7; }
+      if (b.y < -400) b.y = -400;
+      place(b);
+    }
+    requestAnimationFrame(step);
+  }
+  if (!REDUCE) new IntersectionObserver(es => { const v = es[0].isIntersecting; if (v && !running) { running = true; last = 0; requestAnimationFrame(step); } else if (!v) running = false; }).observe(box);
+  bodies.forEach(b => {
+    let px = 0, py = 0, pt = 0, ox = 0, oy = 0;
+    b.el.addEventListener("pointerdown", e => {
+      b.drag = true; b.el.setPointerCapture(e.pointerId);
+      const r = box.getBoundingClientRect(); ox = e.clientX - r.left - b.x; oy = e.clientY - r.top - b.y;
+      px = e.clientX; py = e.clientY; pt = performance.now(); b.vx = b.vy = 0;
+    });
+    b.el.addEventListener("pointermove", e => {
+      if (!b.drag) return; const r = box.getBoundingClientRect(); const now = performance.now(); const k = Math.max(1, now - pt) / 16.67;
+      b.vx = (e.clientX - px) / k; b.vy = (e.clientY - py) / k; px = e.clientX; py = e.clientY; pt = now;
+      b.x = Math.max(0, Math.min(W - S, e.clientX - r.left - ox)); b.y = Math.min(H - S, e.clientY - r.top - oy);
+      if (REDUCE) place(b);
+    });
+    const up = () => { if (!b.drag) return; b.drag = false; b.vr = b.vx * 1.5; if (REDUCE) { b.y = H - S - 10; place(b); } };
+    b.el.addEventListener("pointerup", up); b.el.addEventListener("pointercancel", up);
+  });
+})();
+
+// ---------- stack builder ----------
+(function () {
+  const NUT = {
+    zma: { "Магний": 36, "Цинк": 121, "Витамин B6": 200 },
+    calcium: { "Кальций": 30, "Магний": 50, "Цинк": 200, "Витамин B6": 750, "Витамин D3": 900 },
+    collagen: { "Витамин C": 250, "Гиалуроновая кислота": 100 },
+    gluco: { "Хондроитин": 120, "Глюкозамин": 86 },
+    creatine: { "Креатин": 150 }
+  };
+  const SHORT = { zma: "ZMA", calcium: "Calcium D3", collagen: "Collagen", gluco: "Glucosamine", creatine: "Creatine" };
+  const tray = document.getElementById("tray"), bag = document.getElementById("bag"), inbag = document.getElementById("inbag"), sum = document.getElementById("bagsum");
+  if (!tray) return;
+  const chosen = [];
+  tray.innerHTML = ORDER.map(id => '<button class="tj" type="button" draggable="true" data-p="' + id + '" aria-pressed="false"><img src="' + img(id) + '" alt=""><span>' + SHORT[id] + '</span></button>').join("");
+  function render() {
+    tray.querySelectorAll(".tj").forEach(b => b.setAttribute("aria-pressed", chosen.includes(b.dataset.p) ? "true" : "false"));
+    inbag.innerHTML = chosen.length ? chosen.map(id => '<button type="button" data-rm="' + id + '" aria-label="Убрать ' + SHORT[id] + '"><img src="' + img(id) + '" alt=""></button>').join("") : '<p class="empty">Пока пусто. Добавь банку слева.</p>';
+    if (!chosen.length) { sum.innerHTML = ""; return; }
+    const tot = {};
+    chosen.forEach(id => Object.entries(NUT[id]).forEach(([k, v]) => { (tot[k] = tot[k] || { v: 0, from: [] }); tot[k].v += v; tot[k].from.push(SHORT[id] + " " + v + "%"); }));
+    const rows = Object.entries(tot).map(([k, o]) => '<tr class="' + (o.from.length > 1 ? "warn" : "") + '"><td>' + k + (o.from.length > 1 ? '<span class="from">' + o.from.join(" + ") + '</span>' : "") + '</td><td>' + o.v + '%</td></tr>').join("");
+    const overlaps = Object.entries(tot).filter(([, o]) => o.from.length > 1);
+    const note = overlaps.length
+      ? '<div class="alert"><b>Есть пересечения</b>' + overlaps.map(([k, o]) => k + ": " + o.from.join(" + ") + " = " + o.v + "% суточной нормы.").join("<br>") + '<span>Это не значит, что так нельзя. Но сложи дозировки и посоветуйся с врачом, особенно по цинку.</span></div>'
+      : '<div class="okmsg">Пересечений по составу нет: каждый компонент приходит из одной банки.</div>';
+    sum.innerHTML = '<table class="sum"><tr><td><b>Компонент</b></td><td>% суточной нормы</td></tr>' + rows + '</table>' + note;
+  }
+  function toggle(id) { const i = chosen.indexOf(id); i >= 0 ? chosen.splice(i, 1) : chosen.push(id); render(); }
+  tray.addEventListener("click", e => { const b = e.target.closest(".tj"); if (b) toggle(b.dataset.p); });
+  inbag.addEventListener("click", e => { const b = e.target.closest("[data-rm]"); if (b) toggle(b.dataset.rm); });
+  tray.addEventListener("dragstart", e => { const b = e.target.closest(".tj"); if (b) e.dataTransfer.setData("text/plain", b.dataset.p); });
+  bag.addEventListener("dragover", e => { e.preventDefault(); bag.classList.add("over"); });
+  bag.addEventListener("dragleave", () => bag.classList.remove("over"));
+  bag.addEventListener("drop", e => { e.preventDefault(); bag.classList.remove("over"); const id = e.dataTransfer.getData("text/plain"); if (NUT[id] && !chosen.includes(id)) { chosen.push(id); render(); } });
+})();
+
+// ---------- label reader ----------
+(function () {
+  const Z = {
+    sostav: ["Состав", "Компоненты перечислены по убыванию массы: первым идёт то, чего в капсуле больше всего. «Носитель» — вспомогательное вещество, которое помогает сделать капсулу, а не активный компонент.", "Если первым в составе стоит носитель или наполнитель, активного вещества в продукте мало."],
+    rsp: ["Таблица дозировок", "Сколько каждого вещества ты получаешь в суточной порции, а не в одной капсуле. Здесь порция — 2 капсулы.", "Сравнивай продукты по этой таблице, а не по цифре на лицевой стороне банки."],
+    stars: ["Звёздочки и % РСП", "% РСП — сколько от рекомендуемой суточной нормы закрывает порция, по техрегламенту ТР ТС 022/2011. Больше 100% не значит опасно: две звёздочки означают, что доза ниже верхнего допустимого уровня по Единым санитарным требованиям.", "Если звёздочек нет, а процент высокий, стоит спросить у врача."],
+    dose: ["Как принимать", "Схема и длительность курса. Её согласовывают при регистрации продукта, поэтому именно её мы повторяем на сайте.", "«При необходимости приём можно повторить» — значит, курс не бесконечный: нужны перерывы."],
+    contra: ["Противопоказания", "Когда продукт принимать не стоит. Для БАДов это обязательная строка.", "Если ты принимаешь лекарства, покажи состав врачу: некоторые минералы влияют на их усвоение."],
+    tu: ["ТУ", "Технические условия — документ производителя, по которому выпускается продукт: рецептура, требования к качеству, методы контроля.", "Номер ТУ помогает отличить одну рецептуру от другой у одного производителя."],
+    sgr: ["СГР", "Свидетельство о государственной регистрации ЕАЭС. Без него БАД нельзя легально продавать в Казахстане, России и других странах союза.", "Номер СГР можно проверить в открытом реестре Евразийской экономической комиссии."],
+    eac: ["Знак EAC", "Знак обращения на рынке Евразийского экономического союза. Подтверждает, что продукт соответствует техрегламентам союза.", "Нет знака EAC на БАДе — повод насторожиться."],
+    maker: ["Кто сделал", "Изготовитель — завод, который произвёл продукт и принимает претензии. «Изготовлено по заказу» — бренд, который его заказал и продаёт.", "Так работает большинство брендов добавок: рецептура и бренд свои, производство на сертифицированном заводе."]
+  };
+  const lab = document.getElementById("lab"), ex = document.getElementById("explain"); if (!lab) return;
+  lab.addEventListener("click", e => {
+    const b = e.target.closest(".z"); if (!b) return;
+    lab.querySelectorAll(".z").forEach(z => z.setAttribute("aria-pressed", z === b ? "true" : "false"));
+    const z = Z[b.dataset.z];
+    ex.innerHTML = '<div class="eyebrow">Что это значит</div><h3>' + z[0] + '</h3><p>' + z[1] + '</p><div class="tip"><b>Лайфхак:</b> ' + z[2] + '</div>';
+  });
+})();
+
+// ---------- price per day ----------
+(function () {
+  const p = document.getElementById("c-price"), d = document.getElementById("c-days"), c = document.getElementById("c-coffee"), out = document.getElementById("c-out"), note = document.getElementById("c-note");
+  if (!p) return;
+  const fmt = n => Math.round(n).toLocaleString("ru-RU");
+  function calc() {
+    const price = +p.value, days = +d.value, coffee = +c.value;
+    if (!price || !days) { out.textContent = "— ₸"; note.textContent = "Введи цену банки, и мы посчитаем."; return; }
+    const per = price / days; out.textContent = fmt(per) + " ₸";
+    note.textContent = coffee ? (per < coffee ? "Это в " + (coffee / per).toFixed(1).replace(".", ",") + " раза дешевле твоего кофе." : "Это дороже твоего кофе в " + (per / coffee).toFixed(1).replace(".", ",") + " раза. Сравни с другими банками.") : "За " + days + " дней получается " + fmt(price) + " ₸. Добавь цену кофе, чтобы сравнить.";
+  }
+  [p, d, c].forEach(i => i.addEventListener("input", calc));
+  document.querySelectorAll("[data-days]").forEach(b => b.addEventListener("click", () => { d.value = b.dataset.days; calc(); }));
+})();
+
+// ---------- quiz ----------
+(function () {
+  const Q = [
+    ["Твой идеальный вечер?", [["Зал до закрытия", { creatine: 2, zma: 1 }], ["Пробежка или долгая прогулка", { gluco: 2 }], ["Уход за собой и сериал", { collagen: 2 }], ["Плед, чай и никуда не выходить", { calcium: 2 }], ["Работаю допоздна", { zma: 2 }]]],
+    ["Сколько ты спишь?", [["Меньше 6 часов, увы", { zma: 2 }], ["7–8, как положено", { creatine: 1, collagen: 1 }], ["По-разному, как повезёт", { calcium: 1, zma: 1 }]]],
+    ["Твоя суперсила?", [["Поднять тяжёлое", { creatine: 2 }], ["Пройти 20 000 шагов", { gluco: 2 }], ["Выглядеть выспавшимся, даже если нет", { collagen: 2 }], ["Не впадать в спячку зимой", { calcium: 2 }]]],
+    ["Как часто ты видишь солнце?", [["Каждый день", { creatine: 1, gluco: 1 }], ["Иногда, между делами", { collagen: 1, zma: 1 }], ["Только в отпуске", { calcium: 2 }]]]
+  ];
+  const RES = {
+    zma: "Тренируешься до ночи и всё равно встаёшь в семь.",
+    collagen: "Заботишься о себе так, что это видно.",
+    calcium: "Держишься молодцом, даже когда солнца нет полгода.",
+    gluco: "Твой шагомер устал раньше тебя.",
+    creatine: "Штанга знает тебя по имени."
+  };
+  const QN = { zma: "ZMA", collagen: "Collagen", calcium: "Calcium", gluco: "Glucosamine", creatine: "Creatine" };
+  const card = document.getElementById("qcard"), story = document.getElementById("story"), acts = document.getElementById("story-acts");
+  if (!card) return;
+  let step = 0, score = {};
+  function show() {
+    if (step >= Q.length) return finish();
+    const [q, opts] = Q[step];
+    card.innerHTML = '<div class="qprog">' + Q.map((_, i) => '<i class="' + (i <= step ? "on" : "") + '"></i>').join("") + '</div><div class="eyebrow">Вопрос ' + (step + 1) + ' из ' + Q.length + '</div><h3>' + q + '</h3><div class="qopts">' + opts.map((o, i) => '<button class="qopt" type="button" data-i="' + i + '">' + o[0] + '</button>').join("") + '</div>';
+  }
+  card.addEventListener("click", e => {
+    const b = e.target.closest(".qopt"); if (b) { Object.entries(Q[step][1][b.dataset.i][1]).forEach(([k, v]) => score[k] = (score[k] || 0) + v); step++; show(); }
+    if (e.target.closest("#q-again")) { step = 0; score = {}; story.innerHTML = '<p class="ph">Здесь появится твоя карточка</p>'; acts.innerHTML = ""; show(); }
+  });
+  async function finish() {
+    const id = Object.entries(score).sort((a, b) => b[1] - a[1])[0][0], p = P[id];
+    card.innerHTML = '<div class="qprog">' + Q.map(() => '<i class="on"></i>').join("") + '</div><div class="eyebrow">Готово</div><h3>Ты ' + QN[id] + '!</h3><p>' + RES[id] + '</p><div class="qopts"><button class="qopt" type="button" data-open="' + id + '">Открыть свою банку</button><button class="qopt" type="button" id="q-again">Пройти ещё раз</button></div>';
+    const cv = document.createElement("canvas"); cv.width = 1080; cv.height = 1920; const x = cv.getContext("2d");
+    try { await document.fonts.load('120px "Dela Gothic One"'); await document.fonts.load('700 60px "STIX Two Text"'); } catch (e) {}
+    x.fillStyle = p.a; x.fillRect(0, 0, 1080, 1920);
+    x.save(); x.translate(540, 980); x.rotate(.25); x.scale(11, 11); x.translate(-50, -50); x.fillStyle = "rgba(0,0,0,.14)"; x.fill(new Path2D(SHAPE_D[SHAPES[id]])); x.restore();
+    x.fillStyle = p.fg; x.textAlign = "center";
+    x.font = '64px "Dela Gothic One", "Arial Black", sans-serif'; x.fillText("oh MY BUD!", 540, 170);
+    x.font = '120px "Dela Gothic One", "Arial Black", sans-serif'; x.fillText("Я —", 540, 360);
+    const nm = QN[id].toUpperCase(); let fs = 200; x.font = fs + 'px "Dela Gothic One", "Arial Black", sans-serif'; while (x.measureText(nm).width > 960) { fs -= 10; x.font = fs + 'px "Dela Gothic One", "Arial Black", sans-serif'; } x.fillText(nm, 540, 360 + fs);
+    try { const im = await loadImg(img(id)); const h = 900, w = im.width * h / im.height; x.shadowColor = "rgba(0,0,0,.45)"; x.shadowBlur = 60; x.shadowOffsetY = 30; x.drawImage(im, 540 - w / 2, 720, w, h); x.shadowColor = "transparent"; } catch (e) {}
+    x.font = '700 54px "STIX Two Text", Georgia, serif';
+    const words = RES[id].split(" "); let line = "", y = 1730; const lines = [];
+    words.forEach(wd => { const t = line ? line + " " + wd : wd; if (x.measureText(t).width > 900) { lines.push(line); line = wd; } else line = t; }); lines.push(line);
+    y -= (lines.length - 1) * 66; lines.forEach(l => { x.fillText(l, 540, y); y += 66; });
+    x.font = '36px "Dela Gothic One", sans-serif'; x.fillText("ohmybud.kz", 540, 1870);
+    story.innerHTML = ""; story.appendChild(cv);
+    acts.innerHTML = '<button class="btn btn-pop" type="button" id="q-dl">Скачать для сторис</button>';
+    document.getElementById("q-dl").onclick = () => downloadCanvas(cv, "ohmybud-" + id + ".png");
+  }
+  show();
+})();
+
+// ---------- sticker studio ----------
+(function () {
+  const cv = document.getElementById("st-canvas"); if (!cv) return;
+  const x = cv.getContext("2d");
+  const BGS = ["#0a0a0b", "#d6f21c", "#a54bff", "#3d3bff", "#ff0a6e", "#ffffff"];
+  let bg = BGS[0]; const items = [];
+  const shapesBox = document.getElementById("st-shapes"), jarsBox = document.getElementById("st-jars"), bgBox = document.getElementById("st-bgs");
+  shapesBox.innerHTML = Object.keys(SHAPE_D).map((id, i) => '<button type="button" data-shape="' + id + '" aria-label="Добавить фигуру" style="color:' + BRAND[i % 6] + '"><svg aria-hidden="true"><use href="#s-' + id + '"/></svg></button>').join("");
+  jarsBox.innerHTML = ORDER.map(id => '<button type="button" data-jar="' + id + '" aria-label="Добавить банку ' + P[id].name + '"><img src="' + img(id) + '" alt=""></button>').join("");
+  bgBox.innerHTML = BGS.map((c, i) => '<button type="button" data-bg="' + c + '" aria-label="Фон" aria-pressed="' + (i === 0) + '" style="background:' + c + '"></button>').join("");
+  const rnd = (a, b) => a + Math.random() * (b - a);
+  function add(it) { items.push(Object.assign({ x: rnd(220, 860), y: rnd(300, 1620), r: rnd(-0.6, 0.6) }, it)); draw(); }
+  async function draw() {
+    x.fillStyle = bg; x.fillRect(0, 0, 1080, 1920);
+    for (const it of items) {
+      x.save(); x.translate(it.x, it.y); x.rotate(it.r);
+      if (it.shape) { const s = it.s / 100; x.scale(s, s); x.translate(-50, -50); x.fillStyle = it.c; x.fill(new Path2D(SHAPE_D[it.shape])); }
+      else if (it.im) { const h = it.s, w = it.im.width * h / it.im.height; x.drawImage(it.im, -w / 2, -h / 2, w, h); }
+      x.restore();
+    }
+    x.fillStyle = bg === "#0a0a0b" || bg === "#3d3bff" || bg === "#a54bff" ? "#ffffff" : "#0a0a0b";
+    x.font = '56px "Dela Gothic One", "Arial Black", sans-serif'; x.textAlign = "center"; x.fillText("oh MY BUD!", 540, 1840);
+  }
+  shapesBox.addEventListener("click", e => { const b = e.target.closest("[data-shape]"); if (b) add({ shape: b.dataset.shape, c: BRAND[Math.floor(Math.random() * 6)], s: rnd(220, 420) }); });
+  jarsBox.addEventListener("click", async e => { const b = e.target.closest("[data-jar]"); if (!b) return; const im = await loadImg(img(b.dataset.jar)); add({ im, s: rnd(520, 760), r: rnd(-0.25, 0.25) }); });
+  bgBox.addEventListener("click", e => { const b = e.target.closest("[data-bg]"); if (!b) return; bg = b.dataset.bg; bgBox.querySelectorAll("button").forEach(z => z.setAttribute("aria-pressed", z === b ? "true" : "false")); draw(); });
+  document.getElementById("st-undo").onclick = () => { items.pop(); draw(); };
+  document.getElementById("st-mix").onclick = () => { items.forEach(it => { it.x = rnd(200, 880); it.y = rnd(260, 1660); it.r = rnd(-0.8, 0.8); if (it.shape) it.c = BRAND[Math.floor(Math.random() * 6)]; }); draw(); };
+  document.getElementById("st-dl").onclick = () => downloadCanvas(cv, "ohmybud-wallpaper.png");
+  // drag / rotate
+  let hit = null, sx = 0, sy = 0, lastTap = 0;
+  const toCv = e => { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left) * 1080 / r.width, (e.clientY - r.top) * 1920 / r.height]; };
+  cv.addEventListener("pointerdown", e => {
+    const [px, py] = toCv(e);
+    for (let i = items.length - 1; i >= 0; i--) { const it = items[i]; if (Math.hypot(px - it.x, py - it.y) < it.s * 0.45) { hit = it; items.splice(i, 1); items.push(it); break; } }
+    if (!hit) return; cv.setPointerCapture(e.pointerId); sx = px; sy = py;
+    const now = performance.now(); if (now - lastTap < 300) { hit.r += Math.PI / 6; draw(); } lastTap = now;
+  });
+  cv.addEventListener("pointermove", e => { if (!hit) return; const [px, py] = toCv(e); if (e.shiftKey) hit.r += (px - sx) / 200; else { hit.x += px - sx; hit.y += py - sy; } sx = px; sy = py; draw(); });
+  const end = () => { hit = null; }; cv.addEventListener("pointerup", end); cv.addEventListener("pointercancel", end);
+  (async () => { try { await document.fonts.load('56px "Dela Gothic One"'); } catch (e) {} add({ shape: "heart", c: "#a54bff", s: 380, x: 300, y: 420 }); add({ shape: "bolt", c: "#d6f21c", s: 320, x: 800, y: 760 }); add({ shape: "star", c: "#ff0a6e", s: 360, x: 360, y: 1300 }); })();
+})();
+
+// ---------- secret: long-press the logo ----------
+(function () {
+  const logo = document.querySelector("header .logo"); if (!logo) return;
+  let t = null, fired = false;
+  function showSecret() {
+    fired = true; document.querySelector(".secret")?.remove();
+    const d = document.createElement("div"); d.className = "secret"; d.setAttribute("role", "status");
+    d.innerHTML = '<span class="lid" aria-hidden="true"></span><p><b>Ты открутил крышку!</b>Секрет для тех, кто не боится долго жать. Держи конструктор обоев: <a href="#stickers">собрать свои →</a></p><button class="x" type="button" aria-label="Закрыть">×</button>';
+    document.body.appendChild(d);
+    d.querySelector(".x").onclick = () => d.remove(); d.querySelector("a").onclick = () => d.remove();
+    setTimeout(() => d.remove(), 9000);
+  }
+  logo.addEventListener("pointerdown", () => { fired = false; t = setTimeout(showSecret, 800); });
+  ["pointerup", "pointerleave", "pointercancel"].forEach(ev => logo.addEventListener(ev, () => clearTimeout(t)));
+  logo.addEventListener("click", e => { if (fired) { e.preventDefault(); fired = false; } });
+  logo.addEventListener("contextmenu", e => e.preventDefault());
+})();
 </script>
 </body>
 </html>

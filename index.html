@@ -205,11 +205,12 @@ dialog.sheet[open] { animation: pop .35s cubic-bezier(.2,.9,.3,1.2); }
 .result p { margin: 0; max-width: 40ch; }
 .result .acts { display: flex; gap: 10px; flex-wrap: wrap; }
 .result #r-img { display: flex; justify-content: center; align-items: end; height: 260px; }
-.result #r-img.idle { gap: 2px; }
-.result #r-img.idle img { height: 120px; opacity: .45; animation: none; }
+.result #r-img { overflow: hidden; }
+.result .qmark { font-family: var(--display); font-size: 200px; line-height: 1; color: var(--pop); align-self: center; animation: bob 3s ease-in-out infinite; }
+@keyframes bob { 50% { transform: translateY(-10px) rotate(6deg); } }
 .result img { height: 260px; width: auto; filter: drop-shadow(0 16px 16px rgba(0,0,0,.35)); animation: drop .5s cubic-bezier(.2,.9,.3,1.3); }
 @keyframes drop { from { transform: translateY(-40px) rotate(-10deg); opacity: 0; } }
-@media (max-width: 560px) { .result { grid-template-columns: 1fr; } .result #r-img { height: 180px; } .result img { height: 180px; } .result #r-img.idle img { height: 90px; } }
+@media (max-width: 560px) { .result { grid-template-columns: 1fr; } .result #r-img { height: 180px; } .result img { height: 180px; } .result .qmark { font-size: 130px; } }
 
 /* shelf talk */
 .talk { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 16px; }
@@ -374,8 +375,8 @@ footer { border-top: 1px solid var(--line); padding-block: 40px 56px; color: var
         <div class="result" id="result" aria-live="polite">
           <div class="txt">
             <div class="eyebrow">Твоя банка</div>
-            <h3 id="r-name">Выбери слева</h3>
-            <p id="r-text">Покажем продукт, который подходит под твой ритм.</p>
+            <h3 id="r-name">Твой ход</h3>
+            <p id="r-text">Нажми на вариант слева, и здесь появится банка под твой ритм.</p>
             <div class="acts" id="r-acts"></div>
           </div>
           <div id="r-img" class="idle"></div>
@@ -618,7 +619,7 @@ document.querySelectorAll(".opt").forEach(b => b.addEventListener("click", () =>
   const ri = document.getElementById("r-img"); ri.className = ""; ri.innerHTML = '<img src="' + img(id) + '" alt="">';
 }));
 
-document.getElementById("r-img").innerHTML = ORDER.map(id => '<img src="' + img(id) + '" alt="">').join("");
+document.getElementById("r-img").innerHTML = '<span class="qmark" aria-hidden="true">?</span>';
 
 // shelf talk
 const QS = [

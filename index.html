@@ -403,6 +403,14 @@ footer { border-top: 1px solid var(--line); padding-block: 40px 56px; color: var
 .ta3 { left: 30%; bottom: 0; color: #ff0a6e; transform: rotate(6deg); }
 .ta-hand { position: absolute; left: 50%; top: 52%; translate: -50% -50%; font-family: var(--display); font-size: 26px; background: var(--paper); color: var(--ink); padding: 10px 16px; border-radius: 14px; transform: rotate(-4deg); white-space: nowrap; }
 
+/* sheet fixes */
+[hidden] { display: none !important; }
+dialog.sheet { overflow-x: hidden; }
+.sheet-in > * { min-width: 0; }
+.info h3 { font-size: clamp(28px, 3.6vw, 46px); overflow-wrap: anywhere; }
+.under { overflow-y: auto; align-content: start; }
+.jarside.peeled { align-items: stretch; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   html { scroll-behavior: auto; }

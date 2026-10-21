@@ -420,6 +420,14 @@ footer { border-top: 1px solid var(--line); padding-block: 40px 56px; color: var
   .studio-acts .btn { padding: 12px 14px; font-size: 14px; }
 }
 
+/* talking shelf */
+.slot.shake img { animation: shake .6s cubic-bezier(.36,.07,.19,.97); }
+.say { position: absolute; left: 50%; bottom: calc(100% - 6px); z-index: 5; width: max-content; max-width: min(240px, 60vw); translate: -50% 0; background: var(--paper); color: var(--ink); border-radius: 16px; padding: 12px 14px; font: 700 14px/1.3 var(--body); text-align: left; box-shadow: 0 12px 30px rgba(0,0,0,.5); animation: pop .3s cubic-bezier(.2,.9,.3,1.3); pointer-events: auto; }
+.say::after { content: ""; position: absolute; left: 50%; bottom: -8px; translate: -50% 0; border: 8px solid transparent; border-bottom: 0; border-top-color: var(--paper); }
+.say .go { display: inline-block; margin-top: 6px; font-size: 13px; text-decoration: underline; cursor: pointer; }
+.shelf .slot:first-child .say { left: 0; translate: 0 0; } .shelf .slot:first-child .say::after { left: 30px; }
+.shelf .slot:last-child .say { left: auto; right: 0; translate: 0 0; } .shelf .slot:last-child .say::after { left: auto; right: 30px; translate: 0 0; }
+
 /* sheet fixes */
 [hidden] { display: none !important; }
 dialog.sheet { overflow-x: hidden; }
@@ -473,10 +481,10 @@ dialog.sheet { overflow-x: hidden; }
       <div class="eyebrow">Витамины и БАДы</div>
       <h1>oh MY<span class="row2">BUD<span class="bang">!</span></span></h1>
       <div class="thesis">
-        <p>Рациональные покупки делают <em>эмоционально.</em> Возьми банку в руки: каждую можно открыть и заглянуть под этикетку.</p>
+        <p>Рациональные покупки делают <em>эмоционально.</em> Потряси любую банку, а ниже каждую можно открыть и заглянуть под этикетку.</p>
       </div>
       <div class="shelf" id="shelf"></div>
-      <p class="hint"><svg aria-hidden="true"><use href="#s-tap"/></svg>Нажми на банку</p>
+      <p class="hint"><svg aria-hidden="true"><use href="#s-tap"/></svg>Потряси любую банку</p>
     </div>
   </div>
 
@@ -704,7 +712,7 @@ const kBtn = (p, cls, text) => '<a class="btn ' + cls + '" href="' + kaspi(p.q) 
 // shelf
 document.getElementById("shelf").innerHTML = ORDER.map(id => {
   const p = P[id];
-  return '<button class="slot" type="button" data-open="' + id + '" data-p="' + id + '" style="--c:' + p.a + ';--rot:' + p.rot + 'deg" aria-label="Открыть ' + p.name + '">' +
+  return '<button class="slot" type="button" data-say="' + id + '" data-p="' + id + '" style="--c:' + p.a + ';--rot:' + p.rot + 'deg" aria-label="Потрясти ' + p.name + '">' +
     '<span class="shape">' + use(SHAPES[id]) + '</span><img src="' + img(id) + '" alt=""><span class="lbl">' + ({ zma: "ZMA", collagen: "Collagen", calcium: "Calcium", gluco: "Glucosamine", creatine: "Creatine" })[id] + '</span></button>';
 }).join("");
 
@@ -718,6 +726,25 @@ document.getElementById("grid").innerHTML = ["zma", "collagen", "calcium", "gluc
     '<p class="desc">' + p.desc + '</p>' +
     '<div class="foot">' + kBtn(p, "btn-dark") + '</div></article>';
 }).join("");
+
+// talking shelf: each jar says something about itself
+const LINES = {
+  zma: "Тренируешься до ночи и всё равно встаёшь в семь? Это я.",
+  collagen: "Я про то, чтобы выглядеть выспавшимся. Даже если нет.",
+  calcium: "Солнца полгода нет? У меня внутри 1800 МЕ витамина D3.",
+  gluco: "Твой шагомер устал? А я нет.",
+  creatine: "Штанга знает меня по имени. Тебя скоро тоже."
+};
+document.getElementById("shelf").addEventListener("click", e => {
+  const go = e.target.closest(".say .go");
+  if (go) { document.getElementById("p-" + go.dataset.go).scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" }); document.querySelectorAll(".say").forEach(x => x.remove()); return; }
+  const s = e.target.closest(".slot"); if (!s) return;
+  document.querySelectorAll(".say").forEach(x => x.remove());
+  s.classList.remove("shake"); void s.offsetWidth; s.classList.add("shake");
+  rattle(s.dataset.say === "creatine");
+  s.insertAdjacentHTML("beforeend", '<span class="say">' + LINES[s.dataset.say] + '<br><span class="go" data-go="' + s.dataset.say + '">Посмотреть, что внутри ↓</span></span>');
+});
+document.addEventListener("click", e => { if (!e.target.closest(".slot")) document.querySelectorAll(".say").forEach(x => x.remove()); });
 
 // product sheet
 const sheet = document.getElementById("sheet");

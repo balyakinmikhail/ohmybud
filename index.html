@@ -58,7 +58,7 @@ nav a:hover { color: var(--paper); }
 .hero h1 .row2 { display: block; }
 .hero h1 .bang { color: var(--pop); display: inline-block; transform-origin: 50% 90%; animation: wiggle 4s ease-in-out infinite; }
 @keyframes wiggle { 0%, 86%, 100% { transform: rotate(0); } 90% { transform: rotate(14deg); } 94% { transform: rotate(-10deg); } }
-.thesis { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 28px 40px; align-items: end; margin-top: clamp(24px, 4vw, 44px); }
+.thesis { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px 40px; align-items: end; margin-top: clamp(24px, 4vw, 44px); }
 .thesis p { margin: 0; max-width: 34ch; font-size: clamp(19px, 2.2vw, 26px); line-height: 1.3; text-wrap: balance; }
 .thesis em { font-family: var(--serif); font-style: normal; font-weight: 700; }
 .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
@@ -164,14 +164,17 @@ dialog.sheet[open] { animation: pop .35s cubic-bezier(.2,.9,.3,1.2); }
 .flips { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
 @media (max-width: 1000px) { .flips { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px) { .flips { grid-template-columns: 1fr; } }
-.flip { perspective: 1200px; height: 300px; background: none; border: 0; padding: 0; cursor: pointer; text-align: left; }
-.flip-in { position: relative; width: 100%; height: 100%; transition: transform .7s cubic-bezier(.3,1.4,.4,1); transform-style: preserve-3d; }
+.flip { display: block; width: 100%; perspective: 1200px; height: 320px; background: none; border: 0; padding: 0; cursor: pointer; text-align: left; color: var(--ink); }
+.flip:hover .flip-in { transform: rotate(-2deg) translateY(-4px); }
+.flip[aria-pressed="true"]:hover .flip-in { transform: rotateY(180deg); }
+.flip-in { display: block; position: relative; width: 100%; height: 100%; transition: transform .7s cubic-bezier(.3,1.4,.4,1); transform-style: preserve-3d; }
 .flip[aria-pressed="true"] .flip-in { transform: rotateY(180deg); }
-.face { position: absolute; inset: 0; backface-visibility: hidden; border-radius: var(--r); padding: 24px; display: grid; align-content: space-between; }
+.face { position: absolute; inset: 0; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: var(--r); padding: 24px; display: grid; align-content: space-between; }
 .face.front { background: var(--c); color: var(--ink); }
 .face.front .q { font-family: var(--display); font-size: clamp(26px, 2.6vw, 34px); line-height: 1; letter-spacing: -0.02em; }
 .face.front .turn { font-weight: 700; font-size: 13px; display: flex; gap: 8px; align-items: center; }
-.face.front svg { width: 46px; height: 46px; }
+.face.front svg { width: 64px; height: 64px; color: var(--ink); }
+.face.front .q, .face.front .turn, .face.back .a-title { display: block; }
 .face.back { background: var(--paper); color: var(--ink); transform: rotateY(180deg); }
 .face.back .a-title { font-family: var(--display); font-size: 30px; line-height: 1; }
 .face.back p { margin: 0; font-size: 15px; }
@@ -280,9 +283,6 @@ footer { border-top: 1px solid var(--line); padding-block: 40px 56px; color: var
       <h1>oh MY<span class="row2">BUD<span class="bang">!</span></span></h1>
       <div class="thesis">
         <p>Рациональные покупки делают <em>эмоционально.</em> Возьми банку в руки: каждую можно открыть и заглянуть под этикетку.</p>
-        <div class="cta-row">
-          <a class="btn btn-pop" href="#line">Смотреть линейку</a>
-        </div>
       </div>
       <div class="shelf" id="shelf"></div>
       <p class="hint"><svg aria-hidden="true"><use href="#s-tap"/></svg>Нажми на банку</p>

@@ -9,10 +9,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Onest:wght@400;500;700&family=STIX+Two+Text:wght@700&display=swap">
 <style>
+/* Layout: black poster wall; cut-out jars sit on their own brand shapes; every jar opens a product sheet */
 :root {
   color-scheme: dark;
   --ink: #0a0a0b;
   --ink-2: #161618;
+  --ink-3: #222226;
   --line: #2b2b30;
   --paper: #ffffff;
   --mute: #a3a3ad;
@@ -27,117 +29,203 @@ html { scroll-behavior: smooth; }
 body { margin: 0; background: var(--ink); color: var(--paper); font: 400 16px/1.55 var(--body); overflow-x: hidden; }
 img { max-width: 100%; }
 a { color: inherit; }
+button { font: inherit; color: inherit; }
 :focus-visible { outline: 3px solid var(--pop); outline-offset: 3px; border-radius: 6px; }
 .wrap { max-width: 1240px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.eyebrow { font: 500 13px/1 var(--body); letter-spacing: .14em; text-transform: uppercase; color: var(--mute); }
 
-header { position: sticky; top: 0; z-index: 9; background: color-mix(in srgb, var(--ink) 88%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+/* header */
+header { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--ink) 88%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
 .bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; }
 .logo { font-family: var(--display); font-size: 22px; letter-spacing: -0.02em; text-decoration: none; white-space: nowrap; line-height: 1; }
 .logo .sm { font-size: .72em; }
 nav { display: flex; gap: 22px; }
 nav a { text-decoration: none; color: var(--mute); font-weight: 500; font-size: 15px; }
 nav a:hover { color: var(--paper); }
-.btn { display: inline-flex; align-items: center; gap: 10px; font: 700 15px/1 var(--body); text-decoration: none; padding: 14px 20px; border-radius: 999px; border: 2px solid transparent; transition: transform .15s ease, background .15s ease; cursor: pointer; white-space: nowrap; }
+@media (max-width: 860px) { nav { display: none; } }
+
+.btn { display: inline-flex; align-items: center; gap: 10px; font: 700 15px/1 var(--body); text-decoration: none; padding: 14px 20px; border-radius: 999px; border: 2px solid transparent; transition: transform .15s ease, background .15s ease, color .15s ease; cursor: pointer; white-space: nowrap; }
 .btn:hover { transform: translateY(-2px); }
 .btn-pop { background: var(--pop); color: var(--ink); }
-.btn-ghost { border-color: var(--paper); color: var(--paper); background: transparent; }
-.btn-ghost:hover { background: var(--paper); color: var(--ink); }
+.btn-ghost { border-color: currentColor; background: transparent; }
+.btn-dark { background: var(--ink); color: var(--paper); }
 .btn .k { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 6px; background: #f14635; color: #fff; font-size: 13px; font-weight: 700; }
 .bar .btn { padding: 11px 16px; font-size: 14px; }
-@media (max-width: 760px) { nav { display: none; } }
 
-.hero { position: relative; overflow: hidden; padding-block: clamp(48px, 9vw, 110px) clamp(56px, 8vw, 96px); }
-.eyebrow { font: 500 13px/1 var(--body); letter-spacing: .14em; text-transform: uppercase; color: var(--mute); }
-.hero h1 { font-family: var(--display); font-weight: 400; font-size: clamp(54px, 13vw, 176px); line-height: .86; letter-spacing: -0.035em; margin: 18px 0 0; position: relative; z-index: 2; }
+/* hero */
+.hero { position: relative; overflow: hidden; padding-block: clamp(40px, 7vw, 90px) 0; }
+.hero h1 { font-family: var(--display); font-weight: 400; font-size: clamp(54px, 13vw, 176px); line-height: .86; letter-spacing: -0.035em; margin: 18px 0 0; }
 .hero h1 .row2 { display: block; }
-.hero h1 .bang { color: var(--pop); }
-.thesis { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 28px 40px; align-items: end; margin-top: clamp(28px, 4vw, 48px); position: relative; z-index: 2; }
+.hero h1 .bang { color: var(--pop); display: inline-block; transform-origin: 50% 90%; animation: wiggle 4s ease-in-out infinite; }
+@keyframes wiggle { 0%, 86%, 100% { transform: rotate(0); } 90% { transform: rotate(14deg); } 94% { transform: rotate(-10deg); } }
+.thesis { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 28px 40px; align-items: end; margin-top: clamp(24px, 4vw, 44px); }
 .thesis p { margin: 0; max-width: 34ch; font-size: clamp(19px, 2.2vw, 26px); line-height: 1.3; text-wrap: balance; }
 .thesis em { font-family: var(--serif); font-style: normal; font-weight: 700; }
 .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
 @media (max-width: 760px) { .thesis { grid-template-columns: 1fr; } }
 
-.stickers { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
-.stk { position: absolute; width: var(--s); height: var(--s); color: var(--c); transform: rotate(var(--rot)); animation: bob 6s ease-in-out infinite; animation-delay: var(--d, 0s); }
-.stk svg { width: 100%; height: 100%; display: block; }
-@keyframes bob { 0%,100% { translate: 0 0; } 50% { translate: 0 -12px; } }
-@media (prefers-reduced-motion: reduce) { .stk { animation: none; } html { scroll-behavior: auto; } .btn:hover, .card:hover { transform: none; } }
+/* shelf of jars */
+.shelf { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); align-items: end; gap: clamp(4px, 1.5vw, 20px); margin-top: clamp(36px, 6vw, 72px); padding-bottom: clamp(30px, 5vw, 60px); }
+.slot { position: relative; display: grid; justify-items: center; align-items: end; background: none; border: 0; padding: 0; cursor: pointer; text-align: center; }
+.slot .shape { position: absolute; left: 50%; bottom: 8%; width: 108%; aspect-ratio: 1; translate: -50% 0; color: var(--c); transition: transform .35s cubic-bezier(.2,.9,.3,1.3); transform: rotate(var(--rot, 0deg)); }
+.slot .shape svg { width: 100%; height: 100%; display: block; }
+.slot img { position: relative; display: block; width: auto; height: clamp(120px, 26vw, 330px); filter: drop-shadow(0 18px 18px rgba(0,0,0,.55)); transition: transform .35s cubic-bezier(.2,.9,.3,1.3); }
+.slot[data-p="creatine"] img { height: clamp(132px, 28.5vw, 362px); }
+.slot .lbl { position: relative; margin-top: 12px; font: 700 13px/1.2 var(--body); color: var(--mute); transition: color .2s ease; }
+.slot:hover img, .slot:focus-visible img { transform: translateY(-14px) rotate(-3deg) scale(1.04); }
+.slot:hover .shape, .slot:focus-visible .shape { transform: rotate(calc(var(--rot, 0deg) + 18deg)) scale(1.08); }
+.slot:hover .lbl { color: var(--paper); }
+.hint { display: flex; align-items: center; gap: 10px; justify-content: center; color: var(--mute); font-size: 14px; margin: 0 0 6px; }
+.hint svg { width: 18px; height: 18px; color: var(--pop); }
+@media (max-width: 620px) { .slot .lbl { font-size: 10px; } .shelf { gap: 2px; } }
 
+/* marquee */
 .tape { border-block: 1px solid var(--line); overflow: hidden; background: var(--ink-2); }
 .tape-in { display: flex; width: max-content; gap: 34px; padding-block: 16px; animation: run 32s linear infinite; }
 .tape-in span { font-family: var(--display); font-size: 22px; white-space: nowrap; display: inline-flex; align-items: center; gap: 34px; }
 .tape-in svg { width: 26px; height: 26px; }
 @keyframes run { to { transform: translateX(-50%); } }
-@media (prefers-reduced-motion: reduce) { .tape-in { animation: none; } }
 
+/* sections */
 section { padding-block: clamp(56px, 8vw, 104px); }
 .sec-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; margin-bottom: 36px; }
 .sec-head h2 { font-family: var(--display); font-weight: 400; font-size: clamp(36px, 6vw, 72px); line-height: .95; letter-spacing: -0.03em; margin: 10px 0 0; text-wrap: balance; }
 .sec-head p { margin: 0; max-width: 40ch; color: var(--mute); }
 
-.grid { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 16px; }
-.card { flex: 0 0 calc((100% - 32px) / 3); position: relative; overflow: hidden; border-radius: var(--r); background: var(--a); color: var(--b); padding: 22px; display: flex; flex-direction: column; gap: 18px; min-width: 0; transition: transform .2s ease; scroll-margin-top: 90px; }
-.card:hover { transform: translateY(-4px); }
+/* product cards */
+.grid { display: flex; flex-wrap: wrap; gap: 16px; }
+.card { flex: 0 0 calc((100% - 32px) / 3); position: relative; overflow: hidden; border-radius: var(--r); background: var(--a); color: var(--fg, var(--ink)); padding: 22px; display: flex; flex-direction: column; gap: 16px; min-width: 0; scroll-margin-top: 90px; }
 @media (max-width: 1000px) { .card { flex-basis: calc((100% - 16px) / 2); } }
 @media (max-width: 620px) { .card { flex-basis: 100%; } }
-.card .top { display: flex; justify-content: space-between; align-items: start; gap: 12px; color: var(--ink); }
-.tag { font: 700 12px/1 var(--body); letter-spacing: .1em; text-transform: uppercase; background: var(--ink); color: var(--a); padding: 8px 10px; border-radius: 999px; white-space: nowrap; }
-.card .bg-shape { position: absolute; right: -40px; bottom: 80px; width: 230px; height: 230px; color: var(--ink); opacity: .14; pointer-events: none; }
+.card .top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.tag { font: 700 12px/1 var(--body); letter-spacing: .08em; text-transform: uppercase; background: var(--ink); color: var(--a); padding: 8px 11px; border-radius: 999px; white-space: nowrap; }
+.card .open { font: 700 13px/1 var(--body); background: none; border: 0; cursor: pointer; display: inline-flex; gap: 6px; align-items: center; padding: 6px 0; }
+.card .open:hover { text-decoration: underline; }
+.card .stage { position: relative; display: grid; place-items: center; height: 300px; background: none; border: 0; cursor: pointer; padding: 0; }
+.card .stage .shape { position: absolute; width: 250px; height: 250px; color: var(--ink); opacity: .16; transition: transform .4s ease; }
+.card .stage img { position: relative; height: 270px; width: auto; filter: drop-shadow(0 20px 20px rgba(0,0,0,.35)); transition: transform .35s cubic-bezier(.2,.9,.3,1.3); }
+.card .stage:hover img { transform: translateY(-8px) rotate(-3deg) scale(1.04); }
+.card .stage:hover .shape { transform: rotate(20deg) scale(1.08); }
+.card h3 { font-family: var(--display); font-weight: 400; font-size: clamp(28px, 3vw, 38px); line-height: .92; text-transform: uppercase; margin: 0; letter-spacing: -0.02em; text-wrap: balance; }
+.card .sub { font-family: var(--serif); font-weight: 700; font-size: 18px; margin: 6px 0 0; color: var(--sub, inherit); }
+.card .desc { margin: 0; font-size: 15px; }
+.card .foot { margin-top: auto; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
 
-.stage { display: grid; place-items: center; position: relative; z-index: 1; background: #ebebeb; border-radius: 14px; padding: 6px 0 0; }
-.jar { position: relative; width: min(230px, 70%); }
-.jar img { display: block; width: 100%; height: auto; mix-blend-mode: multiply; }
-.jar[data-p="creatine"] img { filter: brightness(.967); }
-a.jar { display: block; text-decoration: none; transition: transform .2s ease; }
-a.jar:hover { transform: translateY(-6px); }
-.shelf { display: flex; justify-content: center; align-items: end; margin-top: clamp(40px, 6vw, 72px); position: relative; z-index: 2; background: #ebebeb; border-radius: 28px; padding: clamp(10px, 2vw, 24px) clamp(8px, 2vw, 24px) 0; }
-.shelf .jar { width: 20%; flex: 1 1 0; }
+/* product sheet (dialog) */
+dialog.sheet { width: min(1080px, calc(100vw - 24px)); max-height: calc(100dvh - 24px); padding: 0; border: 0; border-radius: 26px; background: var(--ink-2); color: var(--paper); overflow: auto; }
+dialog.sheet::backdrop { background: rgba(5,5,6,.78); backdrop-filter: blur(6px); }
+dialog.sheet[open] { animation: pop .35s cubic-bezier(.2,.9,.3,1.2); }
+@keyframes pop { from { transform: translateY(24px) scale(.96); opacity: 0; } }
+.sheet-in { display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); min-height: 560px; }
+@media (max-width: 820px) { .sheet-in { grid-template-columns: 1fr; } }
+.sheet .close { position: absolute; top: 14px; right: 14px; z-index: 5; width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--ink); color: var(--paper); font-size: 24px; line-height: 1; cursor: pointer; }
+.jarside { position: relative; background: var(--a); overflow: hidden; display: grid; place-items: center; padding: 30px 20px; min-height: 420px; }
+.jarside .shape { position: absolute; width: 90%; aspect-ratio: 1; color: var(--ink); opacity: .14; }
+.jarwrap { position: relative; transition: transform .7s cubic-bezier(.7,0,.2,1), opacity .5s ease; transform-origin: 20% 90%; }
+.jarwrap img { display: block; height: 400px; width: auto; filter: drop-shadow(0 24px 24px rgba(0,0,0,.4)); }
+.peel { position: absolute; right: 6%; top: 45%; width: 64px; height: 64px; border: 0; padding: 0; cursor: pointer; background: linear-gradient(225deg, var(--a) 0 50%, #fff 50% 100%); clip-path: polygon(100% 0, 100% 100%, 0 100%); box-shadow: -6px 6px 12px rgba(0,0,0,.3); border-radius: 0 0 0 10px; animation: nudge 2.4s ease-in-out infinite; }
+@keyframes nudge { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(-8deg) translate(-3px, 3px); } }
+.peel-label { position: absolute; right: 4%; top: calc(45% + 72px); font: 700 13px/1.2 var(--body); color: var(--ink); background: var(--paper); padding: 8px 10px; border-radius: 10px; max-width: 140px; pointer-events: none; }
+.under { position: absolute; inset: 0; padding: 30px 26px; display: grid; align-content: center; gap: 10px; opacity: 0; pointer-events: none; transition: opacity .4s ease .25s; color: var(--ink); }
+.under h4 { margin: 0 0 4px; font-family: var(--display); font-weight: 400; font-size: 26px; line-height: 1; }
+.under .note { margin: 0 0 8px; font-family: var(--serif); font-weight: 700; }
+.ing { display: flex; justify-content: space-between; gap: 12px; align-items: center; width: 100%; text-align: left; background: var(--ink); color: var(--paper); border: 0; border-radius: 14px; padding: 14px 16px; cursor: pointer; font-weight: 700; transition: transform .15s ease; }
+.ing:hover { transform: translateX(4px); }
+.ing .dose { font-variant-numeric: tabular-nums; color: var(--a); white-space: nowrap; }
+.ing[aria-expanded="true"] { border-radius: 14px 14px 0 0; }
+.ing-x { background: var(--paper); color: var(--ink); border-radius: 0 0 14px 14px; padding: 14px 16px; margin-top: -10px; font-size: 14px; display: grid; gap: 8px; }
+.ing-x b { font-weight: 700; }
+.ing-x .src { color: #55555f; font-size: 12px; }
+.jarside.peeled .jarwrap { transform: translateX(-70%) rotate(-24deg) scale(.7); opacity: .0; }
+.jarside.peeled .peel, .jarside.peeled .peel-label { opacity: 0; pointer-events: none; }
+.jarside.peeled .under { opacity: 1; pointer-events: auto; }
+.under .back { justify-self: start; background: none; border: 0; padding: 6px 0; font-weight: 700; cursor: pointer; text-decoration: underline; color: var(--ink); }
 
+.info { padding: clamp(24px, 4vw, 44px); display: grid; gap: 18px; align-content: start; }
+.info h3 { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(34px, 5vw, 56px); line-height: .9; text-transform: uppercase; letter-spacing: -0.02em; padding-right: 40px; }
+.info .sub { margin: -6px 0 0; font-family: var(--serif); font-weight: 700; font-size: 19px; color: var(--mute); }
+.modes { display: flex; flex-wrap: wrap; gap: 8px; }
+.mode { border: 2px solid var(--line); background: var(--ink); border-radius: 999px; padding: 11px 16px; font-weight: 700; font-size: 14px; cursor: pointer; }
+.mode[aria-selected="true"] { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+.mode-body { background: var(--ink); border-radius: 18px; padding: 20px; min-height: 170px; display: grid; gap: 12px; align-content: start; }
+.mode-body p { margin: 0; }
+.mode-body .big { font-family: var(--display); font-size: clamp(22px, 2.6vw, 30px); line-height: 1.05; letter-spacing: -0.01em; }
+.mode-body ul { margin: 0; padding-left: 18px; color: var(--mute); display: grid; gap: 6px; }
+.mode-body table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.mode-body td { padding: 8px 0; border-bottom: 1px solid var(--line); }
+.mode-body td:last-child { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.mode-body .small { font-size: 13px; color: var(--mute); }
+.sheet-cta { display: flex; gap: 10px; flex-wrap: wrap; }
+.sheet-cta .btn-ghost { color: var(--paper); }
+
+/* flip cards */
+.flips { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 1000px) { .flips { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .flips { grid-template-columns: 1fr; } }
+.flip { perspective: 1200px; height: 300px; background: none; border: 0; padding: 0; cursor: pointer; text-align: left; }
+.flip-in { position: relative; width: 100%; height: 100%; transition: transform .7s cubic-bezier(.3,1.4,.4,1); transform-style: preserve-3d; }
+.flip[aria-pressed="true"] .flip-in { transform: rotateY(180deg); }
+.face { position: absolute; inset: 0; backface-visibility: hidden; border-radius: var(--r); padding: 24px; display: grid; align-content: space-between; }
+.face.front { background: var(--c); color: var(--ink); }
+.face.front .q { font-family: var(--display); font-size: clamp(26px, 2.6vw, 34px); line-height: 1; letter-spacing: -0.02em; }
+.face.front .turn { font-weight: 700; font-size: 13px; display: flex; gap: 8px; align-items: center; }
+.face.front svg { width: 46px; height: 46px; }
+.face.back { background: var(--paper); color: var(--ink); transform: rotateY(180deg); }
+.face.back .a-title { font-family: var(--display); font-size: 30px; line-height: 1; }
+.face.back p { margin: 0; font-size: 15px; }
+
+/* manifesto */
 .mani { display: grid; border-top: 1px solid var(--line); }
-.mani-row { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 16px 48px; padding-block: 30px; border-bottom: 1px solid var(--line); align-items: center; }
-.mani-row h3 { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(28px, 4.4vw, 54px); line-height: .95; letter-spacing: -0.025em; text-wrap: balance; display: flex; gap: 18px; align-items: center; }
-.mani-row h3 svg { flex: none; width: clamp(34px, 4vw, 52px); height: clamp(34px, 4vw, 52px); color: var(--c); }
+.mani-row { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 16px 48px; padding-block: 28px; border-bottom: 1px solid var(--line); align-items: center; }
+.mani-row h3 { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(26px, 4vw, 50px); line-height: .95; letter-spacing: -0.025em; text-wrap: balance; display: flex; gap: 18px; align-items: center; }
+.mani-row h3 svg { flex: none; width: clamp(34px, 4vw, 52px); height: clamp(34px, 4vw, 52px); color: var(--c); transition: transform .4s ease; }
+.mani-row:hover h3 svg { transform: rotate(-20deg) scale(1.15); }
 .mani-row p { margin: 0; color: var(--mute); font-size: 17px; max-width: 46ch; }
 @media (max-width: 760px) { .mani-row { grid-template-columns: 1fr; } }
 
+/* picker */
 .picker { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; align-items: stretch; }
 @media (max-width: 860px) { .picker { grid-template-columns: 1fr; } }
 .opts { display: flex; flex-wrap: wrap; gap: 10px; align-content: start; }
 .opt { font: 700 16px/1 var(--body); padding: 16px 20px; border-radius: 999px; border: 2px solid var(--line); background: var(--ink-2); color: var(--paper); cursor: pointer; transition: border-color .15s ease, background .15s ease; }
 .opt:hover { border-color: var(--paper); }
 .opt[aria-pressed="true"] { background: var(--paper); color: var(--ink); border-color: var(--paper); }
-.result { border-radius: var(--r); background: var(--ra, var(--ink-2)); color: var(--rb, var(--paper)); padding: 26px; display: grid; gap: 14px; align-content: start; min-height: 220px; transition: background .25s ease; }
+.result { position: relative; overflow: hidden; border-radius: var(--r); background: var(--ra, var(--ink-2)); color: var(--rb, var(--paper)); padding: 26px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px 20px; align-items: center; min-height: 240px; transition: background .25s ease; }
+.result .txt { display: grid; gap: 12px; align-content: start; }
 .result .eyebrow { color: inherit; opacity: .75; }
-.result h3 { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(32px, 4vw, 48px); line-height: .92; text-transform: uppercase; }
-.result p { margin: 0; max-width: 44ch; }
-.result .btn { background: var(--ink); color: var(--paper); justify-self: start; }
+.result h3 { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(30px, 4vw, 46px); line-height: .92; text-transform: uppercase; }
+.result p { margin: 0; max-width: 40ch; }
+.result .acts { display: flex; gap: 10px; flex-wrap: wrap; }
+.result img { height: 200px; width: auto; filter: drop-shadow(0 16px 16px rgba(0,0,0,.35)); animation: drop .5s cubic-bezier(.2,.9,.3,1.3); }
+@keyframes drop { from { transform: translateY(-40px) rotate(-10deg); opacity: 0; } }
+@media (max-width: 520px) { .result { grid-template-columns: 1fr; } .result img { height: 160px; justify-self: center; } }
 
-.card h3 { font-family: var(--display); font-weight: 400; font-size: clamp(30px, 3.2vw, 40px); line-height: .92; text-transform: uppercase; margin: 0; letter-spacing: -0.02em; color: var(--ink); text-wrap: balance; }
-.card .sub { font-family: var(--serif); font-weight: 700; font-size: 18px; margin: 6px 0 0; color: var(--ink); }
-.card .desc { margin: 0; color: var(--ink); font-size: 15px; }
-.facts { margin: 0; padding: 14px 16px; border-radius: 12px; background: var(--ink); color: var(--paper); display: grid; gap: 7px; font-size: 14px; }
-.facts .row { display: flex; justify-content: space-between; gap: 12px; }
-.facts dt { color: var(--mute); }
-.facts dd { margin: 0; font-variant-numeric: tabular-nums; font-weight: 500; text-align: right; }
-.facts .cap { font-size: 12px; color: var(--mute); border-top: 1px solid var(--line); padding-top: 8px; margin-top: 2px; letter-spacing: .02em; }
-.card .foot { margin-top: auto; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: space-between; }
-.card .btn-buy { background: var(--ink); color: var(--paper); }
-.card .btn-buy:hover { background: var(--paper); color: var(--ink); }
-.card .meta { color: var(--ink); font: 500 13px/1.2 var(--body); }
+/* shelf talk */
+.talk { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 16px; }
+@media (max-width: 860px) { .talk { grid-template-columns: 1fr; } }
+.qs { display: grid; gap: 10px; align-content: start; }
+.qbtn { text-align: left; border: 2px solid var(--line); background: var(--ink-2); border-radius: 18px 18px 18px 4px; padding: 16px 18px; font-weight: 700; font-size: 17px; cursor: pointer; transition: border-color .15s ease, transform .15s ease; }
+.qbtn:hover { border-color: var(--paper); transform: translateX(4px); }
+.qbtn[aria-pressed="true"] { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+.chat { background: var(--ink-2); border: 1px solid var(--line); border-radius: var(--r); padding: 20px; display: grid; gap: 12px; align-content: end; min-height: 320px; }
+.bubble { max-width: 88%; padding: 14px 16px; border-radius: 18px; animation: rise .3s ease; }
+.bubble.me { justify-self: end; background: var(--paper); color: var(--ink); border-radius: 18px 18px 4px 18px; font-weight: 700; }
+.bubble.us { justify-self: start; background: var(--ink-3); border-radius: 18px 18px 18px 4px; }
+.bubble.us .who { font-family: var(--display); font-size: 12px; color: var(--pop); display: block; margin-bottom: 4px; }
+@keyframes rise { from { transform: translateY(10px); opacity: 0; } }
+.chat .empty { color: var(--mute); margin: 0; }
 
-.faq { display: grid; gap: 10px; max-width: 860px; }
-.faq details { border: 1px solid var(--line); border-radius: 14px; background: var(--ink-2); }
-.faq summary { list-style: none; cursor: pointer; padding: 20px 22px; font-weight: 700; font-size: 18px; display: flex; justify-content: space-between; gap: 16px; align-items: center; }
-.faq summary::-webkit-details-marker { display: none; }
-.faq summary::after { content: "+"; font-family: var(--display); font-size: 26px; line-height: 1; color: var(--pop); transition: transform .2s ease; }
-.faq details[open] summary::after { transform: rotate(45deg); }
-.faq .ans { padding: 0 22px 20px; color: var(--mute); max-width: 68ch; }
-
+/* final */
 .final { background: var(--pop); color: var(--ink); border-radius: 28px; padding: clamp(32px, 6vw, 72px); display: grid; gap: 22px; position: relative; overflow: hidden; }
 .final h2 { font-family: var(--display); font-weight: 400; font-size: clamp(40px, 8vw, 104px); line-height: .88; margin: 0; letter-spacing: -0.035em; max-width: 12ch; position: relative; z-index: 1; }
 .final p { margin: 0; max-width: 46ch; font-size: 18px; position: relative; z-index: 1; }
-.final .btn { background: var(--ink); color: var(--paper); justify-self: start; position: relative; z-index: 1; }
+.final .btn { justify-self: start; position: relative; z-index: 1; }
 .final .big-shape { position: absolute; right: -60px; top: -40px; width: min(420px, 60vw); height: min(420px, 60vw); color: var(--ink); opacity: .1; }
+.dont { position: absolute; right: clamp(20px, 6vw, 80px); bottom: clamp(20px, 5vw, 60px); z-index: 2; width: 150px; height: 150px; border-radius: 50%; border: 0; cursor: pointer; background: #ff0a6e; color: var(--paper); font: 400 20px/1 var(--display); transform: rotate(-12deg); box-shadow: 0 10px 0 rgba(0,0,0,.25); transition: transform .2s ease; }
+.dont:hover { transform: rotate(-4deg) scale(1.06); }
+.dont.done { background: var(--ink); color: var(--pop); font-size: 15px; line-height: 1.15; padding: 14px; transform: rotate(6deg); }
+@media (max-width: 620px) { .dont { position: relative; right: auto; bottom: auto; justify-self: end; width: 120px; height: 120px; font-size: 16px; } }
+.burst { position: fixed; left: 0; top: 0; width: 34px; height: 34px; pointer-events: none; z-index: 50; }
 
 footer { border-top: 1px solid var(--line); padding-block: 40px 56px; color: var(--mute); font-size: 14px; }
 .foot-grid { display: flex; justify-content: space-between; gap: 28px; flex-wrap: wrap; align-items: start; }
@@ -147,6 +235,11 @@ footer { border-top: 1px solid var(--line); padding-block: 40px 56px; color: var
 .foot-links a:hover { color: var(--paper); }
 .legal { margin-top: 28px; max-width: 70ch; font-size: 13px; }
 .legal strong { color: var(--paper); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+}
 </style>
 </head>
 <body>
@@ -158,8 +251,10 @@ footer { border-top: 1px solid var(--line); padding-block: 40px 56px; color: var
     <symbol id="s-bolt" viewBox="0 0 100 100"><path fill="currentColor" d="M38 2h40L60 40h28L30 98l12-44H14z"/></symbol>
     <symbol id="s-drop" viewBox="0 0 100 100"><path fill="currentColor" d="M50 2C34 26 14 46 14 64a36 36 0 0072 0C86 46 66 26 50 2z"/></symbol>
     <symbol id="s-crown" viewBox="0 0 100 100"><path fill="currentColor" d="M6 92V26l20 22L50 8l24 40 20-22v66z"/></symbol>
+    <symbol id="s-shield" viewBox="0 0 100 100"><path fill="currentColor" d="M50 2l42 14v30c0 26-18 44-42 52C26 90 8 72 8 46V16z"/></symbol>
     <symbol id="s-bone" viewBox="0 0 100 100"><path fill="currentColor" d="M30 6c10 0 16 8 20 8s10-8 20-8c13 0 20 10 20 20 0 12-12 16-12 24s12 12 12 24c0 10-7 20-20 20-10 0-16-8-20-8s-10 8-20 8C17 94 10 84 10 74c0-12 12-16 12-24S10 38 10 26C10 16 17 6 30 6z"/></symbol>
     <symbol id="s-dumb" viewBox="0 0 100 100"><path fill="currentColor" d="M6 30h18v-8h12v20h28V22h12v8h18v40H76v8H64V58H36v20H24v-8H6z"/></symbol>
+    <symbol id="s-tap" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 11V5a2 2 0 014 0v6m0-2a2 2 0 014 0v3m-4-3v2m4 0a2 2 0 014 0v4a6 6 0 01-6 6h-2a6 6 0 01-5-3l-3-5a2 2 0 013-2l2 2"/></symbol>
   </defs>
 </svg>
 
@@ -168,9 +263,9 @@ footer { border-top: 1px solid var(--line); padding-block: 40px 56px; color: var
     <a class="logo" href="#top" aria-label="Oh My Bud, на главную"><span class="sm">oh</span> MY BUD!</a>
     <nav aria-label="Разделы">
       <a href="#line">Линейка</a>
-      <a href="#why">Почему мы</a>
+      <a href="#miracles">Чудес не завезли</a>
       <a href="#pick">Подбор</a>
-      <a href="#faq">Вопросы</a>
+      <a href="#talk">Вопросы</a>
     </nav>
     <a class="btn btn-pop" href="https://kaspi.kz/shop/search/?text=%D0%B1%D0%B0%D0%B4" target="_blank" rel="noopener"><span class="k">K</span>Мы на Kaspi</a>
   </div>
@@ -178,37 +273,25 @@ footer { border-top: 1px solid var(--line); padding-block: 40px 56px; color: var
 
 <main id="top">
   <div class="hero">
-    <div class="stickers" aria-hidden="true">
-      <div class="stk" style="--s:clamp(70px,13vw,190px);--c:#a54bff;--rot:-12deg;right:4%;top:6%;"><svg><use href="#s-heart"/></svg></div>
-      <div class="stk" style="--s:clamp(56px,9vw,130px);--c:#ff0a6e;--rot:10deg;right:26%;top:2%;--d:-2s"><svg><use href="#s-bolt"/></svg></div>
-      <div class="stk" style="--s:clamp(60px,10vw,150px);--c:#3d3bff;--rot:8deg;right:10%;top:44%;--d:-1s"><svg><use href="#s-star"/></svg></div>
-      <div class="stk" style="--s:clamp(48px,7vw,104px);--c:#5fe34a;--rot:-6deg;right:33%;top:52%;--d:-3s"><svg><use href="#s-drop"/></svg></div>
-      <div class="stk" style="--s:clamp(50px,7vw,110px);--c:#ff2a1a;--rot:14deg;right:1%;top:76%;--d:-4s"><svg><use href="#s-crown"/></svg></div>
-    </div>
     <div class="wrap">
       <div class="eyebrow">Витамины и БАДы · Казахстан</div>
       <h1>oh MY<span class="row2">BUD<span class="bang">!</span></span></h1>
       <div class="thesis">
-        <p>Рациональные покупки делают <em>эмоционально.</em> Мы сделали витамины, которые хочется взять с полки, и указали состав так, чтобы его можно было прочитать.</p>
+        <p>Рациональные покупки делают <em>эмоционально.</em> Возьми банку в руки: каждую можно открыть и заглянуть под этикетку.</p>
         <div class="cta-row">
           <a class="btn btn-pop" href="#line">Смотреть линейку</a>
           <a class="btn btn-ghost" href="https://kaspi.kz/shop/search/?text=%D0%B2%D0%B8%D1%82%D0%B0%D0%BC%D0%B8%D0%BD%D1%8B" target="_blank" rel="noopener">Купить на Kaspi</a>
         </div>
       </div>
-      <div class="shelf" aria-label="Линейка Oh My Bud">
-        <a class="jar" data-p="gluco" href="#p-gluco" aria-label="Glucosamine Chondroitin MSM"><img src="assets/gluco.webp" alt=""></a>
-        <a class="jar" data-p="collagen" href="#p-collagen" aria-label="Complex Marine Collagen"><img src="assets/collagen.webp" alt=""></a>
-        <a class="jar" data-p="zma" href="#p-zma" aria-label="ZMA"><img src="assets/zma.webp" alt=""></a>
-        <a class="jar" data-p="calcium" href="#p-calcium" aria-label="Calcium Zinc Magnesium D3 B6"><img src="assets/calcium.webp" alt=""></a>
-        <a class="jar" data-p="creatine" href="#p-creatine" aria-label="Creatine monohydrate"><img src="assets/creatine.webp" alt=""></a>
-      </div>
+      <div class="shelf" id="shelf"></div>
+      <p class="hint"><svg aria-hidden="true"><use href="#s-tap"/></svg>Нажми на банку</p>
     </div>
   </div>
 
   <div class="tape" aria-hidden="true">
     <div class="tape-in">
-      <span>ZMA <svg style="color:#a54bff"><use href="#s-heart"/></svg> MARINE COLLAGEN <svg style="color:#3d3bff"><use href="#s-drop"/></svg> CALCIUM D3 <svg style="color:#ff0a6e"><use href="#s-bolt"/></svg> GLUCOSAMINE <svg style="color:#5fe34a"><use href="#s-bone"/></svg> CREATINE <svg style="color:#ff2a1a"><use href="#s-dumb"/></svg></span>
-      <span>ZMA <svg style="color:#a54bff"><use href="#s-heart"/></svg> MARINE COLLAGEN <svg style="color:#3d3bff"><use href="#s-drop"/></svg> CALCIUM D3 <svg style="color:#ff0a6e"><use href="#s-bolt"/></svg> GLUCOSAMINE <svg style="color:#5fe34a"><use href="#s-bone"/></svg> CREATINE <svg style="color:#ff2a1a"><use href="#s-dumb"/></svg></span>
+      <span>ZMA <svg style="color:#a54bff"><use href="#s-shield"/></svg> MARINE COLLAGEN <svg style="color:#3d3bff"><use href="#s-drop"/></svg> CALCIUM D3 <svg style="color:#ff0a6e"><use href="#s-bolt"/></svg> GLUCOSAMINE <svg style="color:#5fe34a"><use href="#s-star"/></svg> CREATINE <svg style="color:#ff2a1a"><use href="#s-dumb"/></svg></span>
+      <span>ZMA <svg style="color:#a54bff"><use href="#s-shield"/></svg> MARINE COLLAGEN <svg style="color:#3d3bff"><use href="#s-drop"/></svg> CALCIUM D3 <svg style="color:#ff0a6e"><use href="#s-bolt"/></svg> GLUCOSAMINE <svg style="color:#5fe34a"><use href="#s-star"/></svg> CREATINE <svg style="color:#ff2a1a"><use href="#s-dumb"/></svg></span>
     </div>
   </div>
 
@@ -219,113 +302,22 @@ footer { border-top: 1px solid var(--line); padding-block: 40px 56px; color: var
           <div class="eyebrow">Линейка · 5 продуктов</div>
           <h2>Пять банок.<br>Пять цветов.</h2>
         </div>
-        <p>У каждого продукта свой цвет, чтобы на полке и в ленте Kaspi вы находили своё за секунду. Дозировки взяты прямо с этикеток.</p>
+        <p>У каждого продукта свой цвет и своя фигура. Нажми на банку, чтобы открыть её и посмотреть, что внутри.</p>
       </div>
+      <div class="grid" id="grid"></div>
+    </div>
+  </section>
 
-      <div class="grid">
-        <article class="card" id="p-zma" style="--a:#a54bff;--b:#d6f21c">
-          <svg class="bg-shape" aria-hidden="true"><use href="#s-heart"/></svg>
-          <div class="top"><span class="tag">120 капсул</span><span class="meta">620 мг</span></div>
-          <div class="stage"><div class="jar" data-p="zma"><img src="assets/zma.webp" alt="Банка Oh My Bud ZMA" loading="lazy"></div></div>
-          <div>
-            <h3>ZMA</h3>
-            <p class="sub">Zinc, magnesium, aspartic acid</p>
-          </div>
-          <p class="desc">Магний и цинк в хорошо усваиваемых формах плюс витамин B6. Для тех, кто много тренируется.</p>
-          <dl class="facts">
-            <div class="row"><dt>Магния бисглицинат</dt><dd>727 мг</dd></div>
-            <div class="row"><dt>Цинка пиколинат</dt><dd>73 мг</dd></div>
-            <div class="row"><dt>Витамин B6</dt><dd>4 мг</dd></div>
-            <div class="row"><dt>Аспарагиновая кислота</dt><dd>40 мг</dd></div>
-            <div class="cap">В 2 капсулах · курс 1 месяц</div>
-          </dl>
-          <div class="foot">
-            <a class="btn btn-buy" href="https://kaspi.kz/shop/search/?text=ZMA" target="_blank" rel="noopener"><span class="k">K</span>Купить на Kaspi</a>
-          </div>
-        </article>
-
-        <article class="card" id="p-collagen" style="--a:#3d3bff;--b:#33e6e0">
-          <svg class="bg-shape" aria-hidden="true"><use href="#s-drop"/></svg>
-          <div class="top"><span class="tag">Капсулы</span><span class="meta" style="color:#fff">720 мг</span></div>
-          <div class="stage"><div class="jar" data-p="collagen"><img src="assets/collagen.webp" alt="Банка Oh My Bud Complex Marine Collagen" loading="lazy"></div></div>
-          <div>
-            <h3 style="color:#fff">Marine Collagen</h3>
-            <p class="sub" style="color:#33e6e0">vitamin C and hyaluronic acid</p>
-          </div>
-          <p class="desc" style="color:#fff">Морской коллаген с витамином C и гиалуроновой кислотой. Две капсулы в день.</p>
-          <dl class="facts">
-            <div class="row"><dt>Гидролизованный рыбный коллаген</dt><dd>1000 мг</dd></div>
-            <div class="row"><dt>Витамин C</dt><dd>150 мг</dd></div>
-            <div class="row"><dt>Гиалуроновая кислота</dt><dd>50 мг</dd></div>
-            <div class="cap">В 2 капсулах · курс 1 месяц</div>
-          </dl>
-          <div class="foot">
-            <a class="btn btn-buy" href="https://kaspi.kz/shop/search/?text=%D0%BC%D0%BE%D1%80%D1%81%D0%BA%D0%BE%D0%B9%20%D0%BA%D0%BE%D0%BB%D0%BB%D0%B0%D0%B3%D0%B5%D0%BD" target="_blank" rel="noopener"><span class="k">K</span>Купить на Kaspi</a>
-          </div>
-        </article>
-
-        <article class="card" id="p-calcium" style="--a:#ff0a6e;--b:#ffe100">
-          <svg class="bg-shape" aria-hidden="true"><use href="#s-bolt"/></svg>
-          <div class="top"><span class="tag">Капсулы</span><span class="meta">650 мг</span></div>
-          <div class="stage"><div class="jar" data-p="calcium"><img src="assets/calcium.webp" alt="Банка Oh My Bud Calcium Zinc Magnesium D3 B6" loading="lazy"></div></div>
-          <div>
-            <h3>Calcium Zinc Magnesium</h3>
-            <p class="sub">+ витамины D3 и B6</p>
-          </div>
-          <p class="desc">Кальций, магний и цинк в цитратной форме вместе с витаминами D3 и B6.</p>
-          <dl class="facts">
-            <div class="row"><dt>Кальций</dt><dd>303 мг</dd></div>
-            <div class="row"><dt>Магний</dt><dd>200 мг</dd></div>
-            <div class="row"><dt>Цинк</dt><dd>30 мг</dd></div>
-            <div class="row"><dt>Витамин B6</dt><dd>15 мг</dd></div>
-            <div class="row"><dt>Витамин D3</dt><dd>1800 МЕ</dd></div>
-            <div class="cap">В 6 капсулах · 2 капсулы 3 раза в день во время еды</div>
-          </dl>
-          <div class="foot">
-            <a class="btn btn-buy" href="https://kaspi.kz/shop/search/?text=%D0%BA%D0%B0%D0%BB%D1%8C%D1%86%D0%B8%D0%B9%20%D0%BC%D0%B0%D0%B3%D0%BD%D0%B8%D0%B9%20%D1%86%D0%B8%D0%BD%D0%BA%20D3" target="_blank" rel="noopener"><span class="k">K</span>Купить на Kaspi</a>
-          </div>
-        </article>
-
-        <article class="card" id="p-gluco" style="--a:#5fe34a;--b:#3d3bff">
-          <svg class="bg-shape" aria-hidden="true"><use href="#s-bone"/></svg>
-          <div class="top"><span class="tag">Капсулы</span><span class="meta">750 мг</span></div>
-          <div class="stage"><div class="jar" data-p="gluco"><img src="assets/gluco.webp" alt="Банка Oh My Bud Glucosamine Chondroitin MSM" loading="lazy"></div></div>
-          <div>
-            <h3>Glucosamine Chondroitin MSM</h3>
-            <p class="sub">три компонента в одной капсуле</p>
-          </div>
-          <p class="desc">Глюкозамин, хондроитин и метилсульфонилметан для тех, кто много двигается.</p>
-          <dl class="facts">
-            <div class="row"><dt>Метилсульфонилметан (МСМ)</dt><dd>1000 мг</dd></div>
-            <div class="row"><dt>Хондроитинсульфат</dt><dd>720 мг</dd></div>
-            <div class="row"><dt>Глюкозамин</dt><dd>600 мг</dd></div>
-            <div class="cap">В суточной порции · курс 1 месяц</div>
-          </dl>
-          <div class="foot">
-            <a class="btn btn-buy" href="https://kaspi.kz/shop/search/?text=%D0%B3%D0%BB%D1%8E%D0%BA%D0%BE%D0%B7%D0%B0%D0%BC%D0%B8%D0%BD%20%D1%85%D0%BE%D0%BD%D0%B4%D1%80%D0%BE%D0%B8%D1%82%D0%B8%D0%BD" target="_blank" rel="noopener"><span class="k">K</span>Купить на Kaspi</a>
-          </div>
-        </article>
-
-        <article class="card" id="p-creatine" style="--a:#ff2a1a;--b:#ffe100">
-          <svg class="bg-shape" aria-hidden="true"><use href="#s-dumb"/></svg>
-          <div class="top"><span class="tag">Порошок</span><span class="meta">5 г в порции</span></div>
-          <div class="stage"><div class="jar" data-p="creatine"><img src="assets/creatine.webp" alt="Банка Oh My Bud Creatine monohydrate" loading="lazy"></div></div>
-          <div>
-            <h3>Creatine</h3>
-            <p class="sub">monohydrate</p>
-          </div>
-          <p class="desc">Чистый креатин моногидрат без добавок. Для питания спортсменов в период интенсивных тренировок.</p>
-          <dl class="facts">
-            <div class="row"><dt>Креатин моногидрат</dt><dd>5,0 г</dd></div>
-            <div class="row"><dt>Углеводы</dt><dd>0 г</dd></div>
-            <div class="row"><dt>Энергетическая ценность</dt><dd>0 ккал</dd></div>
-            <div class="cap">В одной порции 5 г</div>
-          </dl>
-          <div class="foot">
-            <a class="btn btn-buy" href="https://kaspi.kz/shop/search/?text=%D0%BA%D1%80%D0%B5%D0%B0%D1%82%D0%B8%D0%BD%20%D0%BC%D0%BE%D0%BD%D0%BE%D0%B3%D0%B8%D0%B4%D1%80%D0%B0%D1%82" target="_blank" rel="noopener"><span class="k">K</span>Купить на Kaspi</a>
-          </div>
-        </article>
+  <section id="miracles">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <div class="eyebrow">Честно</div>
+          <h2>Чудес не завезли</h2>
+        </div>
+        <p>Нажми на карточку. Бренд-друг умеет вовремя охладить ожидания, это тоже забота.</p>
       </div>
+      <div class="flips" id="flips"></div>
     </div>
   </section>
 
@@ -345,15 +337,11 @@ footer { border-top: 1px solid var(--line); padding-block: 40px 56px; color: var
         </div>
         <div class="mani-row">
           <h3><svg style="--c:#3d3bff" aria-hidden="true"><use href="#s-star"/></svg>Цвет вместо инструкции</h3>
-          <p>У каждого продукта свой цвет и своя фигура. Свою банку находишь за секунду: на полке, в сумке, в ленте Kaspi.</p>
+          <p>Свою банку находишь за секунду: на полке, в сумке, в ленте Kaspi.</p>
         </div>
         <div class="mani-row">
           <h3><svg style="--c:#ff0a6e" aria-hidden="true"><use href="#s-bolt"/></svg>Говорим как люди</h3>
-          <p>Без «уникальных формул» и обещаний вылечить всё сразу. Только что внутри, сколько этого в порции и как принимать.</p>
-        </div>
-        <div class="mani-row">
-          <h3><svg style="--c:#5fe34a" aria-hidden="true"><use href="#s-dumb"/></svg>Под твой ритм</h3>
-          <p>Тренировки, работа допоздна, город без солнца полгода. Линейка собрана вокруг того, как мы живём, а не вокруг аптечной витрины.</p>
+          <p>Пользу объясняем смело, но каждое обещание привязываем к составу и дозировке на банке.</p>
         </div>
       </div>
     </div>
@@ -377,44 +365,30 @@ footer { border-top: 1px solid var(--line); padding-block: 40px 56px; color: var
           <button class="opt" type="button" data-pick="calcium" aria-pressed="false">Мало солнца зимой</button>
         </div>
         <div class="result" id="result" aria-live="polite">
-          <div class="eyebrow">Твоя банка</div>
-          <h3 id="r-name">Выбери вариант слева</h3>
-          <p id="r-text">Покажем продукт из линейки, который подходит под твой ритм, и ссылку на Kaspi.</p>
-          <a class="btn" id="r-btn" href="#line"><span class="k">K</span>Смотреть всю линейку</a>
+          <div class="txt">
+            <div class="eyebrow">Твоя банка</div>
+            <h3 id="r-name">Выбери вариант</h3>
+            <p id="r-text">Покажем продукт, который подходит под твой ритм.</p>
+            <div class="acts" id="r-acts"></div>
+          </div>
+          <div id="r-img"></div>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="faq">
+  <section id="talk">
     <div class="wrap">
       <div class="sec-head">
         <div>
-          <div class="eyebrow">Вопросы</div>
-          <h2>Коротко о главном</h2>
+          <div class="eyebrow">Разговор у полки</div>
+          <h2>Спроси, как спросил бы друга</h2>
         </div>
+        <p>Нажми на вопрос и получи короткий ответ. Без длинных инструкций.</p>
       </div>
-      <div class="faq">
-        <details>
-          <summary>Где купить Oh My Bud?</summary>
-          <div class="ans">В Kaspi Магазине. Нажмите «Купить на Kaspi» под нужным продуктом, и откроется Kaspi. Оформление, оплата и доставка проходят там.</div>
-        </details>
-        <details>
-          <summary>Это лекарство?</summary>
-          <div class="ans">Нет. Все продукты Oh My Bud — биологически активные добавки к пище и не являются лекарственными средствами. Перед применением рекомендуется проконсультироваться с врачом.</div>
-        </details>
-        <details>
-          <summary>Кто производит?</summary>
-          <div class="ans">Продукты выпускает контрактное производство в России по техническим условиям, на каждый продукт есть свидетельство о госрегистрации ЕАЭС. Полные данные производителя указаны на этикетке.</div>
-        </details>
-        <details>
-          <summary>Какие противопоказания?</summary>
-          <div class="ans">Индивидуальная непереносимость компонентов, беременность и кормление грудью. Точный список для каждого продукта напечатан на банке.</div>
-        </details>
-        <details>
-          <summary>Как долго принимать?</summary>
-          <div class="ans">Рекомендуемый курс для капсул — 1 месяц, при необходимости его можно повторить. Схема приёма указана на этикетке каждого продукта.</div>
-        </details>
+      <div class="talk">
+        <div class="qs" id="qs"></div>
+        <div class="chat" id="chat" aria-live="polite"><p class="empty">Выбери вопрос слева.</p></div>
       </div>
     </div>
   </section>
@@ -423,9 +397,10 @@ footer { border-top: 1px solid var(--line); padding-block: 40px 56px; color: var
     <div class="wrap">
       <div class="final">
         <svg class="big-shape" aria-hidden="true"><use href="#s-star"/></svg>
-        <h2>Выберите свою банку</h2>
+        <h2>Выбери свою банку</h2>
         <p>Вся линейка Oh My Bud продаётся в Kaspi Магазине с доставкой по Казахстану.</p>
-        <a class="btn" href="https://kaspi.kz/shop/search/?text=%D0%B2%D0%B8%D1%82%D0%B0%D0%BC%D0%B8%D0%BD%D1%8B" target="_blank" rel="noopener"><span class="k">K</span>Перейти в Kaspi Магазин</a>
+        <a class="btn btn-dark" href="https://kaspi.kz/shop/search/?text=%D0%B2%D0%B8%D1%82%D0%B0%D0%BC%D0%B8%D0%BD%D1%8B" target="_blank" rel="noopener"><span class="k">K</span>Перейти в Kaspi Магазин</a>
+        <button class="dont" id="dont" type="button">НЕ ТРОГАЙ</button>
       </div>
     </div>
   </section>
@@ -437,8 +412,9 @@ footer { border-top: 1px solid var(--line); padding-block: 40px 56px; color: var
       <a class="logo" href="#top"><span class="sm">oh</span> MY BUD!</a>
       <div class="foot-links">
         <a href="#line">Линейка</a>
-        <a href="#why">Почему мы</a>
-        <a href="#faq">Вопросы</a>
+        <a href="#miracles">Чудес не завезли</a>
+        <a href="#pick">Подбор</a>
+        <a href="#talk">Вопросы</a>
         <a href="https://kaspi.kz/shop/search/?text=%D0%B2%D0%B8%D1%82%D0%B0%D0%BC%D0%B8%D0%BD%D1%8B" target="_blank" rel="noopener">Kaspi Магазин</a>
       </div>
     </div>
@@ -446,27 +422,232 @@ footer { border-top: 1px solid var(--line); padding-block: 40px 56px; color: var
   </div>
 </footer>
 
+<dialog class="sheet" id="sheet" aria-labelledby="s-title">
+  <button class="close" type="button" id="s-close" aria-label="Закрыть">×</button>
+  <div class="sheet-in" id="sheet-in"></div>
+</dialog>
+
 <script>
+const SHAPES = { zma: "shield", collagen: "drop", calcium: "bolt", gluco: "star", creatine: "dumb" };
 const P = {
-  zma:      { a:"#a54bff", title:"ZMA", text:"Магний, цинк и B6 в одной капсуле. Две в день, курс месяц.", q:"ZMA" },
-  collagen: { a:"#3d3bff", title:"Marine Collagen", text:"Морской коллаген с витамином C и гиалуроновой кислотой.", q:"морской коллаген" },
-  calcium:  { a:"#ff0a6e", title:"Calcium D3", text:"Кальций, магний, цинк и 1800 МЕ витамина D3 в суточной порции.", q:"кальций магний цинк D3" },
-  gluco:    { a:"#5fe34a", title:"Glucosamine", text:"Глюкозамин, хондроитин и МСМ для тех, кто много двигается.", q:"глюкозамин хондроитин" },
-  creatine: { a:"#ff2a1a", title:"Creatine", text:"Чистый креатин моногидрат, 5 г в порции.", q:"креатин моногидрат" }
+  zma: {
+    name: "ZMA", sub: "Zinc, magnesium, aspartic acid", a: "#a54bff", fg: "#0a0a0b", sub2: "#0a0a0b", dose: "620 мг", rot: -8,
+    q: "ZMA", short: "Тренируюсь и мало сплю",
+    desc: "Магний и цинк в хорошо усваиваемых формах плюс витамин B6.",
+    ten: "Магний, цинк и B6 в одной капсуле. Две в день, банки хватает на 60 дней.",
+    norm: "ZMA обычно берут те, кто много тренируется: с потом и нагрузкой уходят минералы. Магний участвует в работе мышц и нервной системы, цинк в обмене белков, B6 помогает им работать вместе.",
+    serving: "2 капсулы в день · 120 капсул в банке · курс 1 месяц",
+    sgr: "СГР AM.01.20.01.003.R.000882.11.25",
+    ings: [
+      ["Магния бисглицинат", "727 мг", "Магний в хелатной форме, её выбирают за мягкость для желудка. Участвует в работе мышц и нервной системы.", "36% суточной нормы магния."],
+      ["Цинка пиколинат", "73 мг", "Цинк в форме пиколината. Нужен для обмена белков и работы иммунной системы.", "121% суточной нормы, не превышает верхний допустимый уровень."],
+      ["Витамин B6", "4 мг", "Участвует в обмене белков и помогает магнию усваиваться.", "200% суточной нормы, не превышает верхний допустимый уровень."],
+      ["Аспарагиновая кислота", "40 мг", "Аминокислота, классический компонент формулы ZMA.", "Небольшая дозировка, норма потребления не установлена."]
+    ]
+  },
+  collagen: {
+    name: "Complex Marine Collagen", sub: "vitamin C and hyaluronic acid", a: "#3d3bff", fg: "#ffffff", sub2: "#33e6e0", dose: "720 мг", rot: 6,
+    q: "морской коллаген", short: "Слежу за кожей",
+    desc: "Морской коллаген с витамином C и гиалуроновой кислотой.",
+    ten: "Морской коллаген плюс витамин C, который нужен организму, чтобы строить свой собственный.",
+    norm: "Коллаген — белок, из которого строятся кожа, связки и хрящи. Витамин C нужен для его синтеза, гиалуроновая кислота удерживает влагу в тканях. Две капсулы в день.",
+    serving: "2 капсулы в день · курс 1 месяц",
+    sgr: "СГР AM.01.20.01.003.R.000881.11.25",
+    ings: [
+      ["Рыбный коллаген", "1000 мг", "Гидролизованный коллаген из рыбы: белок, расщеплённый на короткие пептиды.", "Суточная норма для коллагена не установлена."],
+      ["Витамин C", "150 мг", "Без витамина C организм не может синтезировать коллаген. Ещё он антиоксидант.", "250% суточной нормы, не превышает верхний допустимый уровень."],
+      ["Гиалуроновая кислота", "50 мг", "Вещество, которое удерживает воду в тканях кожи и суставов.", "100% адекватного уровня потребления."]
+    ]
+  },
+  calcium: {
+    name: "Calcium Zinc Magnesium D3 B6", sub: "+ витамины D3 и B6", a: "#ff0a6e", fg: "#0a0a0b", sub2: "#0a0a0b", dose: "650 мг", rot: -6,
+    q: "кальций магний цинк D3", short: "Мало солнца зимой",
+    desc: "Кальций, магний и цинк в цитратной форме вместе с витаминами D3 и B6.",
+    ten: "Кальций с витамином D3: второй помогает первому усвоиться. Особенно актуально, когда солнца мало.",
+    norm: "Кальций — основной минерал костей и зубов. Витамин D3 помогает ему усваиваться, а зимой кожа вырабатывает D3 меньше. Магний, цинк и B6 дополняют формулу.",
+    serving: "6 капсул в день: по 2 капсулы 3 раза во время еды · курс 1 месяц",
+    sgr: "СГР АМ.01.11.01.003.R.000409.10.23",
+    ings: [
+      ["Кальций", "303 мг", "Основной минерал костей и зубов, здесь в цитратной форме.", "30% суточной нормы."],
+      ["Магний", "200 мг", "Участвует в работе мышц и нервной системы.", "50% суточной нормы."],
+      ["Цинк", "30 мг", "Нужен для обмена белков и работы иммунной системы.", "200% суточной нормы."],
+      ["Витамин B6", "15 мг", "Участвует в обмене белков.", "750% суточной нормы."],
+      ["Витамин D3", "1800 МЕ", "Помогает кальцию усваиваться. Зимой и в пасмурные месяцы его вырабатывается меньше.", "45 мкг, 900% суточной нормы."]
+    ]
+  },
+  gluco: {
+    name: "Glucosamine Chondroitin MSM", sub: "три компонента в одной капсуле", a: "#5fe34a", fg: "#0a0a0b", sub2: "#3d3bff", dose: "750 мг", rot: 10,
+    q: "глюкозамин хондроитин", short: "Бегаю и много хожу",
+    desc: "Глюкозамин, хондроитин и метилсульфонилметан для тех, кто много двигается.",
+    ten: "Три компонента хрящевой ткани в одной капсуле для тех, кто много двигается.",
+    norm: "Глюкозамин и хондроитин — естественные компоненты хряща и суставной жидкости, МСМ — источник органической серы. Эту связку обычно берут бегуны и все, кто много на ногах.",
+    serving: "Суточная порция по этикетке · курс 1 месяц",
+    sgr: "СГР AM.01.04.01.003.R.000202.09.23",
+    ings: [
+      ["Метилсульфонилметан (МСМ)", "1000 мг", "Органическое соединение серы, сера входит в состав соединительной ткани.", "Норма потребления не установлена."],
+      ["Хондроитинсульфат", "720 мг", "Компонент хрящевой ткани.", "120% адекватного уровня потребления."],
+      ["Глюкозамин", "600 мг", "Строительный блок для хряща и синовиальной жидкости.", "86% адекватного уровня потребления."]
+    ]
+  },
+  creatine: {
+    name: "Creatine", sub: "monohydrate", a: "#ff2a1a", fg: "#0a0a0b", sub2: "#0a0a0b", dose: "5 г в порции", rot: 8,
+    q: "креатин моногидрат", short: "Качаюсь в зале",
+    desc: "Чистый креатин моногидрат без добавок.",
+    ten: "Ходишь в зал и работаешь с весами? Креатин помогает в коротких мощных подходах. Тренировку всё равно делаем сами.",
+    norm: "Креатин — самая изученная спортивная добавка. Исследования показывают пользу при повторных коротких интенсивных нагрузках: подходы со штангой, спринты. Эффект у всех разный и проявляется только вместе с тренировками.",
+    serving: "5 г в порции · порошок",
+    sgr: "СГР AM.01.01.01.007.R.000515.04.26",
+    ings: [
+      ["Креатин моногидрат", "5 г", "Вещество, которое мышцы используют как быстрый запас энергии в коротких мощных усилиях.", "150% адекватного уровня, не превышает верхний допустимый уровень."]
+    ]
+  }
 };
+const ORDER = ["gluco", "collagen", "zma", "calcium", "creatine"];
 const kaspi = q => "https://kaspi.kz/shop/search/?text=" + encodeURIComponent(q);
+const img = id => "assets/" + id + ".webp";
+const use = id => '<svg aria-hidden="true"><use href="#s-' + id + '"/></svg>';
+const kBtn = (p, cls, text) => '<a class="btn ' + cls + '" href="' + kaspi(p.q) + '" target="_blank" rel="noopener"><span class="k">K</span>' + (text || "Купить на Kaspi") + '</a>';
+
+// shelf
+document.getElementById("shelf").innerHTML = ORDER.map(id => {
+  const p = P[id];
+  return '<button class="slot" type="button" data-open="' + id + '" data-p="' + id + '" style="--c:' + p.a + ';--rot:' + p.rot + 'deg" aria-label="Открыть ' + p.name + '">' +
+    '<span class="shape">' + use(SHAPES[id]) + '</span><img src="' + img(id) + '" alt=""><span class="lbl">' + p.name.split(" ")[0] + '</span></button>';
+}).join("");
+
+// cards
+document.getElementById("grid").innerHTML = ["zma", "collagen", "calcium", "gluco", "creatine"].map(id => {
+  const p = P[id];
+  return '<article class="card" id="p-' + id + '" style="--a:' + p.a + ';--fg:' + p.fg + ';--sub:' + p.sub2 + '">' +
+    '<div class="top"><span class="tag">' + p.dose + '</span><button class="open" type="button" data-open="' + id + '">Открыть банку →</button></div>' +
+    '<button class="stage" type="button" data-open="' + id + '" aria-label="Открыть ' + p.name + '"><span class="shape">' + use(SHAPES[id]) + '</span><img src="' + img(id) + '" alt="Банка Oh My Bud ' + p.name + '" loading="lazy"></button>' +
+    '<div><h3>' + p.name + '</h3><p class="sub">' + p.sub + '</p></div>' +
+    '<p class="desc">' + p.desc + '</p>' +
+    '<div class="foot">' + kBtn(p, "btn-dark") + '</div></article>';
+}).join("");
+
+// product sheet
+const sheet = document.getElementById("sheet");
+const sheetIn = document.getElementById("sheet-in");
+let cur = null;
+function modeBody(p, m) {
+  if (m === "ten") return '<p class="big">' + p.ten + '</p>';
+  if (m === "norm") return '<p>' + p.norm + '</p><p class="small">' + p.serving + '</p>';
+  return '<p class="big">Отлично. Красивой банке верить необязательно. Давай посмотрим, что внутри.</p>' +
+    '<table>' + p.ings.map(i => '<tr><td>' + i[0] + '</td><td>' + i[1] + '</td></tr>').join("") + '</table>' +
+    '<ul><li>' + p.serving + '</li><li>Дозировки и проценты взяты с этикетки, ' + p.sgr + '.</li><li>Это БАД, а не лекарство. Противопоказания: индивидуальная непереносимость компонентов, беременность и кормление грудью.</li></ul>';
+}
+function openSheet(id) {
+  const p = P[id]; cur = id;
+  sheetIn.style.setProperty("--a", p.a);
+  sheetIn.innerHTML =
+    '<div class="jarside" id="jarside">' +
+      '<span class="shape">' + use(SHAPES[id]) + '</span>' +
+      '<div class="jarwrap"><img src="' + img(id) + '" alt="Банка Oh My Bud ' + p.name + '"></div>' +
+      '<button class="peel" type="button" id="peel" aria-label="Снять этикетку и посмотреть состав"></button>' +
+      '<span class="peel-label">Сними этикетку</span>' +
+      '<div class="under" id="under"><h4>Под этикеткой</h4><p class="note">Любишь докапываться до состава? Мы тоже.</p>' +
+        p.ings.map((i, n) => '<button class="ing" type="button" aria-expanded="false" data-ing="' + n + '"><span>' + i[0] + '</span><span class="dose">' + i[1] + '</span></button>' +
+          '<div class="ing-x" hidden id="ingx-' + n + '"><span><b>Зачем здесь:</b> ' + i[2] + '</span><span><b>Сколько:</b> ' + i[1] + ' в суточной порции. ' + i[3] + '</span><span class="src">Основано на составе с этикетки и ' + p.sgr + '.</span></div>').join("") +
+        '<button class="back" type="button" id="back">Вернуть этикетку</button></div>' +
+    '</div>' +
+    '<div class="info"><h3 id="s-title">' + p.name + '</h3><p class="sub">' + p.sub + '</p>' +
+      '<div class="modes" role="tablist" aria-label="Как рассказать">' +
+        '<button class="mode" role="tab" type="button" data-mode="ten" aria-selected="true">У меня 10 секунд</button>' +
+        '<button class="mode" role="tab" type="button" data-mode="norm" aria-selected="false">Объясни нормально</button>' +
+        '<button class="mode" role="tab" type="button" data-mode="skep" aria-selected="false">Я скептик</button>' +
+      '</div>' +
+      '<div class="mode-body" id="mode-body" role="tabpanel">' + modeBody(p, "ten") + '</div>' +
+      '<div class="sheet-cta">' + kBtn(p, "btn-pop", "Понял, покажи на Kaspi") + '<button class="btn btn-ghost" type="button" id="more">Хочу разобраться подробнее</button></div>' +
+    '</div>';
+  if (!sheet.open) sheet.showModal();
+}
+function setMode(m) {
+  sheetIn.querySelectorAll(".mode").forEach(b => b.setAttribute("aria-selected", b.dataset.mode === m ? "true" : "false"));
+  document.getElementById("mode-body").innerHTML = modeBody(P[cur], m);
+}
+sheetIn.addEventListener("click", e => {
+  const t = e.target.closest("button"); if (!t) return;
+  if (t.dataset.mode) setMode(t.dataset.mode);
+  if (t.id === "more") { setMode("skep"); document.getElementById("jarside").classList.add("peeled"); }
+  if (t.id === "peel") document.getElementById("jarside").classList.add("peeled");
+  if (t.id === "back") document.getElementById("jarside").classList.remove("peeled");
+  if (t.dataset.ing !== undefined) {
+    const x = document.getElementById("ingx-" + t.dataset.ing); const open = x.hidden;
+    x.hidden = !open; t.setAttribute("aria-expanded", open ? "true" : "false");
+  }
+});
+document.getElementById("s-close").addEventListener("click", () => sheet.close());
+sheet.addEventListener("click", e => { if (e.target === sheet) sheet.close(); });
+document.addEventListener("click", e => {
+  const t = e.target.closest("[data-open]"); if (t && !sheet.contains(t)) openSheet(t.dataset.open);
+});
+
+// flip cards
+const FLIPS = [
+  ["Бицепс к пятнице?", "dumb", "#ff2a1a", "Нет.", "Креатин и ZMA работают только вместе с тренировками, сном и едой. Банка не тренируется за тебя."],
+  ["Больше ингредиентов — лучше?", "star", "#5fe34a", "Не всегда.", "В креатине один компонент, в ZMA четыре. Каждый ингредиент в банке, потому что у него есть задача и дозировка, а не ради длинного списка."],
+  ["Самая дорогая банка — самая полезная?", "bolt", "#ff0a6e", "Считай порцию.", "Сравнивай дозировку и цену одной порции, а не ценник банки. Мы пишем дозировки крупно, чтобы было с чем сравнить."],
+  ["Витамины вместо еды?", "drop", "#3d3bff", "Нет.", "Добавка дополняет рацион, а не заменяет его. Так и написано на каждой банке: БАД к пище."]
+];
+document.getElementById("flips").innerHTML = FLIPS.map(f =>
+  '<button class="flip" type="button" aria-pressed="false" style="--c:' + f[2] + '"><span class="flip-in">' +
+  '<span class="face front">' + use(f[1]) + '<span class="q">' + f[0] + '</span><span class="turn">Нажми, чтобы узнать ↻</span></span>' +
+  '<span class="face back"><span class="a-title">' + f[3] + '</span><p>' + f[4] + '</p></span></span></button>').join("");
+document.getElementById("flips").addEventListener("click", e => {
+  const f = e.target.closest(".flip"); if (f) f.setAttribute("aria-pressed", f.getAttribute("aria-pressed") === "true" ? "false" : "true");
+});
+
+// picker
 const res = document.getElementById("result");
 document.querySelectorAll(".opt").forEach(b => b.addEventListener("click", () => {
   document.querySelectorAll(".opt").forEach(o => o.setAttribute("aria-pressed", o === b ? "true" : "false"));
-  const p = P[b.dataset.pick];
+  const id = b.dataset.pick, p = P[id];
   res.style.setProperty("--ra", p.a);
-  res.style.setProperty("--rb", b.dataset.pick === "collagen" ? "#ffffff" : "#0a0a0b");
-  document.getElementById("r-name").textContent = p.title;
-  document.getElementById("r-text").textContent = p.text;
-  const btn = document.getElementById("r-btn");
-  btn.href = kaspi(p.q); btn.target = "_blank"; btn.rel = "noopener";
-  btn.innerHTML = '<span class="k">K</span>Купить на Kaspi';
+  res.style.setProperty("--rb", p.fg);
+  document.getElementById("r-name").textContent = p.name;
+  document.getElementById("r-text").textContent = p.ten;
+  document.getElementById("r-acts").innerHTML = '<button class="btn btn-dark" type="button" data-open="' + id + '">Открыть банку</button>' + kBtn(p, "btn-ghost");
+  document.getElementById("r-img").innerHTML = '<img src="' + img(id) + '" alt="">';
 }));
+
+// shelf talk
+const QS = [
+  ["За что я здесь плачу?", "За дозировку, которую видно, и банку, которую не стыдно поставить на стол. Состав и проценты от суточной нормы есть на банке и на этой странице."],
+  ["На сколько хватит банки?", "ZMA: 120 капсул по 2 в день — это 60 дней. Для остальных смотри суточную порцию в карточке продукта: нажми на банку и выбери «Объясни нормально»."],
+  ["Чем ZMA отличается от Calcium?", "ZMA — магний и цинк в высоких дозах плюс B6, его берут те, кто тренируется. Calcium D3 — кальций с витамином D3 и минералами, его чаще берут в тёмные месяцы."],
+  ["Можно пить несколько банок сразу?", "Некоторые продукты пересекаются: цинк и магний есть и в ZMA, и в Calcium. Если берёшь несколько, сложи дозировки и посоветуйся с врачом."],
+  ["Это лекарство?", "Нет. Все продукты Oh My Bud — биологически активные добавки к пище. Перед применением лучше проконсультироваться с врачом."],
+  ["Где купить?", "В Kaspi Магазине. Нажми «Купить на Kaspi» у нужного продукта: оплата, рассрочка и доставка проходят там."]
+];
+const chat = document.getElementById("chat");
+document.getElementById("qs").innerHTML = QS.map((q, i) => '<button class="qbtn" type="button" aria-pressed="false" data-q="' + i + '">' + q[0] + '</button>').join("");
+document.getElementById("qs").addEventListener("click", e => {
+  const b = e.target.closest(".qbtn"); if (!b) return;
+  document.querySelectorAll(".qbtn").forEach(x => x.setAttribute("aria-pressed", x === b ? "true" : "false"));
+  const q = QS[b.dataset.q];
+  chat.innerHTML = '<div class="bubble me">' + q[0] + '</div>';
+  setTimeout(() => { chat.insertAdjacentHTML("beforeend", '<div class="bubble us"><span class="who">oh MY BUD!</span>' + q[1] + '</div>'); }, 350);
+});
+
+// easter egg
+const dont = document.getElementById("dont");
+dont.addEventListener("click", e => {
+  if (!dont.classList.contains("done")) { dont.classList.add("done"); dont.textContent = "Мы бы тоже нажали."; }
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches; if (reduce) return;
+  const ids = ["heart", "star", "bolt", "drop", "crown", "dumb"], cols = ["#a54bff", "#3d3bff", "#ff0a6e", "#5fe34a", "#ff2a1a", "#d6f21c"];
+  for (let i = 0; i < 18; i++) {
+    const s = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    s.setAttribute("class", "burst"); s.style.color = cols[i % 6];
+    s.innerHTML = '<use href="#s-' + ids[i % 6] + '"/>';
+    document.body.appendChild(s);
+    const a = Math.random() * Math.PI * 2, d = 120 + Math.random() * 220;
+    s.animate([
+      { transform: "translate(" + e.clientX + "px," + e.clientY + "px) scale(.4) rotate(0)", opacity: 1 },
+      { transform: "translate(" + (e.clientX + Math.cos(a) * d) + "px," + (e.clientY + Math.sin(a) * d) + "px) scale(1) rotate(" + (Math.random() * 360) + "deg)", opacity: 0 }
+    ], { duration: 900 + Math.random() * 400, easing: "cubic-bezier(.2,.8,.3,1)" }).onfinish = () => s.remove();
+  }
+});
 </script>
 </body>
 </html>

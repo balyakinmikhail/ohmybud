@@ -1065,8 +1065,8 @@ sheetIn.addEventListener("click", e => {
     card.innerHTML = '<div class="qprog">' + Q.map((_, i) => '<i class="' + (i <= step ? "on" : "") + '"></i>').join("") + '</div><div class="eyebrow">Вопрос ' + (step + 1) + ' из ' + Q.length + '</div><h3>' + q + '</h3><div class="qopts">' + opts.map((o, i) => '<button class="qopt" type="button" data-i="' + i + '">' + o[0] + '</button>').join("") + '</div>';
   }
   card.addEventListener("click", e => {
-    const b = e.target.closest(".qopt"); if (b) { Object.entries(Q[step][1][b.dataset.i][1]).forEach(([k, v]) => score[k] = (score[k] || 0) + v); step++; show(); }
-    if (e.target.closest("#q-again")) { step = 0; score = {}; story.innerHTML = '<p class="ph">Здесь появится твоя карточка</p>'; acts.innerHTML = ""; show(); }
+    if (e.target.closest("#q-again")) { step = 0; score = {}; story.innerHTML = '<p class="ph">Здесь появится твоя карточка</p>'; acts.innerHTML = ""; show(); return; }
+    const b = e.target.closest(".qopt[data-i]"); if (b && step < Q.length) { Object.entries(Q[step][1][b.dataset.i][1]).forEach(([k, v]) => score[k] = (score[k] || 0) + v); step++; show(); }
   });
   async function finish() {
     const id = Object.entries(score).sort((a, b) => b[1] - a[1])[0][0], p = P[id];

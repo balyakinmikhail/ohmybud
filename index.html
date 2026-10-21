@@ -571,32 +571,6 @@ dialog.sheet { overflow-x: hidden; }
     </div>
   </section>
 
-  <section id="stickers">
-    <div class="wrap">
-      <div class="sec-head">
-        <div>
-          <div class="eyebrow">Конструктор</div>
-          <h2>Собери свои обои</h2>
-        </div>
-        <p>Нажимай на фигуры и банки, они появятся на экране справа. Двигай их пальцем или мышкой, потом скачай картинку на телефон.</p>
-      </div>
-      <div class="studio">
-        <div class="tools">
-          <div><h4>Фигуры</h4><div class="shapes" id="st-shapes"></div></div>
-          <div><h4>Банки</h4><div class="shapes" id="st-jars"></div></div>
-          <div><h4>Фон</h4><div class="bgs" id="st-bgs"></div></div>
-          <div class="studio-acts">
-            <button class="btn btn-pop" type="button" id="st-dl">Скачать обои</button>
-            <button class="btn btn-ghost" type="button" id="st-mix">Перемешать</button>
-            <button class="btn btn-ghost" type="button" id="st-undo">Убрать последнее</button>
-          </div>
-          <p class="note">Подсказка: двигай фигуры пальцем, а чтобы повернуть, нажми на фигуру дважды.</p>
-        </div>
-        <div class="canvas-wrap"><canvas id="st-canvas" width="1080" height="1920" aria-label="Твои обои"></canvas></div>
-      </div>
-    </div>
-  </section>
-
   <section id="team">
     <div class="wrap">
       <div class="team">
@@ -1144,7 +1118,7 @@ sheetIn.addEventListener("click", e => {
   function showSecret() {
     fired = true; document.querySelector(".secret")?.remove();
     const d = document.createElement("div"); d.className = "secret"; d.setAttribute("role", "status");
-    d.innerHTML = '<span class="lid" aria-hidden="true"></span><p><b>Ты открутил крышку!</b>Секрет для тех, кто не боится долго жать. Держи конструктор обоев: <a href="#stickers">собрать свои →</a></p><button class="x" type="button" aria-label="Закрыть">×</button>';
+    d.innerHTML = '<span class="lid" aria-hidden="true"></span><p><b>Ты открутил крышку!</b>Секрет для тех, кто не боится долго жать. Раз уж ты такой упорный, узнай, какой ты BUD: <a href="#quiz">пройти квиз →</a></p><button class="x" type="button" aria-label="Закрыть">×</button>';
     document.body.appendChild(d);
     d.querySelector(".x").onclick = () => d.remove(); d.querySelector("a").onclick = () => d.remove();
     setTimeout(() => d.remove(), 9000);

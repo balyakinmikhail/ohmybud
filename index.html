@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Oh My Bud — витамины и БАДы с характером. Покупайте в Kaspi Магазине.">
+<title>Oh My Bud</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Onest:wght@400;500;700&family=STIX+Two+Text:wght@700&display=swap">
+<style>
+:root {
+  color-scheme: dark;
+  --ink: #0a0a0b;
+  --ink-2: #161618;
+  --line: #2b2b30;
+  --paper: #ffffff;
+  --mute: #a3a3ad;
+  --pop: #d6f21c;
+  --display: "Dela Gothic One", "Arial Black", Impact, system-ui, sans-serif;
+  --body: "Onest", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --serif: "STIX Two Text", "Times New Roman", Georgia, serif;
+  --r: 18px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--ink); color: var(--paper); font: 400 16px/1.55 var(--body); overflow-x: hidden; }
+img { max-width: 100%; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--pop); outline-offset: 3px; border-radius: 6px; }
+.wrap { max-width: 1240px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+header { position: sticky; top: 0; z-index: 9; background: color-mix(in srgb, var(--ink) 88%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; }
+.logo { font-family: var(--display); font-size: 22px; letter-spacing: -0.02em; text-decoration: none; white-space: nowrap; line-height: 1; }
+.logo .sm { font-size: .72em; }
+nav { display: flex; gap: 22px; }
+nav a { text-decoration: none; color: var(--mute); font-weight: 500; font-size: 15px; }
+nav a:hover { color: var(--paper); }
+.btn { display: inline-flex; align-items: center; gap: 10px; font: 700 15px/1 var(--body); text-decoration: none; padding: 14px 20px; border-radius: 999px; border: 2px solid transparent; transition: transform .15s ease, background .15s ease; cursor: pointer; white-space: nowrap; }
+.btn:hover { transform: translateY(-2px); }
+.btn-pop { background: var(--pop); color: var(--ink); }
+.btn-ghost { border-color: var(--paper); color: var(--paper); background: transparent; }
+.btn-ghost:hover { background: var(--paper); color: var(--ink); }
+.btn .k { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 6px; background: #f14635; color: #fff; font-size: 13px; font-weight: 700; }
+.bar .btn { padding: 11px 16px; font-size: 14px; }
+@media (max-width: 760px) { nav { display: none; } }
+
+.hero { position: relative; overflow: hidden; padding-block: clamp(48px, 9vw, 110px) clamp(56px, 8vw, 96px); }
+.eyebrow { font: 500 13px/1 var(--body); letter-spacing: .14em; text-transform: uppercase; color: var(--mute); }
+.hero h1 { font-family: var(--display); font-weight: 400; font-size: clamp(54px, 13vw, 176px); line-height: .86; letter-spacing: -0.035em; margin: 18px 0 0; position: relative; z-index: 2; }
+.hero h1 .row2 { display: block; }
+.hero h1 .bang { color: var(--pop); }
+.thesis { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 28px 40px; align-items: end; margin-top: clamp(28px, 4vw, 48px); position: relative; z-index: 2; }
+.thesis p { margin: 0; max-width: 34ch; font-size: clamp(19px, 2.2vw, 26px); line-height: 1.3; text-wrap: balance; }
+.thesis em { font-family: var(--serif); font-style: normal; font-weight: 700; }
+.cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+@media (max-width: 760px) { .thesis { grid-template-columns: 1fr; } }
+
+.stickers { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+.stk { position: absolute; width: var(--s); height: var(--s); color: var(--c); transform: rotate(var(--rot)); animation: bob 6s ease-in-out infinite; animation-delay: var(--d, 0s); }
+.stk svg { width: 100%; height: 100%; display: block; }
+@keyframes bob { 0%,100% { translate: 0 0; } 50% { translate: 0 -12px; } }
+@media (prefers-reduced-motion: reduce) { .stk { animation: none; } html { scroll-behavior: auto; } .btn:hover, .card:hover { transform: none; } }
+
+.tape { border-block: 1px solid var(--line); overflow: hidden; background: var(--ink-2); }
+.tape-in { display: flex; width: max-content; gap: 34px; padding-block: 16px; animation: run 32s linear infinite; }
+.tape-in span { font-family: var(--display); font-size: 22px; white-space: nowrap; display: inline-flex; align-items: center; gap: 34px; }
+.tape-in svg { width: 26px; height: 26px; }
+@keyframes run { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .tape-in { animation: none; } }
+
+section { padding-block: clamp(56px, 8vw, 104px); }
+.sec-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; margin-bottom: 36px; }
+.sec-head h2 { font-family: var(--display); font-weight: 400; font-size: clamp(36px, 6vw, 72px); line-height: .95; letter-spacing: -0.03em; margin: 10px 0 0; text-wrap: balance; }
+.sec-head p { margin: 0; max-width: 40ch; color: var(--mute); }
+
+.grid { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 16px; }
+.card { flex: 0 0 calc((100% - 32px) / 3); position: relative; overflow: hidden; border-radius: var(--r); background: var(--a); color: var(--b); padding: 22px; display: flex; flex-direction: column; gap: 18px; min-width: 0; transition: transform .2s ease; scroll-margin-top: 90px; }
+.card:hover { transform: translateY(-4px); }
+@media (max-width: 1000px) { .card { flex-basis: calc((100% - 16px) / 2); } }
+@media (max-width: 620px) { .card { flex-basis: 100%; } }
+.card .top { display: flex; justify-content: space-between; align-items: start; gap: 12px; color: var(--ink); }
+.tag { font: 700 12px/1 var(--body); letter-spacing: .1em; text-transform: uppercase; background: var(--ink); color: var(--a); padding: 8px 10px; border-radius: 999px; white-space: nowrap; }
+.card .bg-shape { position: absolute; right: -40px; bottom: 80px; width: 230px; height: 230px; color: var(--ink); opacity: .14; pointer-events: none; }
+
+.stage { display: grid; place-items: center; position: relative; z-index: 1; background: #ebebeb; border-radius: 14px; padding: 6px 0 0; }
+.jar { position: relative; width: min(230px, 70%); }
+.jar img { display: block; width: 100%; height: auto; mix-blend-mode: multiply; }
+.jar[data-p="creatine"] img { filter: brightness(.967); }
+a.jar { display: block; text-decoration: none; transition: transform .2s ease; }
+a.jar:hover { transform: translateY(-6px); }
+.shelf { display: flex; justify-content: center; align-items: end; margin-top: clamp(40px, 6vw, 72px); position: relative; z-index: 2; background: #ebebeb; border-radius: 28px; padding: clamp(10px, 2vw, 24px) clamp(8px, 2vw, 24px) 0; }
+.shelf .jar { width: 20%; flex: 1 1 0; }
+
+.mani { display: grid; border-top: 1px solid var(--line); }
+.mani-row { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 16px 48px; padding-block: 30px; border-bottom: 1px solid var(--line); align-items: center; }
+.mani-row h3 { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(28px, 4.4vw, 54px); line-height: .95; letter-spacing: -0.025em; text-wrap: balance; display: flex; gap: 18px; align-items: center; }
+.mani-row h3 svg { flex: none; width: clamp(34px, 4vw, 52px); height: clamp(34px, 4vw, 52px); color: var(--c); }
+.mani-row p { margin: 0; color: var(--mute); font-size: 17px; max-width: 46ch; }
+@media (max-width: 760px) { .mani-row { grid-template-columns: 1fr; } }
+
+.picker { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; align-items: stretch; }
+@media (max-width: 860px) { .picker { grid-template-columns: 1fr; } }
+.opts { display: flex; flex-wrap: wrap; gap: 10px; align-content: start; }
+.opt { font: 700 16px/1 var(--body); padding: 16px 20px; border-radius: 999px; border: 2px solid var(--line); background: var(--ink-2); color: var(--paper); cursor: pointer; transition: border-color .15s ease, background .15s ease; }
+.opt:hover { border-color: var(--paper); }
+.opt[aria-pressed="true"] { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+.result { border-radius: var(--r); background: var(--ra, var(--ink-2)); color: var(--rb, var(--paper)); padding: 26px; display: grid; gap: 14px; align-content: start; min-height: 220px; transition: background .25s ease; }
+.result .eyebrow { color: inherit; opacity: .75; }
+.result h3 { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(32px, 4vw, 48px); line-height: .92; text-transform: uppercase; }
+.result p { margin: 0; max-width: 44ch; }
+.result .btn { background: var(--ink); color: var(--paper); justify-self: start; }
+
+.card h3 { font-family: var(--display); font-weight: 400; font-size: clamp(30px, 3.2vw, 40px); line-height: .92; text-transform: uppercase; margin: 0; letter-spacing: -0.02em; color: var(--ink); text-wrap: balance; }
+.card .sub { font-family: var(--serif); font-weight: 700; font-size: 18px; margin: 6px 0 0; color: var(--ink); }
+.card .desc { margin: 0; color: var(--ink); font-size: 15px; }
+.facts { margin: 0; padding: 14px 16px; border-radius: 12px; background: var(--ink); color: var(--paper); display: grid; gap: 7px; font-size: 14px; }
+.facts .row { display: flex; justify-content: space-between; gap: 12px; }
+.facts dt { color: var(--mute); }
+.facts dd { margin: 0; font-variant-numeric: tabular-nums; font-weight: 500; text-align: right; }
+.facts .cap { font-size: 12px; color: var(--mute); border-top: 1px solid var(--line); padding-top: 8px; margin-top: 2px; letter-spacing: .02em; }
+.card .foot { margin-top: auto; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: space-between; }
+.card .btn-buy { background: var(--ink); color: var(--paper); }
+.card .btn-buy:hover { background: var(--paper); color: var(--ink); }
+.card .meta { color: var(--ink); font: 500 13px/1.2 var(--body); }
+
+.faq { display: grid; gap: 10px; max-width: 860px; }
+.faq details { border: 1px solid var(--line); border-radius: 14px; background: var(--ink-2); }
+.faq summary { list-style: none; cursor: pointer; padding: 20px 22px; font-weight: 700; font-size: 18px; display: flex; justify-content: space-between; gap: 16px; align-items: center; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; font-family: var(--display); font-size: 26px; line-height: 1; color: var(--pop); transition: transform .2s ease; }
+.faq details[open] summary::after { transform: rotate(45deg); }
+.faq .ans { padding: 0 22px 20px; color: var(--mute); max-width: 68ch; }
+
+.final { background: var(--pop); color: var(--ink); border-radius: 28px; padding: clamp(32px, 6vw, 72px); display: grid; gap: 22px; position: relative; overflow: hidden; }
+.final h2 { font-family: var(--display); font-weight: 400; font-size: clamp(40px, 8vw, 104px); line-height: .88; margin: 0; letter-spacing: -0.035em; max-width: 12ch; position: relative; z-index: 1; }
+.final p { margin: 0; max-width: 46ch; font-size: 18px; position: relative; z-index: 1; }
+.final .btn { background: var(--ink); color: var(--paper); justify-self: start; position: relative; z-index: 1; }
+.final .big-shape { position: absolute; right: -60px; top: -40px; width: min(420px, 60vw); height: min(420px, 60vw); color: var(--ink); opacity: .1; }
+
+footer { border-top: 1px solid var(--line); padding-block: 40px 56px; color: var(--mute); font-size: 14px; }
+.foot-grid { display: flex; justify-content: space-between; gap: 28px; flex-wrap: wrap; align-items: start; }
+.foot-grid .logo { font-size: 34px; color: var(--paper); }
+.foot-links { display: flex; gap: 18px; flex-wrap: wrap; }
+.foot-links a { text-decoration: none; }
+.foot-links a:hover { color: var(--paper); }
+.legal { margin-top: 28px; max-width: 70ch; font-size: 13px; }
+.legal strong { color: var(--paper); }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="s-heart" viewBox="0 0 100 100"><path fill="currentColor" d="M50 90C20 70 4 52 4 32 4 16 16 6 30 6c9 0 16 5 20 12 4-7 11-12 20-12 14 0 26 10 26 26 0 20-16 38-46 58z"/></symbol>
+    <symbol id="s-star" viewBox="0 0 100 100"><path fill="currentColor" d="M50 2l11 22 24-7-7 24 20 13-20 13 7 24-24-7-11 22-11-22-24 7 7-24L2 54l20-13-7-24 24 7z"/></symbol>
+    <symbol id="s-bolt" viewBox="0 0 100 100"><path fill="currentColor" d="M38 2h40L60 40h28L30 98l12-44H14z"/></symbol>
+    <symbol id="s-drop" viewBox="0 0 100 100"><path fill="currentColor" d="M50 2C34 26 14 46 14 64a36 36 0 0072 0C86 46 66 26 50 2z"/></symbol>
+    <symbol id="s-crown" viewBox="0 0 100 100"><path fill="currentColor" d="M6 92V26l20 22L50 8l24 40 20-22v66z"/></symbol>
+    <symbol id="s-bone" viewBox="0 0 100 100"><path fill="currentColor" d="M30 6c10 0 16 8 20 8s10-8 20-8c13 0 20 10 20 20 0 12-12 16-12 24s12 12 12 24c0 10-7 20-20 20-10 0-16-8-20-8s-10 8-20 8C17 94 10 84 10 74c0-12 12-16 12-24S10 38 10 26C10 16 17 6 30 6z"/></symbol>
+    <symbol id="s-dumb" viewBox="0 0 100 100"><path fill="currentColor" d="M6 30h18v-8h12v20h28V22h12v8h18v40H76v8H64V58H36v20H24v-8H6z"/></symbol>
+  </defs>
+</svg>
+
+<header>
+  <div class="wrap bar">
+    <a class="logo" href="#top" aria-label="Oh My Bud, на главную"><span class="sm">oh</span> MY BUD!</a>
+    <nav aria-label="Разделы">
+      <a href="#line">Линейка</a>
+      <a href="#why">Почему мы</a>
+      <a href="#pick">Подбор</a>
+      <a href="#faq">Вопросы</a>
+    </nav>
+    <a class="btn btn-pop" href="https://kaspi.kz/shop/search/?text=%D0%B1%D0%B0%D0%B4" target="_blank" rel="noopener"><span class="k">K</span>Мы на Kaspi</a>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div class="stickers" aria-hidden="true">
+      <div class="stk" style="--s:clamp(70px,13vw,190px);--c:#a54bff;--rot:-12deg;right:4%;top:6%;"><svg><use href="#s-heart"/></svg></div>
+      <div class="stk" style="--s:clamp(56px,9vw,130px);--c:#ff0a6e;--rot:10deg;right:26%;top:2%;--d:-2s"><svg><use href="#s-bolt"/></svg></div>
+      <div class="stk" style="--s:clamp(60px,10vw,150px);--c:#3d3bff;--rot:8deg;right:10%;top:44%;--d:-1s"><svg><use href="#s-star"/></svg></div>
+      <div class="stk" style="--s:clamp(48px,7vw,104px);--c:#5fe34a;--rot:-6deg;right:33%;top:52%;--d:-3s"><svg><use href="#s-drop"/></svg></div>
+      <div class="stk" style="--s:clamp(50px,7vw,110px);--c:#ff2a1a;--rot:14deg;right:1%;top:76%;--d:-4s"><svg><use href="#s-crown"/></svg></div>
+    </div>
+    <div class="wrap">
+      <div class="eyebrow">Витамины и БАДы · Казахстан</div>
+      <h1>oh MY<span class="row2">BUD<span class="bang">!</span></span></h1>
+      <div class="thesis">
+        <p>Рациональные покупки делают <em>эмоционально.</em> Мы сделали витамины, которые хочется взять с полки, и указали состав так, чтобы его можно было прочитать.</p>
+        <div class="cta-row">
+          <a class="btn btn-pop" href="#line">Смотреть линейку</a>
+          <a class="btn btn-ghost" href="https://kaspi.kz/shop/search/?text=%D0%B2%D0%B8%D1%82%D0%B0%D0%BC%D0%B8%D0%BD%D1%8B" target="_blank" rel="noopener">Купить на Kaspi</a>
+        </div>
+      </div>
+      <div class="shelf" aria-label="Линейка Oh My Bud">
+        <a class="jar" data-p="gluco" href="#p-gluco" aria-label="Glucosamine Chondroitin MSM"><img src="assets/gluco.webp" alt=""></a>
+        <a class="jar" data-p="collagen" href="#p-collagen" aria-label="Complex Marine Collagen"><img src="assets/collagen.webp" alt=""></a>
+        <a class="jar" data-p="zma" href="#p-zma" aria-label="ZMA"><img src="assets/zma.webp" alt=""></a>
+        <a class="jar" data-p="calcium" href="#p-calcium" aria-label="Calcium Zinc Magnesium D3 B6"><img src="assets/calcium.webp" alt=""></a>
+        <a class="jar" data-p="creatine" href="#p-creatine" aria-label="Creatine monohydrate"><img src="assets/creatine.webp" alt=""></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="tape" aria-hidden="true">
+    <div class="tape-in">
+      <span>ZMA <svg style="color:#a54bff"><use href="#s-heart"/></svg> MARINE COLLAGEN <svg style="color:#3d3bff"><use href="#s-drop"/></svg> CALCIUM D3 <svg style="color:#ff0a6e"><use href="#s-bolt"/></svg> GLUCOSAMINE <svg style="color:#5fe34a"><use href="#s-bone"/></svg> CREATINE <svg style="color:#ff2a1a"><use href="#s-dumb"/></svg></span>
+      <span>ZMA <svg style="color:#a54bff"><use href="#s-heart"/></svg> MARINE COLLAGEN <svg style="color:#3d3bff"><use href="#s-drop"/></svg> CALCIUM D3 <svg style="color:#ff0a6e"><use href="#s-bolt"/></svg> GLUCOSAMINE <svg style="color:#5fe34a"><use href="#s-bone"/></svg> CREATINE <svg style="color:#ff2a1a"><use href="#s-dumb"/></svg></span>
+    </div>
+  </div>
+
+  <section id="line">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <div class="eyebrow">Линейка · 5 продуктов</div>
+          <h2>Пять банок.<br>Пять цветов.</h2>
+        </div>
+        <p>У каждого продукта свой цвет, чтобы на полке и в ленте Kaspi вы находили своё за секунду. Дозировки взяты прямо с этикеток.</p>
+      </div>
+
+      <div class="grid">
+        <article class="card" id="p-zma" style="--a:#a54bff;--b:#d6f21c">
+          <svg class="bg-shape" aria-hidden="true"><use href="#s-heart"/></svg>
+          <div class="top"><span class="tag">120 капсул</span><span class="meta">620 мг</span></div>
+          <div class="stage"><div class="jar" data-p="zma"><img src="assets/zma.webp" alt="Банка Oh My Bud ZMA" loading="lazy"></div></div>
+          <div>
+            <h3>ZMA</h3>
+            <p class="sub">Zinc, magnesium, aspartic acid</p>
+          </div>
+          <p class="desc">Магний и цинк в хорошо усваиваемых формах плюс витамин B6. Для тех, кто много тренируется.</p>
+          <dl class="facts">
+            <div class="row"><dt>Магния бисглицинат</dt><dd>727 мг</dd></div>
+            <div class="row"><dt>Цинка пиколинат</dt><dd>73 мг</dd></div>
+            <div class="row"><dt>Витамин B6</dt><dd>4 мг</dd></div>
+            <div class="row"><dt>Аспарагиновая кислота</dt><dd>40 мг</dd></div>
+            <div class="cap">В 2 капсулах · курс 1 месяц</div>
+          </dl>
+          <div class="foot">
+            <a class="btn btn-buy" href="https://kaspi.kz/shop/search/?text=ZMA" target="_blank" rel="noopener"><span class="k">K</span>Купить на Kaspi</a>
+          </div>
+        </article>
+
+        <article class="card" id="p-collagen" style="--a:#3d3bff;--b:#33e6e0">
+          <svg class="bg-shape" aria-hidden="true"><use href="#s-drop"/></svg>
+          <div class="top"><span class="tag">Капсулы</span><span class="meta" style="color:#fff">720 мг</span></div>
+          <div class="stage"><div class="jar" data-p="collagen"><img src="assets/collagen.webp" alt="Банка Oh My Bud Complex Marine Collagen" loading="lazy"></div></div>
+          <div>
+            <h3 style="color:#fff">Marine Collagen</h3>
+            <p class="sub" style="color:#33e6e0">vitamin C and hyaluronic acid</p>
+          </div>
+          <p class="desc" style="color:#fff">Морской коллаген с витамином C и гиалуроновой кислотой. Две капсулы в день.</p>
+          <dl class="facts">
+            <div class="row"><dt>Гидролизованный рыбный коллаген</dt><dd>1000 мг</dd></div>
+            <div class="row"><dt>Витамин C</dt><dd>150 мг</dd></div>
+            <div class="row"><dt>Гиалуроновая кислота</dt><dd>50 мг</dd></div>
+            <div class="cap">В 2 капсулах · курс 1 месяц</div>
+          </dl>
+          <div class="foot">
+            <a class="btn btn-buy" href="https://kaspi.kz/shop/search/?text=%D0%BC%D0%BE%D1%80%D1%81%D0%BA%D0%BE%D0%B9%20%D0%BA%D0%BE%D0%BB%D0%BB%D0%B0%D0%B3%D0%B5%D0%BD" target="_blank" rel="noopener"><span class="k">K</span>Купить на Kaspi</a>
+          </div>
+        </article>
+
+        <article class="card" id="p-calcium" style="--a:#ff0a6e;--b:#ffe100">
+          <svg class="bg-shape" aria-hidden="true"><use href="#s-bolt"/></svg>
+          <div class="top"><span class="tag">Капсулы</span><span class="meta">650 мг</span></div>
+          <div class="stage"><div class="jar" data-p="calcium"><img src="assets/calcium.webp" alt="Банка Oh My Bud Calcium Zinc Magnesium D3 B6" loading="lazy"></div></div>
+          <div>
+            <h3>Calcium Zinc Magnesium</h3>
+            <p class="sub">+ витамины D3 и B6</p>
+          </div>
+          <p class="desc">Кальций, магний и цинк в цитратной форме вместе с витаминами D3 и B6.</p>
+          <dl class="facts">
+            <div class="row"><dt>Кальций</dt><dd>303 мг</dd></div>
+            <div class="row"><dt>Магний</dt><dd>200 мг</dd></div>
+            <div class="row"><dt>Цинк</dt><dd>30 мг</dd></div>
+            <div class="row"><dt>Витамин B6</dt><dd>15 мг</dd></div>
+            <div class="row"><dt>Витамин D3</dt><dd>1800 МЕ</dd></div>
+            <div class="cap">В 6 капсулах · 2 капсулы 3 раза в день во время еды</div>
+          </dl>
+          <div class="foot">
+            <a class="btn btn-buy" href="https://kaspi.kz/shop/search/?text=%D0%BA%D0%B0%D0%BB%D1%8C%D1%86%D0%B8%D0%B9%20%D0%BC%D0%B0%D0%B3%D0%BD%D0%B8%D0%B9%20%D1%86%D0%B8%D0%BD%D0%BA%20D3" target="_blank" rel="noopener"><span class="k">K</span>Купить на Kaspi</a>
+          </div>
+        </article>
+
+        <article class="card" id="p-gluco" style="--a:#5fe34a;--b:#3d3bff">
+          <svg class="bg-shape" aria-hidden="true"><use href="#s-bone"/></svg>
+          <div class="top"><span class="tag">Капсулы</span><span class="meta">750 мг</span></div>
+          <div class="stage"><div class="jar" data-p="gluco"><img src="assets/gluco.webp" alt="Банка Oh My Bud Glucosamine Chondroitin MSM" loading="lazy"></div></div>
+          <div>
+            <h3>Glucosamine Chondroitin MSM</h3>
+            <p class="sub">три компонента в одной капсуле</p>
+          </div>
+          <p class="desc">Глюкозамин, хондроитин и метилсульфонилметан для тех, кто много двигается.</p>
+          <dl class="facts">
+            <div class="row"><dt>Метилсульфонилметан (МСМ)</dt><dd>1000 мг</dd></div>
+            <div class="row"><dt>Хондроитинсульфат</dt><dd>720 мг</dd></div>
+            <div class="row"><dt>Глюкозамин</dt><dd>600 мг</dd></div>
+            <div class="cap">В суточной порции · курс 1 месяц</div>
+          </dl>
+          <div class="foot">
+            <a class="btn btn-buy" href="https://kaspi.kz/shop/search/?text=%D0%B3%D0%BB%D1%8E%D0%BA%D0%BE%D0%B7%D0%B0%D0%BC%D0%B8%D0%BD%20%D1%85%D0%BE%D0%BD%D0%B4%D1%80%D0%BE%D0%B8%D1%82%D0%B8%D0%BD" target="_blank" rel="noopener"><span class="k">K</span>Купить на Kaspi</a>
+          </div>
+        </article>
+
+        <article class="card" id="p-creatine" style="--a:#ff2a1a;--b:#ffe100">
+          <svg class="bg-shape" aria-hidden="true"><use href="#s-dumb"/></svg>
+          <div class="top"><span class="tag">Порошок</span><span class="meta">5 г в порции</span></div>
+          <div class="stage"><div class="jar" data-p="creatine"><img src="assets/creatine.webp" alt="Банка Oh My Bud Creatine monohydrate" loading="lazy"></div></div>
+          <div>
+            <h3>Creatine</h3>
+            <p class="sub">monohydrate</p>
+          </div>
+          <p class="desc">Чистый креатин моногидрат без добавок. Для питания спортсменов в период интенсивных тренировок.</p>
+          <dl class="facts">
+            <div class="row"><dt>Креатин моногидрат</dt><dd>5,0 г</dd></div>
+            <div class="row"><dt>Углеводы</dt><dd>0 г</dd></div>
+            <div class="row"><dt>Энергетическая ценность</dt><dd>0 ккал</dd></div>
+            <div class="cap">В одной порции 5 г</div>
+          </dl>
+          <div class="foot">
+            <a class="btn btn-buy" href="https://kaspi.kz/shop/search/?text=%D0%BA%D1%80%D0%B5%D0%B0%D1%82%D0%B8%D0%BD%20%D0%BC%D0%BE%D0%BD%D0%BE%D0%B3%D0%B8%D0%B4%D1%80%D0%B0%D1%82" target="_blank" rel="noopener"><span class="k">K</span>Купить на Kaspi</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="why">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <div class="eyebrow">Почему Oh My Bud</div>
+          <h2>Не аптека.<br>Не скучно.</h2>
+        </div>
+        <p>Мы делаем витамины для людей, которые выбирают кроссовки, кофе и музыку сердцем. Почему с добавками должно быть иначе?</p>
+      </div>
+      <div class="mani">
+        <div class="mani-row">
+          <h3><svg style="--c:#a54bff" aria-hidden="true"><use href="#s-heart"/></svg>Банка, которую не прячут в шкаф</h3>
+          <p>Мы рисовали упаковку как стритвир-дроп, а не как аптечную коробку. Её хочется оставить на столе и выложить в сторис.</p>
+        </div>
+        <div class="mani-row">
+          <h3><svg style="--c:#3d3bff" aria-hidden="true"><use href="#s-star"/></svg>Цвет вместо инструкции</h3>
+          <p>У каждого продукта свой цвет и своя фигура. Свою банку находишь за секунду: на полке, в сумке, в ленте Kaspi.</p>
+        </div>
+        <div class="mani-row">
+          <h3><svg style="--c:#ff0a6e" aria-hidden="true"><use href="#s-bolt"/></svg>Говорим как люди</h3>
+          <p>Без «уникальных формул» и обещаний вылечить всё сразу. Только что внутри, сколько этого в порции и как принимать.</p>
+        </div>
+        <div class="mani-row">
+          <h3><svg style="--c:#5fe34a" aria-hidden="true"><use href="#s-dumb"/></svg>Под твой ритм</h3>
+          <p>Тренировки, работа допоздна, город без солнца полгода. Линейка собрана вокруг того, как мы живём, а не вокруг аптечной витрины.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pick">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <div class="eyebrow">Подбор за 5 секунд</div>
+          <h2>Какая банка твоя?</h2>
+        </div>
+        <p>Выбери, что про тебя. Это подсказка, а не назначение: перед приёмом лучше посоветоваться с врачом.</p>
+      </div>
+      <div class="picker">
+        <div class="opts" role="group" aria-label="Что про тебя">
+          <button class="opt" type="button" data-pick="creatine" aria-pressed="false">Качаюсь в зале</button>
+          <button class="opt" type="button" data-pick="zma" aria-pressed="false">Тренируюсь и мало сплю</button>
+          <button class="opt" type="button" data-pick="gluco" aria-pressed="false">Бегаю и много хожу</button>
+          <button class="opt" type="button" data-pick="collagen" aria-pressed="false">Слежу за кожей</button>
+          <button class="opt" type="button" data-pick="calcium" aria-pressed="false">Мало солнца зимой</button>
+        </div>
+        <div class="result" id="result" aria-live="polite">
+          <div class="eyebrow">Твоя банка</div>
+          <h3 id="r-name">Выбери вариант слева</h3>
+          <p id="r-text">Покажем продукт из линейки, который подходит под твой ритм, и ссылку на Kaspi.</p>
+          <a class="btn" id="r-btn" href="#line"><span class="k">K</span>Смотреть всю линейку</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <div class="eyebrow">Вопросы</div>
+          <h2>Коротко о главном</h2>
+        </div>
+      </div>
+      <div class="faq">
+        <details>
+          <summary>Где купить Oh My Bud?</summary>
+          <div class="ans">В Kaspi Магазине. Нажмите «Купить на Kaspi» под нужным продуктом, и откроется Kaspi. Оформление, оплата и доставка проходят там.</div>
+        </details>
+        <details>
+          <summary>Это лекарство?</summary>
+          <div class="ans">Нет. Все продукты Oh My Bud — биологически активные добавки к пище и не являются лекарственными средствами. Перед применением рекомендуется проконсультироваться с врачом.</div>
+        </details>
+        <details>
+          <summary>Кто производит?</summary>
+          <div class="ans">Продукты выпускает контрактное производство в России по техническим условиям, на каждый продукт есть свидетельство о госрегистрации ЕАЭС. Полные данные производителя указаны на этикетке.</div>
+        </details>
+        <details>
+          <summary>Какие противопоказания?</summary>
+          <div class="ans">Индивидуальная непереносимость компонентов, беременность и кормление грудью. Точный список для каждого продукта напечатан на банке.</div>
+        </details>
+        <details>
+          <summary>Как долго принимать?</summary>
+          <div class="ans">Рекомендуемый курс для капсул — 1 месяц, при необходимости его можно повторить. Схема приёма указана на этикетке каждого продукта.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="final">
+        <svg class="big-shape" aria-hidden="true"><use href="#s-star"/></svg>
+        <h2>Выберите свою банку</h2>
+        <p>Вся линейка Oh My Bud продаётся в Kaspi Магазине с доставкой по Казахстану.</p>
+        <a class="btn" href="https://kaspi.kz/shop/search/?text=%D0%B2%D0%B8%D1%82%D0%B0%D0%BC%D0%B8%D0%BD%D1%8B" target="_blank" rel="noopener"><span class="k">K</span>Перейти в Kaspi Магазин</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <a class="logo" href="#top"><span class="sm">oh</span> MY BUD!</a>
+      <div class="foot-links">
+        <a href="#line">Линейка</a>
+        <a href="#why">Почему мы</a>
+        <a href="#faq">Вопросы</a>
+        <a href="https://kaspi.kz/shop/search/?text=%D0%B2%D0%B8%D1%82%D0%B0%D0%BC%D0%B8%D0%BD%D1%8B" target="_blank" rel="noopener">Kaspi Магазин</a>
+      </div>
+    </div>
+    <p class="legal"><strong>БАД. Не является лекарственным средством.</strong> Перед применением рекомендуется проконсультироваться с врачом. ИП «О МАЙ БАТ», ohmybud.kz</p>
+  </div>
+</footer>
+
+<script>
+const P = {
+  zma:      { a:"#a54bff", title:"ZMA", text:"Магний, цинк и B6 в одной капсуле. Две в день, курс месяц.", q:"ZMA" },
+  collagen: { a:"#3d3bff", title:"Marine Collagen", text:"Морской коллаген с витамином C и гиалуроновой кислотой.", q:"морской коллаген" },
+  calcium:  { a:"#ff0a6e", title:"Calcium D3", text:"Кальций, магний, цинк и 1800 МЕ витамина D3 в суточной порции.", q:"кальций магний цинк D3" },
+  gluco:    { a:"#5fe34a", title:"Glucosamine", text:"Глюкозамин, хондроитин и МСМ для тех, кто много двигается.", q:"глюкозамин хондроитин" },
+  creatine: { a:"#ff2a1a", title:"Creatine", text:"Чистый креатин моногидрат, 5 г в порции.", q:"креатин моногидрат" }
+};
+const kaspi = q => "https://kaspi.kz/shop/search/?text=" + encodeURIComponent(q);
+const res = document.getElementById("result");
+document.querySelectorAll(".opt").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll(".opt").forEach(o => o.setAttribute("aria-pressed", o === b ? "true" : "false"));
+  const p = P[b.dataset.pick];
+  res.style.setProperty("--ra", p.a);
+  res.style.setProperty("--rb", b.dataset.pick === "collagen" ? "#ffffff" : "#0a0a0b");
+  document.getElementById("r-name").textContent = p.title;
+  document.getElementById("r-text").textContent = p.text;
+  const btn = document.getElementById("r-btn");
+  btn.href = kaspi(p.q); btn.target = "_blank"; btn.rel = "noopener";
+  btn.innerHTML = '<span class="k">K</span>Купить на Kaspi';
+}));
+</script>
+</body>
+</html>

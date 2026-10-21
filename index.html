@@ -191,19 +191,25 @@ dialog.sheet[open] { animation: pop .35s cubic-bezier(.2,.9,.3,1.2); }
 /* picker */
 .picker { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; align-items: stretch; }
 @media (max-width: 860px) { .picker { grid-template-columns: 1fr; } }
-.opts { display: flex; flex-wrap: wrap; gap: 10px; align-content: start; }
-.opt { font: 700 16px/1 var(--body); padding: 16px 20px; border-radius: 999px; border: 2px solid var(--line); background: var(--ink-2); color: var(--paper); cursor: pointer; transition: border-color .15s ease, background .15s ease; }
+.opts { display: grid; gap: 10px; align-content: stretch; }
+.opt { font: 700 18px/1.2 var(--body); padding: 0 22px; min-height: 66px; border-radius: 16px; border: 2px solid var(--line); background: var(--ink-2); color: var(--paper); cursor: pointer; transition: border-color .15s ease, background .15s ease, padding .2s ease; display: flex; align-items: center; justify-content: space-between; gap: 16px; text-align: left; }
+.opt::after { content: "→"; font-family: var(--display); color: var(--mute); transition: transform .2s ease, color .2s ease; }
+.opt:hover::after { transform: translateX(4px); color: var(--paper); }
+.opt[aria-pressed="true"]::after { color: var(--ink); }
 .opt:hover { border-color: var(--paper); }
 .opt[aria-pressed="true"] { background: var(--paper); color: var(--ink); border-color: var(--paper); }
-.result { position: relative; overflow: hidden; border-radius: var(--r); background: var(--ra, var(--ink-2)); color: var(--rb, var(--paper)); padding: 26px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px 20px; align-items: center; min-height: 240px; transition: background .25s ease; }
+.result { position: relative; overflow: hidden; border-radius: var(--r); background: var(--ra, var(--ink-2)); color: var(--rb, var(--paper)); padding: 28px; display: grid; grid-template-columns: minmax(0, 1fr) 190px; gap: 14px 24px; align-items: center; min-height: 100%; border: 2px solid var(--ra, var(--line)); transition: background .25s ease; }
 .result .txt { display: grid; gap: 12px; align-content: start; }
 .result .eyebrow { color: inherit; opacity: .75; }
 .result h3 { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(30px, 4vw, 46px); line-height: .92; text-transform: uppercase; }
 .result p { margin: 0; max-width: 40ch; }
 .result .acts { display: flex; gap: 10px; flex-wrap: wrap; }
-.result img { height: 200px; width: auto; filter: drop-shadow(0 16px 16px rgba(0,0,0,.35)); animation: drop .5s cubic-bezier(.2,.9,.3,1.3); }
+.result #r-img { display: flex; justify-content: center; align-items: end; height: 260px; }
+.result #r-img.idle { gap: 2px; }
+.result #r-img.idle img { height: 120px; opacity: .45; animation: none; }
+.result img { height: 260px; width: auto; filter: drop-shadow(0 16px 16px rgba(0,0,0,.35)); animation: drop .5s cubic-bezier(.2,.9,.3,1.3); }
 @keyframes drop { from { transform: translateY(-40px) rotate(-10deg); opacity: 0; } }
-@media (max-width: 520px) { .result { grid-template-columns: 1fr; } .result img { height: 160px; justify-self: center; } }
+@media (max-width: 560px) { .result { grid-template-columns: 1fr; } .result #r-img { height: 180px; } .result img { height: 180px; } .result #r-img.idle img { height: 90px; } }
 
 /* shelf talk */
 .talk { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 16px; }
@@ -368,11 +374,11 @@ footer { border-top: 1px solid var(--line); padding-block: 40px 56px; color: var
         <div class="result" id="result" aria-live="polite">
           <div class="txt">
             <div class="eyebrow">Твоя банка</div>
-            <h3 id="r-name">Выбери вариант</h3>
+            <h3 id="r-name">Выбери слева</h3>
             <p id="r-text">Покажем продукт, который подходит под твой ритм.</p>
             <div class="acts" id="r-acts"></div>
           </div>
-          <div id="r-img"></div>
+          <div id="r-img" class="idle"></div>
         </div>
       </div>
     </div>
@@ -609,8 +615,10 @@ document.querySelectorAll(".opt").forEach(b => b.addEventListener("click", () =>
   document.getElementById("r-name").textContent = p.name;
   document.getElementById("r-text").textContent = p.ten;
   document.getElementById("r-acts").innerHTML = '<button class="btn btn-dark" type="button" data-open="' + id + '">Открыть банку</button>' + kBtn(p, "btn-ghost");
-  document.getElementById("r-img").innerHTML = '<img src="' + img(id) + '" alt="">';
+  const ri = document.getElementById("r-img"); ri.className = ""; ri.innerHTML = '<img src="' + img(id) + '" alt="">';
 }));
+
+document.getElementById("r-img").innerHTML = ORDER.map(id => '<img src="' + img(id) + '" alt="">').join("");
 
 // shelf talk
 const QS = [

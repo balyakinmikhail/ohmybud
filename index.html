@@ -268,8 +268,9 @@ footer { border-top: 1px solid var(--line); padding-block: 40px 56px; color: var
 
 /* stack */
 .stack { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; align-items: start; }
-@media (max-width: 900px) { .stack { grid-template-columns: 1fr; } .tray { position: static; } }
-.tray { position: sticky; top: 84px; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; align-items: end; background: var(--ink-2); border: 1px solid var(--line); border-radius: var(--r); padding: 18px 12px 12px; }
+@media (max-width: 900px) { .stack { grid-template-columns: 1fr; } }
+@media (max-width: 560px) { .tray { gap: 2px; padding: 14px 6px 8px; } .tj { padding: 6px 0; } .tj img { height: 92px; } .tj[data-p="creatine"] img { height: 100px; } .tj span { font-size: 10px; overflow-wrap: anywhere; } }
+.tray { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; align-items: end; background: var(--ink-2); border: 1px solid var(--line); border-radius: var(--r); padding: 18px 12px 12px; }
 .tj { display: grid; justify-items: center; gap: 8px; background: none; border: 2px solid transparent; border-radius: 14px; padding: 8px 2px; cursor: grab; transition: border-color .15s ease, opacity .2s ease; }
 .tj img { height: 120px; width: auto; filter: drop-shadow(0 10px 10px rgba(0,0,0,.5)); pointer-events: none; }
 .tj[data-p="creatine"] img { height: 132px; }
@@ -423,9 +424,12 @@ footer { border-top: 1px solid var(--line); padding-block: 40px 56px; color: var
 [hidden] { display: none !important; }
 dialog.sheet { overflow-x: hidden; }
 .sheet-in > * { min-width: 0; }
-.info h3 { font-size: clamp(28px, 3.6vw, 46px); overflow-wrap: anywhere; }
+.info h3 { font-size: clamp(22px, 6.2vw, 46px); overflow-wrap: normal; hyphens: none; }
+@media (min-width: 821px) { .info h3 { font-size: clamp(28px, 3.4vw, 46px); } }
 .under { overflow-y: auto; align-content: start; }
 .jarside.peeled { align-items: stretch; }
+.jarside.peeled .jarwrap { pointer-events: none; visibility: hidden; transition: transform .7s cubic-bezier(.7,0,.2,1), opacity .5s ease, visibility 0s .7s; }
+.under { z-index: 3; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
@@ -476,17 +480,6 @@ dialog.sheet { overflow-x: hidden; }
     </div>
   </div>
 
-  <div class="play" id="play" aria-label="Фигуры Oh My Bud, их можно хватать и кидать">
-    <span class="cap">Разомнись: хватай и кидай</span>
-  </div>
-
-  <div class="tape" aria-hidden="true">
-    <div class="tape-in">
-      <span>ZMA <svg style="color:#a54bff"><use href="#s-shield"/></svg> MARINE COLLAGEN <svg style="color:#3d3bff"><use href="#s-drop"/></svg> CALCIUM D3 <svg style="color:#ff0a6e"><use href="#s-bolt"/></svg> GLUCOSAMINE <svg style="color:#5fe34a"><use href="#s-star"/></svg> CREATINE <svg style="color:#ff2a1a"><use href="#s-dumb"/></svg></span>
-      <span>ZMA <svg style="color:#a54bff"><use href="#s-shield"/></svg> MARINE COLLAGEN <svg style="color:#3d3bff"><use href="#s-drop"/></svg> CALCIUM D3 <svg style="color:#ff0a6e"><use href="#s-bolt"/></svg> GLUCOSAMINE <svg style="color:#5fe34a"><use href="#s-star"/></svg> CREATINE <svg style="color:#ff2a1a"><use href="#s-dumb"/></svg></span>
-    </div>
-  </div>
-
   <section id="line">
     <div class="wrap">
       <div class="sec-head">
@@ -497,6 +490,25 @@ dialog.sheet { overflow-x: hidden; }
         <p>У каждого продукта свой цвет и своя фигура. Нажми на банку, чтобы открыть её и посмотреть, что внутри.</p>
       </div>
       <div class="grid" id="grid"></div>
+    </div>
+  </section>
+
+  <section id="quiz">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <div class="eyebrow">Квиз</div>
+          <h2>Какой ты BUD?</h2>
+        </div>
+        <p>Четыре вопроса без подвоха. В конце получишь карточку для сторис: сохрани и отметь нас.</p>
+      </div>
+      <div class="quiz">
+        <div class="qcard" id="qcard"></div>
+        <div class="story-wrap">
+          <div class="story" id="story"><p class="ph">Здесь появится твоя карточка</p></div>
+          <div class="story-acts" id="story-acts"></div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -533,25 +545,6 @@ dialog.sheet { overflow-x: hidden; }
     </div>
   </section>
 
-  <section id="quiz">
-    <div class="wrap">
-      <div class="sec-head">
-        <div>
-          <div class="eyebrow">Квиз</div>
-          <h2>Какой ты BUD?</h2>
-        </div>
-        <p>Четыре вопроса без подвоха. В конце получишь карточку для сторис: сохрани и отметь нас.</p>
-      </div>
-      <div class="quiz">
-        <div class="qcard" id="qcard"></div>
-        <div class="story-wrap">
-          <div class="story" id="story"><p class="ph">Здесь появится твоя карточка</p></div>
-          <div class="story-acts" id="story-acts"></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <section id="talk">
     <div class="wrap">
       <div class="sec-head">
@@ -565,7 +558,6 @@ dialog.sheet { overflow-x: hidden; }
         <div class="qs" id="qs"></div>
         <div class="chat-col">
           <div class="chat" id="chat" aria-live="polite"><p class="empty">Выбери вопрос слева.</p></div>
-          <a class="tg-card" href="https://t.me/BalyakinM" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#s-tg"/></svg><span><b>Не нашёл ответ?</b>Напиши основателю в Telegram, отвечаем сами.</span></a>
         </div>
       </div>
     </div>
@@ -589,6 +581,10 @@ dialog.sheet { overflow-x: hidden; }
       </div>
     </div>
   </section>
+
+  <div class="play" id="play" aria-label="Фигуры Oh My Bud, их можно хватать и кидать">
+    <span class="cap">Разомнись: хватай и кидай</span>
+  </div>
 
   <section>
     <div class="wrap">
@@ -618,8 +614,6 @@ dialog.sheet { overflow-x: hidden; }
     <p class="legal"><strong>БАД. Не является лекарственным средством.</strong> Перед применением рекомендуется проконсультироваться с врачом. ИП «О МАЙ БАТ», ohmybud.kz</p>
   </div>
 </footer>
-
-<a class="tg-float" href="https://t.me/BalyakinM" target="_blank" rel="noopener" aria-label="Написать нам в Telegram"><svg aria-hidden="true"><use href="#s-tg"/></svg><span>Написать</span></a>
 
 <dialog class="sheet" id="sheet" aria-labelledby="s-title">
   <button class="close" type="button" id="s-close" aria-label="Закрыть">×</button>
@@ -907,7 +901,8 @@ sheetIn.addEventListener("click", e => {
   const S = 76; let W = box.clientWidth, H = box.clientHeight, running = false, last = 0;
   new ResizeObserver(() => { W = box.clientWidth; H = box.clientHeight; }).observe(box);
   function place(b) { b.el.style.transform = "translate(" + b.x + "px," + b.y + "px) rotate(" + b.r + "deg)"; }
-  if (REDUCE) { bodies.forEach((b, i) => { b.x = (i + .5) * (W / bodies.length) - S / 2; b.y = H - S - 10; b.r = 0; place(b); }); }
+  bodies.forEach((b, i) => { b.x = Math.max(0, (i + .5) * (W / bodies.length) - S / 2); b.y = H - S; b.r = (i % 2 ? 1 : -1) * 12; place(b); });
+  let dropped = false;
   function step(t) {
     if (!running) return;
     const dt = Math.min(32, t - (last || t)) / 16.67; last = t;
@@ -922,7 +917,8 @@ sheetIn.addEventListener("click", e => {
     }
     requestAnimationFrame(step);
   }
-  if (!REDUCE) new IntersectionObserver(es => { const v = es[0].isIntersecting; if (v && !running) { running = true; last = 0; requestAnimationFrame(step); } else if (!v) running = false; }).observe(box);
+  if (!REDUCE) new IntersectionObserver(es => { const v = es[0].isIntersecting; if (v && !dropped) { dropped = true; bodies.forEach(b => { b.y = -80 - Math.random() * 260; b.vy = 0; b.vx = (Math.random() - .5) * 4; }); }
+    if (v && !running) { running = true; last = 0; requestAnimationFrame(step); } else if (!v) running = false; }).observe(box);
   bodies.forEach(b => {
     let px = 0, py = 0, pt = 0, ox = 0, oy = 0;
     b.el.addEventListener("pointerdown", e => {
@@ -950,7 +946,7 @@ sheetIn.addEventListener("click", e => {
     gluco: { "Хондроитин": 120, "Глюкозамин": 86 },
     creatine: { "Креатин": 150 }
   };
-  const SHORT = { zma: "ZMA", calcium: "Calcium D3", collagen: "Collagen", gluco: "Glucosamine", creatine: "Creatine" };
+  const SHORT = { zma: "ZMA", calcium: "Calcium", collagen: "Collagen", gluco: "Gluco", creatine: "Creatine" };
   const tray = document.getElementById("tray"), bag = document.getElementById("bag"), inbag = document.getElementById("inbag"), sum = document.getElementById("bagsum");
   if (!tray) return;
   const chosen = [];

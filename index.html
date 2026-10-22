@@ -397,15 +397,27 @@ footer { border-top: 1px solid var(--line); padding-block: 40px 56px; color: var
 .team-txt h2 { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(34px, 5.5vw, 64px); line-height: .95; letter-spacing: -0.03em; }
 .team-txt p { margin: 0; color: var(--mute); font-size: 17px; max-width: 48ch; }
 .team-art { position: relative; height: 280px; }
-.team { grid-template-columns: 1fr !important; gap: clamp(22px, 4vw, 40px); }
-.team-photo { position: relative; margin: 0; border-radius: 20px; overflow: hidden; border: 3px solid var(--ink); box-shadow: 8px 8px 0 var(--pop); }
-.team-photo img { display: block; width: 100%; height: auto; }
-.team-tag { position: absolute; left: 16px; bottom: 16px; background: var(--pop); color: var(--ink); font-family: var(--display); font-weight: 900; text-transform: uppercase; font-size: clamp(18px, 2.4vw, 26px); line-height: 1; padding: 8px 14px 6px; border: 3px solid var(--ink); border-radius: 12px; transform: rotate(-4deg); box-shadow: 4px 4px 0 var(--ink); }
-.team-txt { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: end; gap: 20px 40px; }
+.team { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important; gap: clamp(28px, 5vw, 64px); align-items: center; }
+.team-txt { gap: 22px; }
 .team-head, .team-body { display: grid; gap: 16px; justify-items: start; }
-.team .team-txt h2 { font-size: clamp(40px, 5.2vw, 68px); }
-@media (max-width: 820px) { .team .team-txt h2 { font-size: clamp(40px, 11vw, 64px); } }
-@media (max-width: 820px) { .team-txt { grid-template-columns: 1fr; } .team-photo { box-shadow: 5px 5px 0 var(--pop); border-radius: 16px; } .team-tag { left: 10px; bottom: 10px; } }
+.team .team-txt h2 { font-size: clamp(40px, 5vw, 66px); }
+.team-pic { position: relative; padding: 26px 20px 30px; max-width: 560px; justify-self: center; width: 100%; }
+.team-pic .ta { width: clamp(84px, 11vw, 124px); height: clamp(84px, 11vw, 124px); z-index: 0; transition: transform .5s cubic-bezier(.2,.9,.3,1.3); }
+.team-pic .ta1 { left: -4px; top: 0; bottom: auto; right: auto; transform: rotate(-14deg); }
+.team-pic .ta2 { right: -6px; top: -10px; left: auto; bottom: auto; transform: rotate(12deg); }
+.team-pic .ta3 { right: 14%; bottom: -2px; left: auto; top: auto; transform: rotate(8deg); }
+.team-photo { position: relative; z-index: 1; margin: 0; background: var(--paper); padding: 10px 10px 0; border-radius: 6px; transform: rotate(2.5deg); box-shadow: 0 22px 48px rgba(0,0,0,.5); transition: transform .5s cubic-bezier(.2,.9,.3,1.3); }
+.team-photo img { display: block; width: 100%; height: auto; border-radius: 3px; }
+.team-photo figcaption { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: var(--ink); padding: 11px 4px 12px; font-family: var(--display); font-weight: 900; text-transform: uppercase; font-size: 18px; line-height: 1; }
+.fc-logo { width: 104px; height: 17px; color: var(--ink); }
+.team-tag { position: absolute; z-index: 2; left: 2px; top: 10px; background: var(--pop); color: var(--ink); font-family: var(--display); font-weight: 900; text-transform: uppercase; font-size: clamp(18px, 2.2vw, 24px); line-height: 1; padding: 8px 14px 6px; border: 3px solid var(--ink); border-radius: 12px; transform: rotate(-6deg); box-shadow: 4px 4px 0 var(--ink); }
+@media (hover: hover) {
+  .team-pic:hover .team-photo { transform: rotate(0deg) scale(1.02); }
+  .team-pic:hover .ta1 { transform: rotate(-34deg) translate(-12px, -10px); }
+  .team-pic:hover .ta2 { transform: rotate(30deg) translate(12px, -12px); }
+  .team-pic:hover .ta3 { transform: rotate(28deg) translate(10px, 12px); }
+}
+@media (max-width: 820px) { .team { grid-template-columns: 1fr !important; } .team .team-txt h2 { font-size: clamp(40px, 11vw, 64px); } .team-pic { padding: 18px 12px 24px; } }
 .ta { position: absolute; width: 150px; height: 150px; }
 .ta svg { width: 100%; height: 100%; display: block; }
 .ta1 { left: 6%; top: 8%; color: #a54bff; transform: rotate(-12deg); }
@@ -643,10 +655,6 @@ dialog.sheet { overflow-x: hidden; }
   <section id="team">
     <div class="wrap">
       <div class="team">
-        <figure class="team-photo">
-          <img src="assets/team.webp" srcset="assets/team-900.webp 900w, assets/team.webp 1600w" sizes="(max-width: 1240px) 100vw, 1180px" width="1600" height="1067" loading="lazy" decoding="async" alt="Команда Oh My Bud на складе с банками ZMA">
-          <span class="team-tag">Это мы</span>
-        </figure>
         <div class="team-txt">
           <div class="team-head">
             <div class="eyebrow">Кто за этим стоит</div>
@@ -657,6 +665,16 @@ dialog.sheet { overflow-x: hidden; }
           <p>Есть вопрос, идея или претензия? Пиши основателю напрямую, без колл-центров и ботов.</p>
           <a class="btn btn-pop" href="https://t.me/BalyakinM" target="_blank" rel="noopener"><svg class="tgi" aria-hidden="true"><use href="#s-tg"/></svg>Написать в Telegram</a>
           </div>
+        </div>
+        <div class="team-pic">
+          <span class="ta ta1" aria-hidden="true"><svg><use href="#s-heart"/></svg></span>
+          <span class="ta ta2" aria-hidden="true"><svg><use href="#s-bolt"/></svg></span>
+          <span class="ta ta3" aria-hidden="true"><svg><use href="#s-star"/></svg></span>
+          <figure class="team-photo">
+            <img src="assets/team.webp" srcset="assets/team-720.webp 720w, assets/team.webp 1200w" sizes="(max-width: 820px) 92vw, 560px" width="1200" height="800" loading="lazy" decoding="async" alt="Команда Oh My Bud на складе со всеми пятью банками линейки">
+            <figcaption><svg class="fc-logo" aria-hidden="true"><use href="#logo"/></svg><span>вся команда</span></figcaption>
+          </figure>
+          <span class="team-tag">Это мы</span>
         </div>
       </div>
     </div>

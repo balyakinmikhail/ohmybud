@@ -459,6 +459,30 @@ footer { border-top: 1px solid var(--line); padding-block: 40px 56px; color: var
 .dont { font-weight: 900; font-size: 26px; }
 .dont.done { font-size: 18px; }
 
+/* live hero: one orchestrated entrance */
+@keyframes logoIn { 0% { clip-path: inset(100% 0 0 0); translate: 0 40px; } 70% { clip-path: inset(0 0 0 0); translate: 0 -4px; } 100% { clip-path: inset(0 0 0 0); translate: 0 0; } }
+@keyframes riseIn { from { opacity: 0; translate: 0 18px; } }
+@keyframes jarDrop { 0% { translate: 0 -140%; opacity: 0; } 8% { opacity: 1; } 55% { translate: 0 0; } 68% { translate: 0 -9%; } 80% { translate: 0 0; } 90% { translate: 0 -2.5%; } 100% { translate: 0 0; } }
+@keyframes shapePop { 0% { scale: 0; } 70% { scale: 1.12; } 100% { scale: 1; } }
+@keyframes squash { 0%, 100% { scale: 1 1; } 50% { scale: 1.06 .94; } }
+.hero .eyebrow { animation: riseIn .5s ease both; }
+.hero-logo { animation: logoIn .9s cubic-bezier(.2,.9,.2,1) .1s both; }
+.thesis p { animation: riseIn .6s ease .55s both; }
+.shelf .slot { animation: jarDrop .95s cubic-bezier(.3,.7,.3,1) both; }
+.shelf .slot:nth-child(1) { animation-delay: .75s; }
+.shelf .slot:nth-child(2) { animation-delay: .87s; }
+.shelf .slot:nth-child(3) { animation-delay: .99s; }
+.shelf .slot:nth-child(4) { animation-delay: 1.11s; }
+.shelf .slot:nth-child(5) { animation-delay: 1.23s; }
+.shelf .slot .shape { animation: shapePop .55s cubic-bezier(.2,.9,.3,1.4) both; }
+.shelf .slot:nth-child(1) .shape { animation-delay: 1.25s; }
+.shelf .slot:nth-child(2) .shape { animation-delay: 1.37s; }
+.shelf .slot:nth-child(3) .shape { animation-delay: 1.49s; }
+.shelf .slot:nth-child(4) .shape { animation-delay: 1.61s; }
+.shelf .slot:nth-child(5) .shape { animation-delay: 1.73s; }
+.shelf .slot .lbl { animation: riseIn .4s ease both; animation-delay: 1.9s; }
+.hint { animation: riseIn .5s ease 2.1s both; }
+
 /* sheet fixes */
 [hidden] { display: none !important; }
 dialog.sheet { overflow-x: hidden; }

@@ -17,7 +17,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Onest:wght@400;500;700&family=STIX+Two+Text:wght@700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=Sofia+Sans+Extra+Condensed:wght@800;900&family=STIX+Two+Text:wght@700&display=swap">
 <style>
 /* Layout: black poster wall; cut-out jars sit on their own brand shapes; every jar opens a product sheet */
 :root {
@@ -29,8 +29,8 @@
   --paper: #ffffff;
   --mute: #a3a3ad;
   --pop: #d6f21c;
-  --display: "Dela Gothic One", "Arial Black", Impact, system-ui, sans-serif;
-  --body: "Onest", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --display: "Sofia Sans Extra Condensed", "Arial Narrow", Impact, system-ui, sans-serif;
+  --body: "Golos Text", "Helvetica Neue", Arial, system-ui, sans-serif;
   --serif: "STIX Two Text", "Times New Roman", Georgia, serif;
   --r: 18px;
 }
@@ -269,7 +269,7 @@ footer { border-top: 1px solid var(--line); padding-block: 40px 56px; color: var
 /* stack */
 .stack { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; align-items: start; }
 @media (max-width: 900px) { .stack { grid-template-columns: 1fr; } }
-@media (max-width: 560px) { .tray { gap: 2px; padding: 14px 6px 8px; } .tj { padding: 6px 0; } .tj img { height: 92px; } .tj[data-p="creatine"] img { height: 100px; } .tj span { font-size: 10px; overflow-wrap: anywhere; } }
+@media (max-width: 560px) { .tray { gap: 2px; padding: 14px 6px 8px; } .tj { padding: 6px 0; } .tj img { height: 92px; } .tj[data-p="creatine"] img { height: 100px; } .tj span { font-size: 9.5px; white-space: nowrap; } }
 .tray { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; align-items: end; background: var(--ink-2); border: 1px solid var(--line); border-radius: var(--r); padding: 18px 12px 12px; }
 .tj { display: grid; justify-items: center; gap: 8px; background: none; border: 2px solid transparent; border-radius: 14px; padding: 8px 2px; cursor: grab; transition: border-color .15s ease, opacity .2s ease; }
 .tj img { height: 120px; width: auto; filter: drop-shadow(0 10px 10px rgba(0,0,0,.5)); pointer-events: none; }
@@ -433,6 +433,32 @@ footer { border-top: 1px solid var(--line); padding-block: 40px 56px; color: var
 .shelf .slot:first-child .say { left: 0; translate: 0 0; } .shelf .slot:first-child .say::after { left: 34px; }
 .shelf .slot:last-child .say { left: auto; right: 0; translate: 0 0; } .shelf .slot:last-child .say::after { left: auto; right: 34px; translate: 0 0; }
 
+/* type system v2: condensed display like the labels */
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.lg { display: block; width: 118px; height: auto; aspect-ratio: 270 / 44; color: var(--paper); }
+.lg .lg-bang, .hero-logo .lg-bang { fill: var(--pop); }
+.foot-grid .lg { width: 170px; }
+.hero h1 { margin: 22px 0 0; }
+.hero-logo { display: block; width: min(100%, 760px); height: auto; aspect-ratio: 270 / 44; color: var(--paper); }
+.sec-head h2, .card h3, .final h2, .team-txt h2, .result h3, .info h3, .qcard h3, .bag h3, .face.front .q, .face.back .a-title, .under h4, .mode-body .big, .mani-row h3 { font-weight: 900; text-transform: uppercase; letter-spacing: 0; }
+.sec-head h2 { font-size: clamp(46px, 8.4vw, 104px); line-height: .88; }
+.card h3 { font-size: clamp(36px, 4vw, 52px); line-height: .88; }
+.final h2 { font-size: clamp(52px, 10vw, 136px); line-height: .84; }
+.team-txt h2 { font-size: clamp(44px, 7vw, 88px); line-height: .86; }
+.info h3 { font-size: clamp(34px, 8vw, 60px); line-height: .88; }
+@media (min-width: 821px) { .info h3 { font-size: clamp(40px, 4.4vw, 60px); } }
+.qcard h3 { font-size: clamp(34px, 4.4vw, 50px); line-height: .9; }
+.bag h3 { font-size: 34px; }
+.face.front .q { font-size: clamp(34px, 3.4vw, 44px); line-height: .9; }
+.face.back .a-title { font-size: 40px; }
+.under h4 { font-size: 34px; }
+.mode-body .big { font-size: clamp(26px, 3vw, 36px); line-height: 1; text-transform: none; }
+.say { font-weight: 800; font-size: 18px; line-height: 1.05; }
+.say::before { font-family: var(--body); font-weight: 700; }
+.bubble.us .who, .qa-inline .who { font-weight: 900; font-size: 14px; letter-spacing: .02em; }
+.dont { font-weight: 900; font-size: 26px; }
+.dont.done { font-size: 18px; }
+
 /* sheet fixes */
 [hidden] { display: none !important; }
 dialog.sheet { overflow-x: hidden; }
@@ -454,6 +480,7 @@ dialog.sheet { overflow-x: hidden; }
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
+    <symbol id="logo" viewBox="0 0 270 44"><g fill="currentColor"><path class="lg-bang" d="M251.409 0H270L264.246 32.4299H251.409V0Z"/><path class="lg-bang" d="M251.409 34.7771H264.246V42.8369H251.409V34.7771Z"/><path fill-rule="evenodd" clip-rule="evenodd" d="M234.339 5.40478C239.347 5.40478 243.406 9.46437 243.406 14.472V34.1154C243.406 39.1231 239.347 43.1826 234.339 43.1826H214.243V5.40478H234.339ZM227.968 10.8099V37.4762H229.681V10.8099H227.968Z"/><path d="M212.43 34.1154C212.43 39.1231 208.37 43.1826 203.363 43.1826H192.334C187.326 43.1826 183.267 39.1231 183.267 34.1154V5.40478H196.992V37.4762L198.705 37.476V5.40478H212.43V34.1154Z"/><path fill-rule="evenodd" clip-rule="evenodd" d="M172.99 5.40478C177.998 5.40482 182.058 9.4644 182.058 14.472V14.9047C182.058 19.9124 177.998 23.7704 172.99 23.7705L171.851 23.7813L171.851 24.7888L172.99 24.8031C177.998 24.8032 182.058 28.6612 182.058 33.6689V34.1154C182.058 39.123 177.998 43.1826 172.99 43.1826H152.894V5.40478H172.99ZM166.62 37.4762H168.332V29.6685H166.62V37.4762ZM166.62 18.5922H168.332V10.7845H166.62V18.5922Z"/><path d="M128.994 24.3887C128.994 25.0564 129.535 25.5977 130.203 25.5977H130.706V10.8099H144.432V34.1154C144.432 39.1231 140.372 43.1826 135.364 43.1826H115.268V31.8442L132.051 31.8568V30.445H124.336C119.328 30.445 115.268 26.3854 115.268 21.3777V10.8099H128.994V24.3887Z"/><path d="M113.455 43.1826H101.424V27.4826H99.9792V34.5016C99.9792 39.5093 95.9196 43.5689 90.9119 43.5689H90.541C85.5333 43.5689 81.4738 39.5093 81.4738 34.5016V27.4826H80.0293V43.1826H67.9981V10.8099H90.6998V30.4749L92.4125 30.4747V10.8099H113.455V43.1826Z"/><path d="M59.5353 43.1826H45.8101V30.4749H44.0974V43.1826H30.3721V16.2148H44.0974V22.2673H45.8101V16.2148H59.5353V43.1826Z"/><path fill-rule="evenodd" clip-rule="evenodd" d="M20.0959 16.5608C25.1036 16.5608 29.1632 20.6203 29.1632 25.628V34.1156C29.1631 39.1232 25.1036 43.1828 20.0959 43.1828H9.06725C4.05955 43.1828 0 39.1231 0 34.1154V25.628C0 20.6203 4.05955 16.5608 9.06725 16.5608H20.0959ZM13.7252 22.2673V37.4762H15.4379V22.2673H13.7252Z"/></g></symbol>
     <symbol id="s-heart" viewBox="0 0 100 100"><path fill="currentColor" d="M50 90C20 70 4 52 4 32 4 16 16 6 30 6c9 0 16 5 20 12 4-7 11-12 20-12 14 0 26 10 26 26 0 20-16 38-46 58z"/></symbol>
     <symbol id="s-star" viewBox="0 0 100 100"><path fill="currentColor" d="M50 2l11 22 24-7-7 24 20 13-20 13 7 24-24-7-11 22-11-22-24 7 7-24L2 54l20-13-7-24 24 7z"/></symbol>
     <symbol id="s-bolt" viewBox="0 0 100 100"><path fill="currentColor" d="M38 2h40L60 40h28L30 98l12-44H14z"/></symbol>
@@ -469,7 +496,7 @@ dialog.sheet { overflow-x: hidden; }
 
 <header>
   <div class="wrap bar">
-    <a class="logo" href="#top" aria-label="Oh My Bud, на главную"><span class="sm">oh</span> MY BUD!</a>
+    <a class="logo" href="#top" aria-label="Oh My Bud, на главную"><svg class="lg" role="img" aria-label="oh MY BUD!"><use href="#logo"/></svg></a>
     <nav aria-label="Разделы">
       <a href="#line">Линейка</a>
       <a href="#stack">Стек</a>
@@ -484,7 +511,7 @@ dialog.sheet { overflow-x: hidden; }
   <div class="hero">
     <div class="wrap">
       <div class="eyebrow">Витамины и БАДы</div>
-      <h1>oh MY<span class="row2">BUD<span class="bang">!</span></span></h1>
+      <h1><span class="sr">oh MY BUD!</span><svg class="hero-logo" aria-hidden="true"><use href="#logo"/></svg></h1>
       <div class="thesis">
         <p>Рациональные покупки делают <em>эмоционально.</em> Потряси любую банку, а ниже каждую можно открыть и заглянуть под этикетку.</p>
       </div>
@@ -615,7 +642,7 @@ dialog.sheet { overflow-x: hidden; }
 <footer>
   <div class="wrap">
     <div class="foot-grid">
-      <a class="logo" href="#top"><span class="sm">oh</span> MY BUD!</a>
+      <a class="logo" href="#top" aria-label="Oh My Bud, наверх"><svg class="lg" role="img" aria-label="oh MY BUD!"><use href="#logo"/></svg></a>
       <div class="foot-links">
         <a href="#line">Линейка</a>
         <a href="#miracles">Чудес не завезли</a>
@@ -1074,19 +1101,19 @@ sheetIn.addEventListener("click", e => {
     const id = Object.entries(score).sort((a, b) => b[1] - a[1])[0][0], p = P[id];
     card.innerHTML = '<div class="qprog">' + Q.map(() => '<i class="on"></i>').join("") + '</div><div class="eyebrow">Готово</div><h3>Ты ' + QN[id] + '!</h3><p>' + RES[id] + '</p><div class="qopts"><button class="qopt" type="button" data-open="' + id + '">Открыть свою банку</button><button class="qopt" type="button" id="q-again">Пройти ещё раз</button></div>';
     const cv = document.createElement("canvas"); cv.width = 1080; cv.height = 1920; const x = cv.getContext("2d");
-    try { await document.fonts.load('120px "Dela Gothic One"'); await document.fonts.load('700 60px "STIX Two Text"'); } catch (e) {}
+    try { await document.fonts.load('900 120px "Sofia Sans Extra Condensed"'); await document.fonts.load('700 60px "STIX Two Text"'); } catch (e) {}
     x.fillStyle = p.a; x.fillRect(0, 0, 1080, 1920);
     x.save(); x.translate(540, 980); x.rotate(.25); x.scale(11, 11); x.translate(-50, -50); x.fillStyle = "rgba(0,0,0,.14)"; x.fill(new Path2D(SHAPE_D[SHAPES[id]])); x.restore();
     x.fillStyle = p.fg; x.textAlign = "center";
-    x.font = '64px "Dela Gothic One", "Arial Black", sans-serif'; x.fillText("oh MY BUD!", 540, 170);
-    x.font = '120px "Dela Gothic One", "Arial Black", sans-serif'; x.fillText("Я —", 540, 360);
-    const nm = QN[id].toUpperCase(); let fs = 200; x.font = fs + 'px "Dela Gothic One", "Arial Black", sans-serif'; while (x.measureText(nm).width > 960) { fs -= 10; x.font = fs + 'px "Dela Gothic One", "Arial Black", sans-serif'; } x.fillText(nm, 540, 360 + fs);
+    x.font = '900 64px \"Sofia Sans Extra Condensed", "Arial Narrow", sans-serif'; x.fillText("oh MY BUD!", 540, 170);
+    x.font = '900 120px \"Sofia Sans Extra Condensed", "Arial Narrow", sans-serif'; x.fillText("Я —", 540, 360);
+    const nm = QN[id].toUpperCase(); let fs = 200; x.font = '900 ' + fs + 'px "Sofia Sans Extra Condensed", "Arial Narrow", sans-serif'; while (x.measureText(nm).width > 960) { fs -= 10; x.font = '900 ' + fs + 'px "Sofia Sans Extra Condensed", "Arial Narrow", sans-serif'; } x.fillText(nm, 540, 360 + fs);
     try { const im = await loadImg(img(id)); const h = 900, w = im.width * h / im.height; x.shadowColor = "rgba(0,0,0,.45)"; x.shadowBlur = 60; x.shadowOffsetY = 30; x.drawImage(im, 540 - w / 2, 720, w, h); x.shadowColor = "transparent"; } catch (e) {}
     x.font = '700 54px "STIX Two Text", Georgia, serif';
     const words = RES[id].split(" "); let line = "", y = 1730; const lines = [];
     words.forEach(wd => { const t = line ? line + " " + wd : wd; if (x.measureText(t).width > 900) { lines.push(line); line = wd; } else line = t; }); lines.push(line);
     y -= (lines.length - 1) * 66; lines.forEach(l => { x.fillText(l, 540, y); y += 66; });
-    x.font = '36px "Dela Gothic One", sans-serif'; x.fillText("ohmybud.kz", 540, 1870);
+    x.font = '900 36px \"Sofia Sans Extra Condensed", sans-serif'; x.fillText("ohmybud.kz", 540, 1870);
     story.innerHTML = ""; story.appendChild(cv);
     story.parentElement.classList.add("ready");
     if (matchMedia("(max-width: 900px)").matches) setTimeout(() => story.parentElement.scrollIntoView({ behavior: REDUCE ? "auto" : "smooth", block: "center" }), 60);
@@ -1117,7 +1144,7 @@ sheetIn.addEventListener("click", e => {
       x.restore();
     }
     x.fillStyle = bg === "#0a0a0b" || bg === "#3d3bff" || bg === "#a54bff" ? "#ffffff" : "#0a0a0b";
-    x.font = '56px "Dela Gothic One", "Arial Black", sans-serif'; x.textAlign = "center"; x.fillText("oh MY BUD!", 540, 1840);
+    x.font = '900 56px \"Sofia Sans Extra Condensed", "Arial Narrow", sans-serif'; x.textAlign = "center"; x.fillText("oh MY BUD!", 540, 1840);
   }
   shapesBox.addEventListener("click", e => { const b = e.target.closest("[data-shape]"); if (b) add({ shape: b.dataset.shape, c: BRAND[Math.floor(Math.random() * 6)], s: rnd(220, 420) }); });
   jarsBox.addEventListener("click", async e => { const b = e.target.closest("[data-jar]"); if (!b) return; const im = await loadImg(img(b.dataset.jar)); add({ im, s: rnd(520, 760), r: rnd(-0.25, 0.25) }); });
@@ -1136,7 +1163,7 @@ sheetIn.addEventListener("click", e => {
   });
   cv.addEventListener("pointermove", e => { if (!hit) return; const [px, py] = toCv(e); if (e.shiftKey) hit.r += (px - sx) / 200; else { hit.x += px - sx; hit.y += py - sy; } sx = px; sy = py; draw(); });
   const end = () => { hit = null; }; cv.addEventListener("pointerup", end); cv.addEventListener("pointercancel", end);
-  (async () => { try { await document.fonts.load('56px "Dela Gothic One"'); } catch (e) {} add({ shape: "heart", c: "#a54bff", s: 380, x: 300, y: 420 }); add({ shape: "bolt", c: "#d6f21c", s: 320, x: 800, y: 760 }); add({ shape: "star", c: "#ff0a6e", s: 360, x: 360, y: 1300 }); })();
+  (async () => { try { await document.fonts.load('900 56px "Sofia Sans Extra Condensed"'); } catch (e) {} add({ shape: "heart", c: "#a54bff", s: 380, x: 300, y: 420 }); add({ shape: "bolt", c: "#d6f21c", s: 320, x: 800, y: 760 }); add({ shape: "star", c: "#ff0a6e", s: 360, x: 360, y: 1300 }); })();
 })();
 
 // ---------- secret: long-press the logo ----------

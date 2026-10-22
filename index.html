@@ -483,6 +483,10 @@ footer { border-top: 1px solid var(--line); padding-block: 40px 56px; color: var
 .shelf .slot .lbl { animation: riseIn .4s ease both; animation-delay: 1.9s; }
 .hint { animation: riseIn .5s ease 2.1s both; }
 
+/* shapes behind shelf jars: quiet at rest so they don't read as part of the label */
+.shelf .slot .shape { opacity: .28; filter: saturate(.85); transition: transform .35s cubic-bezier(.2,.9,.3,1.3), opacity .3s ease; }
+.shelf .slot:hover .shape, .shelf .slot:focus-visible .shape, .shelf .slot.shake .shape { opacity: .9; }
+
 /* sheet fixes */
 [hidden] { display: none !important; }
 dialog.sheet { overflow-x: hidden; }

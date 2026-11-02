@@ -1242,5 +1242,323 @@ sheetIn.addEventListener("click", e => {
   logo.addEventListener("contextmenu", e => e.preventDefault());
 })();
 </script>
+<!-- ===== OMB Radio: iPod-style generative player ===== -->
+<style>
+.pod { position: fixed; z-index: 60; right: max(14px, env(safe-area-inset-right, 0px)); bottom: calc(14px + env(safe-area-inset-bottom, 0px)); --pc: #ff2a1a; --pf: #0a0a0b; font-family: var(--body); user-select: none; -webkit-user-select: none; touch-action: none; }
+.pod-body { position: relative; width: 176px; height: 292px; border-radius: 26px; background: var(--pc); color: var(--pf); box-shadow: inset 0 2px 0 rgba(255,255,255,.35), inset 0 -3px 0 rgba(0,0,0,.18), 0 22px 44px rgba(0,0,0,.6); transition: background .45s ease, width .35s cubic-bezier(.2,.9,.3,1.15), height .35s cubic-bezier(.2,.9,.3,1.15), border-radius .35s ease; overflow: hidden; }
+.pod-screen { position: absolute; left: 12px; right: 12px; top: 14px; height: 124px; border-radius: 12px; background: linear-gradient(180deg, #17181b, #0b0b0d); color: #f4f4f6; border: 2px solid rgba(0,0,0,.55); box-shadow: inset 0 0 0 1px rgba(255,255,255,.06); overflow: hidden; padding: 7px 9px; display: grid; grid-template-rows: auto 1fr auto; gap: 3px; transition: opacity .2s ease; }
+.pod-screen::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 3px), linear-gradient(135deg, rgba(255,255,255,.08), transparent 40%); pointer-events: none; }
+.pod-top { display: flex; justify-content: space-between; align-items: center; font: 800 9px/1 var(--body); letter-spacing: .14em; color: #a3a3ad; }
+.pod-top svg { width: 11px; height: 11px; display: block; }
+.pod-bat { display: inline-flex; align-items: center; gap: 4px; }
+.pod-bat i { display: block; width: 16px; height: 8px; border: 1.5px solid #a3a3ad; border-radius: 2px; position: relative; }
+.pod-bat i::after { content: ""; position: absolute; inset: 1px; right: 3px; background: var(--pc); border-radius: 1px; transition: background .45s ease; }
+.pod-now { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 8px; align-items: center; min-height: 0; }
+.pod-now svg { width: 28px; height: 28px; color: var(--pc); transition: color .45s ease; }
+.pod.playing .pod-now svg { animation: podSpin 6s linear infinite; }
+@keyframes podSpin { to { rotate: 360deg; } }
+.pod-name { font: 900 20px/.9 var(--display); text-transform: uppercase; letter-spacing: .01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pod-sub { font: 600 9.5px/1.2 var(--body); color: #a3a3ad; margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pod-viz { display: block; width: 100%; height: 22px; }
+.pod-prog { display: grid; grid-template-columns: auto 1fr auto; gap: 6px; align-items: center; font: 700 8.5px/1 var(--body); color: #a3a3ad; font-variant-numeric: tabular-nums; }
+.pod-prog b { height: 3px; border-radius: 3px; background: #2b2b30; position: relative; overflow: hidden; }
+.pod-prog b i { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--pc); transition: background .45s ease; }
+.pod-hint { font: 700 9.5px/1.2 var(--body); color: var(--pc); }
+.pod-menu, .pod-vol { position: absolute; inset: 0; background: #0f1012; padding: 7px 0 0; display: grid; grid-template-rows: auto 1fr; }
+.pod-menu h5 { margin: 0 9px 4px; font: 800 9px/1 var(--body); letter-spacing: .14em; color: #a3a3ad; text-transform: uppercase; display: flex; justify-content: space-between; }
+.pod-menu ul { list-style: none; margin: 0; padding: 0; display: grid; align-content: start; }
+.pod-menu li { display: grid; grid-template-columns: 12px 1fr auto; gap: 6px; align-items: center; padding: 3px 9px; font: 800 13px/1.15 var(--display); text-transform: uppercase; letter-spacing: .02em; color: #f4f4f6; }
+.pod-menu li svg { width: 12px; height: 12px; }
+.pod-menu li em { font: 700 8px/1 var(--body); font-style: normal; color: #a3a3ad; }
+.pod-menu li.on { background: var(--hc); color: var(--hf); }
+.pod-menu li.on em { color: inherit; opacity: .7; }
+.pod-vol { place-content: center; justify-items: center; gap: 10px; padding: 0 14px; grid-template-rows: none; }
+.pod-vol span { font: 800 9px/1 var(--body); letter-spacing: .14em; color: #a3a3ad; }
+.pod-vol b { display: block; width: 128px; height: 8px; border-radius: 8px; background: #2b2b30; overflow: hidden; }
+.pod-vol b i { display: block; height: 100%; width: 50%; background: var(--pc); }
+.pod-wheel { position: absolute; left: 50%; top: 152px; width: 128px; height: 128px; translate: -50% 0; border-radius: 50%; background: #0a0a0b; box-shadow: inset 0 2px 6px rgba(255,255,255,.08), 0 1px 0 rgba(255,255,255,.25); cursor: grab; touch-action: none; transition: opacity .2s ease, transform .3s ease; }
+.pod-wheel:active { cursor: grabbing; }
+.pod-wheel button { position: absolute; border: 0; background: none; color: #f4f4f6; cursor: pointer; padding: 0; display: grid; place-items: center; }
+.pod-wheel .wz { width: 40px; height: 26px; font: 800 9px/1 var(--body); letter-spacing: .12em; }
+.pod-wheel .wz svg { width: 13px; height: 13px; }
+.pod-wheel .w-menu { left: 44px; top: 6px; }
+.pod-wheel .w-next { right: 2px; top: 51px; }
+.pod-wheel .w-prev { left: 2px; top: 51px; }
+.pod-wheel .w-play { left: 44px; bottom: 6px; }
+.pod-wheel .w-center { left: 50%; top: 50%; width: 50px; height: 50px; translate: -50% -50%; border-radius: 50%; background: var(--pc); box-shadow: inset 0 -3px 0 rgba(0,0,0,.25), inset 0 2px 0 rgba(255,255,255,.3); transition: background .45s ease, scale .1s ease; }
+.pod-wheel .w-center:active { scale: .94; }
+.pod-wheel .w-center svg { width: 38px; height: 7px; color: var(--pf); }
+.pod-wheel button:focus-visible { outline: 2px solid var(--pop); outline-offset: 2px; border-radius: 8px; }
+.pod-min { position: absolute; top: 2px; right: 50%; translate: 50% 0; width: 36px; height: 10px; border: 0; background: none; cursor: pointer; padding: 0; }
+.pod-min::before { content: ""; position: absolute; left: 6px; right: 6px; top: 3px; height: 4px; border-radius: 4px; background: rgba(0,0,0,.28); }
+.pod-tab { position: absolute; inset: 0; border: 0; background: none; cursor: pointer; display: none; }
+.pod.mini .pod-body { width: 58px; height: 92px; border-radius: 16px; }
+.pod.mini .pod-screen, .pod.mini .pod-wheel, .pod.mini .pod-min { opacity: 0; pointer-events: none; }
+.pod.mini .pod-tab { display: block; }
+.pod-tab::before { content: ""; position: absolute; left: 8px; right: 8px; top: 8px; height: 30px; border-radius: 6px; background: #121316; }
+.pod-tab::after { content: ""; position: absolute; left: 50%; bottom: 10px; width: 34px; height: 34px; translate: -50% 0; border-radius: 50%; background: #0a0a0b; box-shadow: 0 0 0 9px #0a0a0b inset, 0 0 0 0 transparent; }
+.pod-tab i { position: absolute; left: 50%; bottom: 21px; width: 12px; height: 12px; translate: -50% 0; border-radius: 50%; background: var(--pc); z-index: 1; }
+.pod-tab span { position: absolute; left: 12px; right: 12px; top: 19px; height: 8px; display: flex; gap: 2px; align-items: flex-end; }
+.pod-tab span b { flex: 1; background: var(--pc); height: 30%; border-radius: 1px; }
+.pod.playing .pod-tab span b { animation: podEq .7s ease-in-out infinite alternate; }
+.pod.playing .pod-tab span b:nth-child(2) { animation-delay: -.25s; } .pod.playing .pod-tab span b:nth-child(3) { animation-delay: -.5s; } .pod.playing .pod-tab span b:nth-child(4) { animation-delay: -.12s; }
+@keyframes podEq { from { height: 20%; } to { height: 100%; } }
+.pod-tip { position: absolute; right: 0; bottom: calc(100% + 10px); background: var(--pop); color: var(--ink); font: 800 13px/1 var(--display); text-transform: uppercase; letter-spacing: .02em; padding: 8px 11px 6px; border-radius: 10px; white-space: nowrap; transform: rotate(-3deg); box-shadow: 3px 3px 0 var(--ink); pointer-events: none; transition: opacity .3s ease; }
+.pod-tip[hidden] { display: none !important; }
+.pod.beat .pod-body { transform: translateY(-1px); }
+html.omb-beat .shelf .slot img { scale: 1.025; }
+.shelf .slot img { transition: scale .12s ease-out; }
+@media (max-width: 820px) { .pod-body { width: 160px; height: 270px; } .pod-screen { height: 114px; } .pod-wheel { top: 140px; width: 118px; height: 118px; } .pod-wheel .w-menu, .pod-wheel .w-play { left: 39px; } .pod-wheel .w-next, .pod-wheel .w-prev { top: 46px; } .pod-name { font-size: 19px; } }
+@media (prefers-reduced-motion: reduce) { .pod.playing .pod-now svg, .pod.playing .pod-tab span b { animation: none; } html.omb-beat .shelf .slot img { scale: 1; } }
+</style>
+
+<div class="pod mini" id="pod" role="region" aria-label="Oh My Bud Radio, музыкальный плеер">
+  <div class="pod-tip" id="pod-tip">Включи наше радио</div>
+  <div class="pod-body">
+    <button class="pod-tab" id="pod-open" type="button" aria-label="Открыть плеер"><span><b></b><b></b><b></b><b></b></span><i></i></button>
+    <button class="pod-min" id="pod-min" type="button" aria-label="Свернуть плеер"></button>
+    <div class="pod-screen" id="pod-screen" aria-live="polite">
+      <div class="pod-top"><span>OMB RADIO</span><span class="pod-bat"><svg id="pod-state" viewBox="0 0 12 12" aria-hidden="true"><path fill="currentColor" d="M3 1.5l7 4.5-7 4.5z"/></svg><i></i></span></div>
+      <div class="pod-now"><svg aria-hidden="true"><use id="pod-shape" href="#s-dumb"/></svg><div style="min-width:0"><div class="pod-name" id="pod-name">Тренировка</div><div class="pod-sub" id="pod-sub">Creatine · 128 BPM</div></div></div>
+      <div><canvas class="pod-viz" id="pod-viz" width="300" height="44" aria-hidden="true"></canvas><div class="pod-prog"><span id="pod-t">0:00</span><b><i id="pod-bar"></i></b><span id="pod-hint" class="pod-hint">Жми ▶</span></div></div>
+      <div class="pod-menu" id="pod-menu" hidden><h5><span id="pod-mh">Станции</span><span id="pod-mc">5</span></h5><ul id="pod-list"></ul></div>
+      <div class="pod-vol" id="pod-vol" hidden><span>ГРОМКОСТЬ</span><b><i id="pod-vbar"></i></b></div>
+    </div>
+    <div class="pod-wheel" id="pod-wheel">
+      <button class="wz w-menu" type="button" data-z="menu" aria-label="Список станций">MENU</button>
+      <button class="wz w-prev" type="button" data-z="prev" aria-label="Предыдущая станция"><svg viewBox="0 0 16 12" aria-hidden="true"><path fill="currentColor" d="M2 1h2v10H2zM15 1v10L9 6zM9 1v10L3 6z"/></svg></button>
+      <button class="wz w-next" type="button" data-z="next" aria-label="Следующая станция"><svg viewBox="0 0 16 12" aria-hidden="true"><path fill="currentColor" d="M12 1h2v10h-2zM1 1v10l6-5zM7 1v10l6-5z"/></svg></button>
+      <button class="wz w-play" type="button" data-z="play" aria-label="Играть или пауза"><svg viewBox="0 0 18 12" aria-hidden="true"><path fill="currentColor" d="M1 1l7 5-7 5zM11 1h2.5v10H11zM15 1h2.5v10H15z"/></svg></button>
+      <button class="w-center" type="button" data-z="center" aria-label="Выбрать"><svg viewBox="0 0 270 44" aria-hidden="true"><use href="#logo"/></svg></button>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const pod = document.getElementById("pod"); if (!pod) return;
+  const $ = id => document.getElementById(id);
+  const ST = [
+    { id: "creatine", title: "Тренировка", prod: "Creatine", bpm: 128, swing: 0, root: 45, wave: "sawtooth",
+      chords: [[0,3,7],[-4,0,3],[3,7,10],[-2,2,5]], kick: "x...x...x...x...", snare: "....x.......x...", hat: "xxxxxxxxxxxxxxxx", open: "..x...x...x...x.",
+      bass: "..x...x...x...x.", arp: "xxxxxxxxxxxxxxxx", arpP: .85, arpOct: 2, padV: .05, cut: 2600 },
+    { id: "calcium", title: "Утро", prod: "Calcium + D3", bpm: 110, swing: .05, root: 48, wave: "triangle",
+      chords: [[0,4,7,11],[-3,0,4,7],[-7,-3,0,4],[-5,-1,2,7]], kick: "x.....x...x.....", snare: "....x.......x...", hat: "x.x.x.x.x.x.x.x.", open: "",
+      bass: "x..x..x...x..x..", arp: "x.x.x.x.x.x.x.x.", arpP: .9, arpOct: 2, padV: .06, cut: 3400 },
+    { id: "gluco", title: "Прогулка", prod: "Glucosamine", bpm: 96, swing: .14, root: 43, wave: "square",
+      chords: [[0,4,7,11],[-3,0,4,7],[-7,-3,0,4],[-5,-1,2]], kick: "x.......x.x.....", snare: "....x.......x...", hat: "x.xxx.xxx.xxx.x.", open: "",
+      bass: "x.....x.x.......", arp: "x.x.x.x.x.x.x.x.", arpP: .6, arpOct: 1, padV: .05, cut: 1900 },
+    { id: "collagen", title: "Чилл", prod: "Marine Collagen", bpm: 82, swing: .22, root: 50, wave: "triangle",
+      chords: [[0,3,7,10,14],[5,8,12,15],[-2,2,5,9],[3,7,10,14]], kick: "x......x..x.....", snare: "....x.......x...", hat: "x.x.x.x.x.x.x.x.", open: "",
+      bass: "x......x..x.....", arp: "x...x.x...x...x.", arpP: .45, arpOct: 1, padV: .07, cut: 1500, crackle: true },
+    { id: "zma", title: "Ночь", prod: "ZMA", bpm: 70, swing: .1, root: 38, wave: "sine",
+      chords: [[0,3,7,10],[-4,0,3,7],[-7,-4,0,3],[-2,2,5,9]], kick: "x.........x.....", snare: "........x.......", hat: "....x.......x...", open: "",
+      bass: "x.......x.......", arp: "x...x...x...x...", arpP: .7, arpOct: 2, padV: .09, cut: 1200, soft: true }
+  ];
+  let si = 0, ctx = null, master, comp, an, lp, delay, fb, dsend, noiseBuf, timer = null, playing = false, step = 0, nextT = 0, started = 0, vol = 0.7, menu = false, mi = 0, volT = 0, beatT = 0;
+  const SH = (() => { try { return SHAPES; } catch (e) { return { zma: "shield", collagen: "drop", calcium: "bolt", gluco: "star", creatine: "dumb" }; } })();
+  const PD = (() => { try { return P; } catch (e) { return {}; } })();
+  const shapes = () => SH;
+  const PCOL = id => (PD[id] ? PD[id].a : "#ff2a1a");
+  const PFG = id => (PD[id] ? PD[id].fg : "#0a0a0b");
+  // ===== Свои треки: положи mp3 в assets/music/ и впиши сюда. Пока список пуст, играет генеративное радио. =====
+  const TRACKS = [
+    // { title: "Название песни", artist: "Исполнитель", src: "assets/music/01.mp3" },
+  ];
+  const ORDER = ["creatine", "calcium", "gluco", "collagen", "zma"];
+  const MODE = TRACKS.length ? "tracks" : "radio";
+  const items = () => MODE === "tracks"
+    ? TRACKS.map((t, i) => ({ id: ORDER[i % 5], title: t.title, sub: t.artist || "Oh My Bud", tag: String(i + 1).padStart(2, "0") }))
+    : ST.map(x => ({ id: x.id, title: x.title, sub: x.prod + " · " + x.bpm + " BPM", tag: x.bpm }));
+  let audio = null, fakeT = 0;
+  const mtof = m => 440 * Math.pow(2, (m - 69) / 12);
+  const tip = $("pod-tip");
+
+  function paint() {
+    const L = items(), s = L[si];
+    pod.style.setProperty("--pc", PCOL(s.id)); pod.style.setProperty("--pf", PFG(s.id));
+    $("pod-name").textContent = s.title; $("pod-sub").textContent = s.sub;
+    $("pod-shape").setAttribute("href", "#s-" + shapes()[s.id]);
+    $("pod-state").innerHTML = playing ? '<path fill="currentColor" d="M2 1h3v10H2zM7 1h3v10H7z"/>' : '<path fill="currentColor" d="M3 1.5l7 4.5-7 4.5z"/>';
+    $("pod-hint").textContent = playing ? (MODE === "tracks" ? $("pod-hint").textContent : "∞") : "Жми ▶";
+    pod.classList.toggle("playing", playing);
+    $("pod-list").innerHTML = L.map((x, i) => '<li class="' + (i === mi ? "on" : "") + '" style="--hc:' + PCOL(x.id) + ';--hf:' + PFG(x.id) + '"><svg aria-hidden="true"><use href="#s-' + shapes()[x.id] + '"/></svg><span>' + x.title + '</span><em>' + (i === si && playing ? "♪" : x.tag) + '</em></li>').join("");
+  }
+
+  function initAudio() {
+    if (ctx) return;
+    ctx = new (window.AudioContext || window.webkitAudioContext)();
+    try { if (navigator.audioSession) navigator.audioSession.type = "playback"; } catch (e) {}
+    master = ctx.createGain(); master.gain.value = vol * vol * 0.9;
+    lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 18000;
+    comp = ctx.createDynamicsCompressor(); comp.threshold.value = -16; comp.ratio.value = 4;
+    an = ctx.createAnalyser(); an.fftSize = 64; an.smoothingTimeConstant = .75;
+    delay = ctx.createDelay(1); fb = ctx.createGain(); fb.gain.value = .32; dsend = ctx.createGain(); dsend.gain.value = .35;
+    dsend.connect(delay); delay.connect(fb); fb.connect(delay); delay.connect(lp);
+    lp.connect(comp); comp.connect(master); master.connect(an); an.connect(ctx.destination);
+    noiseBuf = ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate);
+    const d = noiseBuf.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+  }
+  function env(g, t, a, peak, dec) { g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(peak, t + a); g.gain.exponentialRampToValueAtTime(0.0001, t + a + dec); }
+  function kick(t, s) {
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.frequency.setValueAtTime(s.soft ? 110 : 150, t); o.frequency.exponentialRampToValueAtTime(42, t + .12);
+    env(g, t, .004, s.soft ? .6 : .95, .32); o.connect(g); g.connect(lp); o.start(t); o.stop(t + .4);
+  }
+  function noise(t, dur, type, freq, q, peak, dest) {
+    const src = ctx.createBufferSource(); src.buffer = noiseBuf; src.playbackRate.value = .8 + Math.random() * .4;
+    const f = ctx.createBiquadFilter(); f.type = type; f.frequency.value = freq; f.Q.value = q;
+    const g = ctx.createGain(); env(g, t, .002, peak, dur);
+    src.connect(f); f.connect(g); g.connect(dest || lp); src.start(t, Math.random() * .5); src.stop(t + dur + .05);
+  }
+  function tone(t, freq, dur, wave, peak, cut, attack, dest) {
+    attack = attack || .005;
+    const o = ctx.createOscillator(), f = ctx.createBiquadFilter(), g = ctx.createGain();
+    o.type = wave; o.frequency.value = freq; f.type = "lowpass"; f.frequency.setValueAtTime(cut, t); f.frequency.exponentialRampToValueAtTime(Math.max(200, cut * .35), t + dur);
+    env(g, t, attack, peak, dur); o.connect(f); f.connect(g); g.connect(dest || lp); o.start(t); o.stop(t + attack + dur + .1); return g;
+  }
+  function pad(t, notes, dur, s) {
+    notes.forEach((n, i) => [-6, 6].forEach(det => {
+      const o = ctx.createOscillator(), f = ctx.createBiquadFilter(), g = ctx.createGain();
+      o.type = s.wave === "sine" ? "triangle" : (s.id === "creatine" ? "sawtooth" : "triangle"); o.frequency.value = mtof(s.root + 12 + n); o.detune.value = det;
+      f.type = "lowpass"; f.frequency.value = s.cut * .6;
+      g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(s.padV / notes.length, t + dur * .3); g.gain.linearRampToValueAtTime(0.0001, t + dur * 1.05);
+      o.connect(f); f.connect(g); g.connect(lp); o.start(t); o.stop(t + dur * 1.1);
+    }));
+  }
+  function sched(t) {
+    const s = ST[si], k = step % 16, bar = Math.floor(step / 16), ch = s.chords[bar % s.chords.length], sp = 60 / s.bpm / 4;
+    const on = (p, i) => p && p[i] === "x";
+    const fill = bar % 8 === 7 && k >= 12;
+    if (on(s.kick, k)) { kick(t, s); beatT = t; }
+    if (on(s.snare, k) || (fill && k % 2 === 0 && !s.soft)) noise(t, s.soft ? .08 : .16, "bandpass", s.soft ? 2400 : 1800, .9, fill ? .25 : (s.soft ? .12 : .4));
+    if (on(s.hat, k)) noise(t, .03, "highpass", 8000, .7, (k % 4 === 2 ? .14 : .08) * (s.soft ? .6 : 1));
+    if (on(s.open, k)) noise(t, .18, "highpass", 7000, .7, .1);
+    if (on(s.bass, k)) tone(t, mtof(s.root - 12 + ch[0] + (k === 10 && s.id === "calcium" ? 7 : 0)), sp * (s.soft ? 7 : 1.8), s.id === "zma" ? "sine" : "sawtooth", s.soft ? .3 : .22, s.soft ? 500 : 900);
+    if (on(s.arp, k) && Math.random() < s.arpP) {
+      const idx = (step >> (s.arp[1] === "x" ? 0 : 1)) % (ch.length * s.arpOct), n = ch[idx % ch.length] + 12 * Math.floor(idx / ch.length) + 12;
+      const g = tone(t, mtof(s.root + n), sp * (s.soft ? 3 : 1.4), s.wave, s.soft ? .07 : .08, s.cut, .004);
+      g.connect(dsend);
+    }
+    if (k === 0) pad(t, ch, sp * 16, s);
+    if (s.crackle && Math.random() < .5) noise(t + Math.random() * sp, .006, "highpass", 3000, .5, .05 + Math.random() * .08);
+  }
+  function tick() {
+    const s = ST[si], sp = 60 / s.bpm / 4;
+    while (nextT < ctx.currentTime + .12) {
+      const sw = (step % 2 === 1) ? s.swing * sp : 0;
+      sched(nextT + sw); nextT += sp; step++;
+    }
+  }
+  function applyStation() {
+    const s = ST[si];
+    if (ctx) { delay.delayTime.setTargetAtTime(60 / s.bpm * .75, ctx.currentTime, .05); lp.frequency.setTargetAtTime(s.crackle ? 5200 : (s.soft ? 6000 : 18000), ctx.currentTime, .1); }
+  }
+  function trackSrc() { return TRACKS[si].src; }
+  function meta() {
+    if (!("mediaSession" in navigator) || MODE !== "tracks") return;
+    try {
+      navigator.mediaSession.metadata = new MediaMetadata({ title: TRACKS[si].title, artist: TRACKS[si].artist || "Oh My Bud", album: "Oh My Bud Radio", artwork: [{ src: "apple-touch-icon.png", sizes: "180x180", type: "image/png" }] });
+      navigator.mediaSession.setActionHandler("play", () => play()); navigator.mediaSession.setActionHandler("pause", () => stop());
+      navigator.mediaSession.setActionHandler("nexttrack", () => setStation(si + 1)); navigator.mediaSession.setActionHandler("previoustrack", () => setStation(si - 1));
+    } catch (e) {}
+  }
+  function playTrack() {
+    if (!audio) { audio = new Audio(); audio.preload = "auto"; audio.addEventListener("ended", () => setStation(si + 1)); audio.addEventListener("error", () => { $("pod-hint").textContent = "нет файла"; }); }
+    if (!audio.src.endsWith(trackSrc())) audio.src = trackSrc();
+    audio.volume = vol * vol; playing = true; audio.play().catch(() => { playing = false; paint(); }); meta(); paint(); if (tip) tip.hidden = true;
+  }
+  function play() {
+    if (MODE === "tracks") return playTrack();
+    initAudio(); if (ctx.state === "suspended") ctx.resume();
+    if (playing) return; playing = true; step = 0; nextT = ctx.currentTime + .06; started = performance.now(); applyStation();
+    timer = setInterval(tick, 25); tick(); paint(); if (tip) tip.hidden = true;
+  }
+  function stop() { if (MODE === "tracks") { playing = false; if (audio) audio.pause(); paint(); return; } playing = false; clearInterval(timer); timer = null; if (master) { const t = ctx.currentTime; master.gain.cancelScheduledValues(t); master.gain.setValueAtTime(master.gain.value, t); master.gain.linearRampToValueAtTime(0.0001, t + .15); setTimeout(() => { if (!playing && master) master.gain.value = vol * vol * .9; }, 200); } paint(); }
+  function setStation(i) {
+    const N = items().length; si = (i + N) % N; mi = si;
+    if (MODE === "tracks") { const was = playing; if (audio) { audio.src = trackSrc(); audio.currentTime = 0; } if (was || audio) { if (was) playTrack(); } paint(); return; } step = Math.ceil(step / 16) * 16; applyStation(); paint();
+  }
+  function click() { if (!ctx) { try { initAudio(); } catch (e) { return; } } const t = ctx.currentTime; const o = ctx.createOscillator(), g = ctx.createGain(); o.type = "square"; o.frequency.value = 2200; env(g, t, .001, .03, .012); o.connect(g); g.connect(ctx.destination); o.start(t); o.stop(t + .03); }
+  function setVol(v) {
+    vol = Math.max(0, Math.min(1, v)); if (audio) audio.volume = vol * vol; if (master && playing) master.gain.setTargetAtTime(vol * vol * .9, ctx.currentTime, .03);
+    $("pod-vbar").style.width = (vol * 100) + "%"; $("pod-vol").hidden = false; clearTimeout(volT); volT = setTimeout(() => { $("pod-vol").hidden = true; }, 1100);
+  }
+  function setMenu(on) { menu = on; mi = si; $("pod-menu").hidden = !on; $("pod-vol").hidden = true; paint(); }
+  function press(z) {
+    if (z === "menu") setMenu(!menu);
+    else if (z === "next") { if (menu) { mi = (mi + 1) % items().length; paint(); } else setStation(si + 1); }
+    else if (z === "prev") { if (menu) { mi = (mi - 1 + items().length) % items().length; paint(); } else setStation(si - 1); }
+    else if (z === "play") playing ? stop() : play();
+    else if (z === "center") { if (menu) { setStation(mi); setMenu(false); if (!playing) play(); } else playing ? stop() : play(); }
+  }
+  function rotate(stepDir) {
+    click();
+    if (menu) { mi = (mi + stepDir + items().length) % items().length; paint(); } else setVol(vol + stepDir * .05);
+  }
+
+  // wheel: tap zones + circular scroll
+  const wheel = $("pod-wheel"); let drag = null;
+  const ang = e => { const r = wheel.getBoundingClientRect(); return Math.atan2(e.clientY - (r.top + r.height / 2), e.clientX - (r.left + r.width / 2)) * 180 / Math.PI; };
+  wheel.addEventListener("pointerdown", e => {
+    if (e.target.closest(".w-center")) return;
+    initAudio(); if (ctx.state === "suspended") ctx.resume();
+    drag = { a: ang(e), acc: 0, moved: 0, id: e.pointerId, cap: false };
+  });
+  wheel.addEventListener("pointermove", e => {
+    if (!drag) return; let a = ang(e), d = a - drag.a; if (d > 180) d -= 360; if (d < -180) d += 360; drag.a = a; drag.acc += d; drag.moved += Math.abs(d);
+    if (!drag.cap && drag.moved > 8) { drag.cap = true; try { wheel.setPointerCapture(drag.id); } catch (er) {} }
+    while (drag.acc > 22) { drag.acc -= 22; rotate(1); } while (drag.acc < -22) { drag.acc += 22; rotate(-1); }
+  });
+  const endDrag = () => { if (drag) { wheel.dataset.moved = drag.moved > 10 ? "1" : ""; drag = null; } };
+  wheel.addEventListener("pointerup", endDrag); wheel.addEventListener("pointercancel", endDrag);
+  wheel.addEventListener("click", e => {
+    const b = e.target.closest("button[data-z]"); if (!b) return;
+    if (wheel.dataset.moved === "1" && b.dataset.z !== "center") { wheel.dataset.moved = ""; return; }
+    click(); press(b.dataset.z);
+  });
+  pod.addEventListener("wheel", e => { if (pod.classList.contains("mini")) return; e.preventDefault(); rotate(e.deltaY > 0 ? -1 : 1); }, { passive: false });
+  pod.addEventListener("keydown", e => {
+    if (pod.classList.contains("mini")) return;
+    if (e.key === "ArrowUp") { e.preventDefault(); rotate(menu ? -1 : 1); } else if (e.key === "ArrowDown") { e.preventDefault(); rotate(menu ? 1 : -1); }
+  });
+  $("pod-open").addEventListener("click", () => { pod.classList.remove("mini"); if (tip) tip.hidden = true; try { localStorage.setItem("omb-pod", "open"); } catch (e) {} });
+  $("pod-min").addEventListener("click", () => { pod.classList.add("mini"); setMenu(false); try { localStorage.setItem("omb-pod", "mini"); } catch (e) {} });
+
+  // screen loop: visualizer, progress, beat pulse
+  const cv = $("pod-viz"), cx = cv.getContext("2d"); let fq = null;
+  function frame() {
+    requestAnimationFrame(frame);
+    const W = cv.width, H = cv.height; cx.clearRect(0, 0, W, H);
+    const col = PCOL(items()[si].id); cx.fillStyle = col;
+    if (an) { fq = fq || new Uint8Array(an.frequencyBinCount); an.getByteFrequencyData(fq); }
+    const n = 24, bw = W / n;
+    fakeT += .09;
+    for (let i = 0; i < n; i++) { const v = MODE === "tracks" ? (playing ? .25 + .6 * Math.abs(Math.sin(fakeT * (1 + i * .13) + i * 1.7)) * (1 - i / n * .6) : .06) : (fq && playing ? fq[Math.min(fq.length - 1, i + 1)] / 255 : .06); const h = Math.max(3, v * H); cx.globalAlpha = .55 + v * .45; cx.fillRect(i * bw + 1, H - h, bw - 3, h); }
+    cx.globalAlpha = 1;
+    if (MODE === "tracks" && audio) {
+      const c = audio.currentTime || 0, d = audio.duration || 0;
+      $("pod-t").textContent = Math.floor(c / 60) + ":" + String(Math.floor(c % 60)).padStart(2, "0");
+      if (playing && d) $("pod-hint").textContent = "-" + Math.floor((d - c) / 60) + ":" + String(Math.floor((d - c) % 60)).padStart(2, "0");
+      $("pod-bar").style.width = (d ? c / d * 100 : 0) + "%";
+    } else if (playing && ctx) {
+      const s = ST[si], phrase = 60 / s.bpm * 4 * 8, el = (performance.now() - started) / 1000;
+      $("pod-t").textContent = Math.floor(el / 60) + ":" + String(Math.floor(el % 60)).padStart(2, "0");
+      $("pod-bar").style.width = ((step % 128) / 128 * 100) + "%";
+      const hit = ctx.currentTime - beatT; const on = hit >= 0 && hit < .11;
+      document.documentElement.classList.toggle("omb-beat", on); pod.classList.toggle("beat", on);
+    } else document.documentElement.classList.remove("omb-beat");
+  }
+  document.addEventListener("visibilitychange", () => { if (!ctx || MODE === "tracks") return; if (document.hidden && playing) { ctx.suspend(); } else if (!document.hidden && playing) { ctx.resume(); nextT = ctx.currentTime + .06; } });
+
+  let pref = null; try { pref = localStorage.getItem("omb-pod"); } catch (e) {}
+  if (pref === "open" || (pref === null && matchMedia("(min-width: 821px)").matches)) pod.classList.remove("mini");
+  if (tip) setTimeout(() => { tip.hidden = true; }, 7000);
+  if (MODE === "tracks") { $("pod-mh").textContent = "Плейлист"; $("pod-mc").textContent = TRACKS.length; }
+  else $("pod-mc").textContent = ST.length;
+  paint(); $("pod-vbar").style.width = (vol * 100) + "%"; $("pod-vol").hidden = true; requestAnimationFrame(frame);
+})();
+</script>
+
 </body>
 </html>

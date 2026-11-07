@@ -121,6 +121,36 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--pop); outline-o
 @keyframes sayin { from { opacity: 0; transform: translateY(10px) scale(.9); } to { opacity: 1; transform: none; } }
 .shakes { font-size: 13px; color: var(--mute); min-height: 18px; font-variant-numeric: tabular-nums; }
 
+
+/* desktop: use the whole screen */
+@media (min-width: 960px) {
+  .page { max-width: 1720px; padding: 28px clamp(40px, 5vw, 88px) 40px; display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr); grid-template-rows: auto auto auto auto 1fr auto; grid-template-areas: "top top" "hero gift" "lead gift" "jar comp" "jar save" "sign sign"; column-gap: clamp(40px, 5vw, 96px); row-gap: 28px; align-items: start; }
+  .top { grid-area: top; }
+  .hero { grid-area: hero; align-self: end; padding-top: 24px; }
+  .lead { grid-area: lead; font-size: 22px; max-width: 620px; }
+  .gift-wrap { grid-area: gift; align-self: center; padding: 30px 10px 50px; }
+  .jar-sec { grid-area: jar; margin-top: 40px; }
+  .comp { grid-area: comp; margin-top: 140px; }
+  .save { grid-area: save; align-self: start; }
+  .sign { grid-area: sign; margin-top: 12px; }
+  h1 { font-size: clamp(72px, 6.3vw, 128px); }
+  .logo { width: 150px; height: 25px; }
+  .pill { height: 44px; font-size: 15px; }
+  .pill b { width: 30px; height: 30px; font-size: 12px; }
+  .eyebrow { font-size: 14px; }
+  .gift .num { font-size: clamp(180px, 16vw, 260px); }
+  .gift .was, .gift .what { font-size: clamp(38px, 3.2vw, 52px); }
+  .gift .note { font-size: 16px; }
+  .seal { width: 150px; height: 150px; right: -20px; bottom: -10px; }
+  .jar-sec h2 { font-size: clamp(56px, 5vw, 84px); }
+  .stage { height: 620px; }
+  .jarbtn img { height: 450px; }
+  .stage .shape { width: 440px; }
+  .say { width: 340px; font-size: 24px; }
+  .comp h2 { font-size: 72px; }
+  .row { font-size: 20px; padding: 15px 0; }
+}
+
 #confetti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 50; }
 
 @media (prefers-reduced-motion: reduce) {
@@ -139,7 +169,7 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--pop); outline-o
     <span class="pill" id="pill"><b id="pillb">?</b><span id="pillt">Подарок внутри</span></span>
   </header>
 
-  <section>
+  <section class="hero">
     <div class="eyebrow"><span>Вадиму Стружихину</span></div>
     <h1><span class="w"><span>С 10-летием</span></span><span class="w"><span>сожительства<i class="bang">!</i></span></span></h1>
   </section>

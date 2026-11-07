@@ -100,9 +100,28 @@ h1 .bang { color: var(--pop); display: inline-block; transform-origin: 50% 90%; 
 .save svg { width: 20px; height: 20px; }
 a:focus-visible, button:focus-visible { outline: 3px solid var(--pop); outline-offset: 3px; }
 
+
+/* jar 10 years */
+.jar-sec { display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; }
+.jar-sec h2 { margin: 0; font: 900 clamp(40px, 12vw, 58px)/.88 var(--display); text-transform: uppercase; }
+.jar-sec .sub { font-size: 14px; color: var(--mute); }
+.stage { position: relative; width: 100%; height: 540px; display: grid; place-items: end center; margin-top: 4px; }
+.stage .shape { position: absolute; left: 50%; bottom: 40px; width: 300px; height: 371px; translate: -50% 0; rotate: -8deg; opacity: .3; transition: opacity .3s, rotate .5s cubic-bezier(.3,1.5,.5,1); pointer-events: none; }
+.stage.shake .shape { opacity: .85; rotate: 4deg; }
+.jarbtn { position: relative; z-index: 1; border: 0; background: none; padding: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.jarbtn img { display: block; height: 380px; width: auto; filter: drop-shadow(0 26px 30px rgba(0,0,0,.6)); }
+.stage.shake .jarbtn img { animation: shake .6s cubic-bezier(.36,.07,.19,.97); }
+@keyframes shake { 10%, 90% { transform: translateX(-3px) rotate(-2deg); } 20%, 80% { transform: translateX(6px) rotate(3deg); } 30%, 50%, 70% { transform: translateX(-10px) rotate(-5deg); } 40%, 60% { transform: translateX(10px) rotate(5deg); } }
+.say { position: absolute; left: 50%; top: 0; z-index: 3; width: min(300px, 86%); translate: -50% 0; rotate: -3deg; background: var(--pop); color: var(--ink); border: 3px solid var(--ink); border-radius: 18px; padding: 12px 16px 14px; text-align: left; font: 800 21px/1.08 var(--display); text-transform: uppercase; box-shadow: 6px 6px 0 var(--pink); animation: sayin .35s cubic-bezier(.2,.9,.3,1.4); }
+.say::before { content: "oh MY BUD!"; display: block; font-size: 11px; letter-spacing: .04em; margin-bottom: 6px; opacity: .7; text-transform: none; }
+.say::after { content: ""; position: absolute; left: 50%; bottom: -14px; width: 18px; height: 18px; translate: -50% 0; rotate: 45deg; background: var(--pop); border-right: 3px solid var(--ink); border-bottom: 3px solid var(--ink); }
+@keyframes sayin { from { opacity: 0; transform: translateY(10px) scale(.9); } to { opacity: 1; transform: none; } }
+.shakes { font-size: 13px; color: var(--mute); min-height: 18px; font-variant-numeric: tabular-nums; }
+
 #confetti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 50; }
 
 @media (prefers-reduced-motion: reduce) {
+  .stage.shake .jarbtn img, .say { animation: none; }
   h1 .w span, h1 .bang, .lead { animation: none; }
   .sig-hand { clip-path: none; transition: none; }
   .seal.in { animation: none; transform: rotate(14deg); opacity: 1; }
@@ -140,6 +159,16 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--pop); outline-o
       <text x="110" y="128" text-anchor="middle" font-family="Sofia Sans Extra Condensed, Arial Narrow, Impact, sans-serif" font-weight="900" font-size="50" fill="#d6f21c">51%</text>
     </svg>
     <div class="hint" id="hint">Сотри пальцем <button type="button" id="reveal">или открой сразу</button></div>
+  </section>
+
+  <section class="jar-sec" aria-label="Банка 10 лет вместе">
+    <h2>А это твоя<br>новая банка</h2>
+    <div class="sub">Выпущена в одном экземпляре. Потряси её.</div>
+    <div class="stage" id="stage">
+      <svg class="shape" viewBox="0 0 598 740" aria-hidden="true"><path d="M251 18.3C268.6 2.5 295.6 0.6 315.2 13.7C333.3 25.8 354.3 36.9 377.4 46.7C419 64.1 464.5 76.5 511.2 83.4C520.4 84.8 529.6 86 538.9 86.9C560.1 89.1 577.5 105.7 579.1 127.4L590.3 283C595.8 360.5 581.8 438.8 549.7 509.5C514.9 584.6 463.7 647.1 399.9 693.7L356.8 725.2C343.6 734.9 326 736.1 311.6 728.5L264.4 703.4C194.5 666.3 134.9 611.8 91.8 545.7C48.7 479.5 22.9 402.9 17.3 324.1L6.1 168.5C4.6 146.9 19.5 127.9 40.1 122.7C49.1 120.5 58.1 118 67.1 115.3C112.2 101.8 155.5 83.1 192.2 61.1C214.4 47.8 234.3 33.3 251 18.3Z" fill="#ff0a6e"/></svg>
+      <button class="jarbtn" id="jarbtn" type="button" aria-label="Потрясти банку «10 лет вместе»"><img src="jar10.webp" alt="Банка Oh My Bud «10 лет вместе. Комплекс на двоих»" width="694" height="1346"></button>
+    </div>
+    <div class="shakes" id="shakes" aria-live="polite">Нажми на банку</div>
   </section>
 
   <section class="comp" aria-label="Состав">
@@ -251,6 +280,40 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--pop); outline-o
       if (el < 3200) requestAnimationFrame(frame); else cc.clearRect(0, 0, W, H);
     })(t0);
   }
+
+
+  // jar 10: shake, rattle, talk
+  const LINES = [
+    "Состав: 10 лет любви. Побочных эффектов не выявлено.",
+    "Принимать вдвоём, каждый день. Курс бессрочный.",
+    "Хранить в тепле. Перед употреблением обнять.",
+    "Эффект накопительный: с каждым годом только сильнее.",
+    "Меня нет на Kaspi. Я выпущена в одном экземпляре.",
+    "Допустимая норма счастья превышена. И это нормально."
+  ];
+  let actx = null, li = 0, shakes = 0;
+  function rattle() {
+    try {
+      actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+      for (let i = 0; i < 9; i++) {
+        const t = actx.currentTime + i * .055 + Math.random() * .02, len = .035;
+        const buf = actx.createBuffer(1, Math.floor(actx.sampleRate * len), actx.sampleRate), d = buf.getChannelData(0);
+        for (let k = 0; k < d.length; k++) d[k] = (Math.random() * 2 - 1) * Math.pow(1 - k / d.length, 3);
+        const src = actx.createBufferSource(); src.buffer = buf;
+        const f = actx.createBiquadFilter(); f.type = "bandpass"; f.frequency.value = 2600 + Math.random() * 1800; f.Q.value = 1.2;
+        const g = actx.createGain(); g.gain.value = .5; src.connect(f); f.connect(g); g.connect(actx.destination); src.start(t);
+      }
+    } catch (e) {}
+  }
+  const stage = $("stage");
+  $("jarbtn").addEventListener("click", () => {
+    stage.classList.remove("shake"); void stage.offsetWidth; stage.classList.add("shake");
+    rattle(); try { navigator.vibrate && navigator.vibrate(40); } catch (e) {}
+    stage.querySelectorAll(".say").forEach(x => x.remove());
+    const b = document.createElement("div"); b.className = "say"; b.textContent = LINES[li % LINES.length]; li++;
+    stage.appendChild(b);
+    shakes++; $("shakes").textContent = shakes < LINES.length ? "Потряс " + shakes + " из " + LINES.length : "Все секреты банки открыты";
+  });
 
   // count-up + signature on view
   const fmt = n => n.toLocaleString("ru-RU").replace(/ /g, " ");
